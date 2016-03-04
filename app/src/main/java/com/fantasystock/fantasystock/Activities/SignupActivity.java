@@ -17,6 +17,11 @@ import com.fantasystock.fantasystock.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/*
+ * Instruction for facebook login:
+ * https://developers.facebook.com/docs/facebook-login/android
+ */
+
 public class SignupActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
