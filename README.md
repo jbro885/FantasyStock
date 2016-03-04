@@ -37,12 +37,14 @@ Portfolios charts and mark with all the transaction
 
 ## Status with app walkthrough
 
-Wireframes: <a href="https://cloud.githubusercontent.com/assets/7560784/13485320/6719052e-e0bb-11e5-8873-64e7b7571936.png">here</a>.
+Wireframes: 
+<img src="https://cloud.githubusercontent.com/assets/7560784/13485320/6719052e-e0bb-11e5-8873-64e7b7571936.png">
+
 https://wireframe.cc/Fs3kPw
 
 *Walkthrough of all user stories:*
 
-![Video Walkthrough](wireframes.gif)
+![Video Walkthrough]()
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
