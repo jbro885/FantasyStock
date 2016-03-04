@@ -4,6 +4,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--- these lines should be deleted in lieu of our custom Parse builder -->
+    <meta-data
+        android:name="com.parse.APPLICATION_ID"
+        android:value="FantasyStockID" />
+    <meta-data
+        android:name="com.parse.CLIENT_KEY"
+        android:value="FantasyStockKey" />
+    <!--- end of delete -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
