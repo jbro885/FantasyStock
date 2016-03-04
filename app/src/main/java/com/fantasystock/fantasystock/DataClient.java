@@ -6,6 +6,7 @@ package com.fantasystock.fantasystock;
 public class DataClient {
     /*
     *
+    *
 String googleQuoteOptionURL = "http://www.google.com/finance/option_chain?type=All&output=json&q=";
 String yahooQuoteHistoricalData = "http://chartapi.finance.yahoo.com/instrument/1.0/%@/chartdata;type=quote;range=%@/json";
 String googleQuoteHistoricalData = "http://www.google.com/finance/historical?output=csv&q=GOOG";
@@ -17,6 +18,7 @@ String googleQuoteHistoricalData = "http://www.google.com/finance/historical?out
 //quote, price, change, change_percentage, last_trading_time
 String googleQuoteURL = "http://finance.google.com/finance/info?client=ig&q=";
 String yahooQuoteURL = "http://finance.yahoo.com/d/quotes.csv?f=sl1c1p2t1n&s=";
+String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/?q="
 
 Profile
 String yahooQueryAPIProfile = "http://query.yahooapis.com/v1/public/yql?q=select%%20*%%20from%%20yahoo.finance.quotes%%20where%%20symbol%%20in%%20(%%22%@%%22)%%0A%%09%%09&env=http://datatables.org/alltables.env&format=json";
