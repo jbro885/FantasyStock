@@ -6,11 +6,15 @@ package com.fantasystock.fantasystock.Models;
 public class Stock {
     public String name;
     public float price;
+    public float quote;
+    public float change;
+    public float change_percentage;
+    public String last_trading_time;
 }
 
 
 /*
-Fetch from google
+From google:
 http://finance.google.com/finance/info?client=ig&q=AAPL
 [
   {
@@ -43,4 +47,20 @@ http://finance.google.com/finance/info?client=ig&q=AAPL
     "yld": "2.05"
   }
 ]
+
+From weishengsu's website:
+http://ted7726finance-wilsonsu.rhcloud.com/?q=AAPL
+{
+  "data": [
+    {
+      "quote": "AAPL",
+      "price": "101.50",
+      "change": "+0.75",
+      "chg_pct": "0.74",
+      "time": "4:00PM EST"
+    }
+  ],
+  "info": "",
+  "status": 200
+}
  */
