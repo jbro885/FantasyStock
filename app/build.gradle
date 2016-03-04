@@ -57,5 +57,9 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
     // parse
-    compile 'com.parse:parsetwitterutils-android:1.10.+'
+    compile 'com.parse:parse-android:1.13.0'
+
+    // parse interceptors
+    compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
+
 }
