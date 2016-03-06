@@ -21,6 +21,9 @@ public class Stock {
     public String current_change_percentage;
     @SerializedName("lt")
     public String last_trading_time;
+
+    @SerializedName("name")
+    public String name;
 }
 
 
