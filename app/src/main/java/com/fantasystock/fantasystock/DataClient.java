@@ -1,5 +1,19 @@
 package com.fantasystock.fantasystock;
 
+import android.preference.PreferenceActivity;
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
+
 /**
  * Created by weishengsu on 3/3/16.
  *
@@ -7,14 +21,7 @@ package com.fantasystock.fantasystock;
  * String yahooQuoteHistoricalData = "http://chartapi.finance.yahoo.com/instrument/1.0/%@/chartdata;type=quote;range=%@/json";
  * String googleQuoteHistoricalData = "http://www.google.com/finance/historical?output=csv&q=GOOG";
 
- * // l1: Last Trade(Price Only)   c1: Change  p2: Change Percent  k1:Last Trade (With Time)
- * // a:ask       b:Bid      s:symbol  n:name
- * // RealTime:
- * // b2:ask    b3:Bid c6:Change   k2:Change Percent
- * //quote, price, change, change_percentage, last_trading_time
- * String googleQuoteURL = "http://finance.google.com/finance/info?client=ig&q=";
- * String yahooQuoteURL = "http://finance.yahoo.com/d/quotes.csv?f=sl1c1p2t1n&s=";
- * String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/?q="
+
 
  * Profile
  * String yahooQueryAPIProfile = "http://query.yahooapis.com/v1/public/yql?q=select%%20*%%20from%%20yahoo.finance.quotes%%20where%%20symbol%%20in%%20(%%22%@%%22)%%0A%%09%%09&env=http://datatables.org/alltables.env&format=json";
@@ -30,10 +37,15 @@ package com.fantasystock.fantasystock;
  * String searchGoogleQuoteURL = "https://www.google.com/finance/match?matchtype=matchall&q=";
 
  * // News
- * https://finance.mobile.yahoo.com/v4/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
+ * https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
+ * http://finance.mobile.yahoo.com/dp/newsfeed?all_content=1&category=userfeed&device_os=2&region=US&lang=en-US
+ * http://www.google.com//finance/company_news?output=json&q=
  * */
 
 public class DataClient {
+    private static final int STATUS_CODE = 200;
+    private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
+    private AsyncHttpClient client;
 
 
     private static DataClient mInstance;
@@ -45,7 +57,55 @@ public class DataClient {
         return mInstance;
     }
 
+
     public DataClient() {
+        this.client = new AsyncHttpClient();
+    }
+
+    /**
+    * // l1: Last Trade(Price Only)   c1: Change  p2: Change Percent  k1:Last Trade (With Time)
+    * // a:ask       b:Bid      s:symbol  n:name
+    * // RealTime:
+    * // b2:ask    b3:Bid c6:Change   k2:Change Percent
+    * //quote, price, change, change_percentage, last_trading_time
+    * String googleQuoteURL = "http://finance.google.com/finance/info?client=ig&q=";
+    * String yahooQuoteURL = "http://finance.yahoo.com/d/quotes.csv?f=sl1c1p2t1n&s=";
+    * String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/?q="
+    * */
+
+    public void getStockPrice(String quote, CallBack callback) {
+        String url = googleQuoteURL +  quote;
+        client.get(url, new RequestParams(), stockHandler(callback));
+
+        client.get(url, new RequestParams(), new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
 
     }
+
+    private JsonHttpResponseHandler stockHandler(final CallBack callback) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (statusCode!=STATUS_CODE) {
+                    callback.onFail(responseString);
+                } else {
+                    Stock = stocks
+                    callback.stocksCallBack();
+                }
+            }
+        };
+
+    }
+
+
+
 }
