@@ -3,6 +3,9 @@ package com.fantasystock.fantasystock;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 
+import com.fantasystock.fantasystock.Models.Stock;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -10,6 +13,9 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -76,19 +82,6 @@ public class DataClient {
     public void getStockPrice(String quote, CallBack callback) {
         String url = googleQuoteURL +  quote;
         client.get(url, new RequestParams(), stockHandler(callback));
-
-        client.get(url, new RequestParams(), new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
     }
 
     private JsonHttpResponseHandler stockHandler(final CallBack callback) {
@@ -98,14 +91,13 @@ public class DataClient {
                 if (statusCode!=STATUS_CODE) {
                     callback.onFail(responseString);
                 } else {
-                    Stock = stocks
-                    callback.stocksCallBack();
+                    Gson gson = new Gson();
+                    responseString = responseString.substring(3); // This is taking out the "// " in front of the responstString for parsing as Stock
+                    final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
+                    ArrayList<Stock> stocks = gson.fromJson(responseString, listType);
+                    callback.stocksCallBack(stocks);
                 }
             }
         };
-
     }
-
-
-
 }

@@ -12,8 +12,11 @@ import com.fantasystock.fantasystock.R;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private DataClient client;
+    private ArrayList<Stock> stocks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
         client.getStockPrice("AAPL", new CallBack(){
             @Override
-            public void stockCallBack(Stock stock) {
-                super.stockCallBack(stock);
+            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                stocks = returnedSocks;
+
+
             }
+
+
         });
 
 
