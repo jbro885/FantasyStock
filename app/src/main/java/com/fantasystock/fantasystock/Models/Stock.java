@@ -1,14 +1,25 @@
 package com.fantasystock.fantasystock.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by chengfu_lin on 3/3/16.
+ * Created by chengfu_lin on 33/16.
  */
 public class Stock {
-    public String name;
-    public float price;
-    public float quote;
-    public float change;
-    public float change_percentage;
+
+    @SerializedName("t")
+    public String symbol;
+
+    public int share;
+    public float total_cost;
+
+    @SerializedName("l")
+    public float current_price;
+    @SerializedName("c")
+    public String current_change;
+    @SerializedName("cp")
+    public String current_change_percentage;
+    @SerializedName("lt")
     public String last_trading_time;
 }
 
