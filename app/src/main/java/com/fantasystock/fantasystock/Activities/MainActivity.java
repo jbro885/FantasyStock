@@ -29,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
 //        testObject.saveInBackground();
         setContentView(R.layout.activity_main);
 
-        client.getStockPrice("AAPL", new CallBack(){
+        client.getStockPrice("AAPL", new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 stocks = returnedSocks;
-
-
             }
+        });
 
+        client.getHistoricalPrices("YHOO", "1d", new CallBack(){
 
         });
+
 
 
     }

@@ -1,18 +1,12 @@
 package com.fantasystock.fantasystock;
 
-import android.preference.PreferenceActivity;
-import android.util.Log;
-
+import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,7 +20,6 @@ import cz.msebera.android.httpclient.Header;
  * String googleQuoteOptionURL = "http://www.google.com/finance/option_chain?type=All&output=json&q=";
  * String yahooQuoteHistoricalData = "http://chartapi.finance.yahoo.com/instrument/1.0/%@/chartdata;type=quote;range=%@/json";
  * String googleQuoteHistoricalData = "http://www.google.com/finance/historical?output=csv&q=GOOG";
-
 
 
  * Profile
@@ -51,6 +44,7 @@ import cz.msebera.android.httpclient.Header;
 public class DataClient {
     private static final int STATUS_CODE = 200;
     private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
+
     private AsyncHttpClient client;
 
 
@@ -74,17 +68,17 @@ public class DataClient {
     * // RealTime:
     * // b2:ask    b3:Bid c6:Change   k2:Change Percent
     * //quote, price, change, change_percentage, last_trading_time
-    * String googleQuoteURL = "http://finance.google.com/finance/info?client=ig&q=";
+    * String googleQuoteURL = http://www.google.com/finance/info?infotype=infoquoteall&q=";
     * String yahooQuoteURL = "http://finance.yahoo.com/d/quotes.csv?f=sl1c1p2t1n&s=";
     * String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/?q="
     * */
 
     public void getStockPrice(String quote, CallBack callback) {
         String url = googleQuoteURL +  quote;
-        client.get(url, new RequestParams(), stockHandler(callback));
+        client.get(url, new RequestParams(), stocksHandler(callback));
     }
 
-    private JsonHttpResponseHandler stockHandler(final CallBack callback) {
+    private JsonHttpResponseHandler stocksHandler(final CallBack callback) {
         return new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -96,6 +90,34 @@ public class DataClient {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     ArrayList<Stock> stocks = gson.fromJson(responseString, listType);
                     callback.stocksCallBack(stocks);
+                }
+            }
+        };
+    }
+
+    /**
+     * String googleQuoteOptionURL = "http://www.google.com/finance/option_chain?type=All&output=json&q=";
+     * String yahooQuoteHistoricalData = "http://chartapi.finance.yahoo.com/instrument/1.0/%@/chartdata;type=quote;range=%@/json";
+     * String googleQuoteHistoricalData = "http://www.google.com/finance/historical?output=csv&q=GOOG";
+     */
+    private static String yahooHistoricalQuoteBaseURL = "http://chartapi.finance.yahoo.com/instrument/1.0/";
+    private static String yahooHistoricalQuoteParam = "/chartdata;type=quote;range=";
+    public void getHistoricalPrices(String quote, String period, CallBack callback) {
+        String url = yahooHistoricalQuoteBaseURL + quote + yahooHistoricalQuoteParam + period + "/json";
+        client.get(url, new RequestParams(), historicalPricesHandler(callback));
+    }
+
+    private JsonHttpResponseHandler historicalPricesHandler(final CallBack callback) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (statusCode!=STATUS_CODE) {
+                    callback.onFail(responseString);
+                } else {
+                    Gson gson = new Gson();
+                    responseString = responseString.substring(29, responseString.length() - 1); // This is taking out the finance_charts_json_callback" in front of the responstString for parsing as Stock
+                    HistoricalData data = gson.fromJson(responseString, HistoricalData.class);
+                    callback.historicalCallBack(data);
                 }
             }
         };
