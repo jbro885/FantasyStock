@@ -10,6 +10,10 @@ import java.util.HashMap;
 public class Stock {
     public static final transient HashMap<String, Stock> stockMap = new HashMap<>();
 
+    public Stock(String symbol) {
+        this.symbol = symbol;
+    }
+
     @SerializedName("t")
     public String symbol;
 
