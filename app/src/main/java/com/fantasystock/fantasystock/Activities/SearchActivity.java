@@ -79,8 +79,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void handleSearchResults(ArrayList<Stock> responseStocks) {
-        stocks.clear();
-        stocks.addAll(responseStocks);
+//        stocks.clear();
+//        stocks.addAll(responseStocks);
         client.getStocksPrices(responseStocks, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> responseStocks) {
@@ -89,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
 
