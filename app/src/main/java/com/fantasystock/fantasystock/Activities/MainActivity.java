@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         DataCenter.getInstance().watchlist.add("GOOGL");
         DataCenter.getInstance().watchlist.add("LNKD");
         DataCenter.getInstance().watchlist.add("TWTR");
+        DataCenter.getInstance().watchlist.add("INTC");
     }
 
     @OnClick(R.id.ibSearch)
