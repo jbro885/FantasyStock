@@ -1,6 +1,5 @@
 package com.fantasystock.fantasystock.Activities;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
@@ -9,7 +8,6 @@ import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Fragments.MainListFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.parse.Parse;
 
 import java.util.ArrayList;
 
@@ -32,25 +30,11 @@ public class MainActivity extends AppCompatActivity {
         watchlist = new ArrayList<>();
         getWatchlist();
 
-        // Setup parse
-        setupParse();
-
         // get list view
         MainListFragment fragment = MainListFragment.newInstance(watchlist);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flMainListHolder, fragment)
                 .commit();
-
-    }
-
-    private void setupParse() {
-        Resources res = getResources();
-
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId(res.getString(R.string.parse_app_id)) // should correspond to APP_ID env variable
-                .clientKey(res.getString(R.string.parse_client_key))  // set explicitly unless clientKey is explicitly configured on Parse server
-                .server(res.getString(R.string.parse_server_url)).build());
-
     }
 
     private void getWatchlist() {
