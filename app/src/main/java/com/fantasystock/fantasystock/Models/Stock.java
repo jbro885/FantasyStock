@@ -2,10 +2,13 @@ package com.fantasystock.fantasystock.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 /**
  * Created by chengfu_lin on 33/16.
  */
 public class Stock {
+    public static final transient HashMap<String, Stock> stockMap = new HashMap<>();
 
     @SerializedName("t")
     public String symbol;

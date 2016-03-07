@@ -36,9 +36,13 @@ public class MainListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        items = new ArrayList<>();
         watchlist = new ArrayList<>();
         news = new ArrayList<>();
         // Todo: Load news and watchlist
+        dummyStock();
+        dummyStock();
+        dummyStock();
 
         // Todo: Organized
         // Organize data to items
@@ -58,20 +62,31 @@ public class MainListFragment extends Fragment {
         items.addAll(news);
     }
 
+    void dummyStock() {
+        Stock s = new Stock();
+        s.symbol = "AAPL";
+        s.current_change = "0.75";
+        s.current_change_percentage = "3";
+        s.current_price = (float) 101.50;
+        s.name = "Apple, inc";
+        watchlist.add(s);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mainListAdapter = new MainListAdapter(watchlist, news, rvList);
+        mainListAdapter = new MainListAdapter(items, rvList);
+        rvList.setAdapter(mainListAdapter);
         mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 //add progress item
                 int progress_position = mainListAdapter.getItemCount();
                 items.add(null);
-                mainListAdapter.notifyItemInserted(progress_position);
+//                mainListAdapter.notifyItemInserted(progress_position);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -88,7 +103,6 @@ public class MainListFragment extends Fragment {
                 }, 2000);
             }
         });
-        rvList.setAdapter(mainListAdapter);
 
         return view;
     }

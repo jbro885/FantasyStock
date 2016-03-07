@@ -12,7 +12,6 @@ import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -36,7 +35,8 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public MainListAdapter(ArrayList<Stock> watchlist, ArrayList<News> news, RecyclerView recyclerView) {
+    public MainListAdapter(List<Object> items, RecyclerView recyclerView) {
+        this.items = items;
 
         // Set up scrolling listener
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
