@@ -50,6 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apple, inc"
+                        android:textSize="12sp"
                         android:id="@+id/tvName"
                         android:layout_gravity="left|center_horizontal" />
                 </LinearLayout>
