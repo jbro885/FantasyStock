@@ -1,7 +1,5 @@
 package com.fantasystock.fantasystock;
 
-import android.util.Log;
-
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -98,7 +96,7 @@ public class DataClient {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     Gson gson = new Gson();
                     ArrayList<Stock> stocks = gson.fromJson(meta.data.toString(), listType);
-                    Log.d("DEBUG", meta.data.toString());
+                    //Log.d("DEBUG", meta.data.toString());
                     callback.stocksCallBack(stocks);
                 }
             }

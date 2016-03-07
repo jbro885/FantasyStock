@@ -85,7 +85,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case EXPANDALL:
                 convertView = inflater.inflate(R.layout.item_title, parent, false);
-                viewHolder = new ViewHolderExpandAll(convertView);
+                viewHolder = new ViewHolderTitleBar(convertView);
                 break;
             case STOCK:
                 convertView = inflater.inflate(R.layout.item_watchlist_main, parent, false);
@@ -108,7 +108,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
                 break;
             case EXPANDALL:
-                bindViewHolderExpandAll((ViewHolderExpandAll) holder);
+                bindViewHolderTitleBar((ViewHolderTitleBar) holder, (String) items.get(position));
                 break;
             case STOCK:
                 bindViewHolderStock((ViewHolderStock) holder, (Stock) items.get(position));
@@ -167,8 +167,8 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.tvSummary.setText(news.title);
     }
 
-    private void bindViewHolderExpandAll(ViewHolderExpandAll holder) {
-        holder.tvExpandAll.setText("Expand All");
+    private void bindViewHolderTitleBar(ViewHolderTitleBar holder, String title) {
+        holder.tvTitle.setText(title);
     }
 
     @Override
@@ -209,10 +209,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class ViewHolderExpandAll extends RecyclerView.ViewHolder {
-        @Bind(R.id.tvExpandAll) TextView tvExpandAll;
+    public class ViewHolderTitleBar extends RecyclerView.ViewHolder {
+        @Bind(R.id.tvTitle) TextView tvTitle;
 
-        public ViewHolderExpandAll(View itemView) {
+        public ViewHolderTitleBar(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

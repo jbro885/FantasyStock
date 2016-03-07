@@ -53,7 +53,6 @@ public class MainListFragment extends Fragment {
         items = new ArrayList<>();
         // Todo: Load news and watchlist
         ArrayList<String> watchlist_symbol = getArguments().getStringArrayList("watchlist");
-
         DataClient.getInstance().getStocksPrice(watchlist_symbol, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
@@ -70,7 +69,9 @@ public class MainListFragment extends Fragment {
     private void organizeData() {
         // Todo: Organized
         // Organize data to items
-        // Stock watchlist first
+        // Stock watchlist
+        String title = "WATCHLIST";
+        items.add(title);
         if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
             items.addAll(watchlist);
         }
@@ -79,10 +80,12 @@ public class MainListFragment extends Fragment {
                 items.add(watchlist.get(i));
             }
             // Add Expand all bar
-            String str = "EXPAND_ALL";
-            items.add(str);
+            title = "EXPAND ALL";
+            items.add(title);
         }
         // News
+        title = "NEWS";
+        items.add(title);
         items.addAll(news);
     }
 
