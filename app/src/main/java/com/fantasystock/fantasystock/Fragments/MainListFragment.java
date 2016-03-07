@@ -30,7 +30,21 @@ public class MainListFragment extends Fragment {
     private List<Object> items;
     private ArrayList<News> news;
     private MainListAdapter mainListAdapter;
+
+    // constant
     private final int EATCHLIST_DISPLAY_SIZE = 30;
+    private final int REFRESH_INTERVAL_MIN = 30;
+    private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
+
+    // For auto refresh
+    private Handler handler = new Handler();
+    private Runnable autoRefresh = new Runnable(){
+        @Override
+        public void run() {
+            refreshStock();
+            handler.postDelayed(autoRefresh, REFRESH_INTERVAL_MILLION_SECOND);
+        }
+    };
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
@@ -53,6 +67,8 @@ public class MainListFragment extends Fragment {
                 mainListAdapter.notifyDataSetChanged();
             }
         });
+
+        handler.post(autoRefresh);
     }
 
     private void organizeData() {
@@ -92,7 +108,7 @@ public class MainListFragment extends Fragment {
                 //add progress item
                 int progress_position = mainListAdapter.getItemCount();
                 items.add(null);
-//                mainListAdapter.notifyItemInserted(progress_position);
+                mainListAdapter.notifyItemInserted(progress_position);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -118,4 +134,18 @@ public class MainListFragment extends Fragment {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+    public void refreshStock() {
+        DataClient.getInstance().getStocksPrice(DataClient.watchlist, new CallBack() {
+            @Override
+            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                for (int i = 0; i < returnedSocks.size(); i++) {
+                    DataClient.stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
+                }
+                mainListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
 }

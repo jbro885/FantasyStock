@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock.Adapters;
 
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -148,8 +149,8 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private void btnStatusDisplay(ViewHolderStock holder, Stock stock) {
-        String status;
+    private void btnStatusDisplay(final ViewHolderStock holder, Stock stock) {
+        final String status;
         switch(STOCK_STATUS_FORMAT) {
             default:
             case CURRENT_PRICE:
@@ -162,7 +163,15 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 status = stock.current_change;
                 break;
         }
-        holder.btnStatus.setText(status);
+        holder.btnStatus.setAlpha(0);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                holder.btnStatus.setAlpha(1);
+                holder.btnStatus.setText(status);
+            }
+        }, 3);
     }
 
     private void bindViewHolderNews(ViewHolderNews holder, News news) {
