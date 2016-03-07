@@ -3,26 +3,21 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Fragments.MainListFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 import com.parse.Parse;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     private DataClient client;
     private ArrayList<String> watchlist;
     private ArrayList<Stock> stocks;
-
-    @Bind(R.id.flListHolder) FrameLayout flListHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +52,6 @@ public class MainActivity extends AppCompatActivity {
         client.getHistoricalPrices("YHOO", "1d", new CallBack() {
 
         });
-
-        MainListFragment fragment = new MainListFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flListHolder, fragment)
-                .commit();
     }
 
     private void setupParse() {
