@@ -104,8 +104,7 @@ public class ChartsFragment extends Fragment {
 
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
-        Stock stock = new Stock();
-        stock.symbol = "AAPL";
+        Stock stock = new Stock("AAPL");
         setStock(stock);
     }
     public void setStock(Stock stock) {

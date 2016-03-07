@@ -7,6 +7,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Stock {
 
+    public Stock(String symbol) {
+        this.symbol = symbol;
+    }
+
     @SerializedName("t")
     public String symbol;
 

@@ -78,10 +78,13 @@ public class DataClient {
 
     private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
 
-    public void getStockPrice(String quote, CallBack callback) {
-//        String url = googleQuoteURL +  quote;
-        String url = ted7726QuoteURL + quote;
-        client.get(url, new RequestParams(), stocksHandler(callback));
+    public void getStockPrice(ArrayList<Stock> stocks, CallBack callback) {
+        String quotes = "";
+        for (int i=0;i<stocks.size();++i) {
+            quotes += stocks.get(i).symbol + ",";
+        }
+
+        client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
     }
 
     private JsonHttpResponseHandler stocksHandler(final CallBack callback) {

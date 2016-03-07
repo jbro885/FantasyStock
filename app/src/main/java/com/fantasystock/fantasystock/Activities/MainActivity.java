@@ -29,7 +29,17 @@ public class MainActivity extends AppCompatActivity {
 //        testObject.saveInBackground();
         setContentView(R.layout.activity_main);
 
-        client.getStockPrice("AAPL", new CallBack() {
+        stocks = new ArrayList<>();
+        stocks.add(new Stock("AAPL"));
+        stocks.add(new Stock("YHOO"));
+        stocks.add(new Stock("GOOG"));
+        stocks.add(new Stock("FB"));
+
+
+
+
+
+        client.getStockPrice(stocks, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 stocks = returnedSocks;
