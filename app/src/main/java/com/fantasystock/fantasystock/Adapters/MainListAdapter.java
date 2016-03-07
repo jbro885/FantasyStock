@@ -1,15 +1,18 @@
 package com.fantasystock.fantasystock.Adapters;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -25,8 +28,39 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int STOCK = 0;
     private final int NEWS  = 1;
     private final int EXPANDALL = 2;
+    private final int PROGRESS_BAR = 3;
 
-    private final int WATCHLIST_SIZE = 4;
+    // The minimum amount of items to have below your current scroll position before loading more.
+    private int visibleThreshold = 2;
+    private int lastVisibleItem, totalItemCount;
+    private boolean loading;
+    private OnLoadMoreListener onLoadMoreListener;
+
+    public MainListAdapter(ArrayList<Stock> watchlist, ArrayList<News> news, RecyclerView recyclerView) {
+
+        // Set up scrolling listener
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                        // End has been reached
+                        // Do something
+                        if (onLoadMoreListener != null) {
+                            onLoadMoreListener.onLoadMore();
+                        }
+                        loading = true;
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,6 +68,12 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
+            case PROGRESS_BAR:
+                convertView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_progress, parent, false);
+
+                viewHolder = new ProgressViewHolder(convertView);
+                break;
             case EXPANDALL:
                 convertView = inflater.inflate(R.layout.item_expand_all_main, parent, false);
                 viewHolder = new ViewHolderExpandAll(convertView);
@@ -55,6 +95,9 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
+            case PROGRESS_BAR:
+                ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+                break;
             case EXPANDALL:
                 bindViewHolderExpandAll((ViewHolderExpandAll) holder);
                 break;
@@ -91,8 +134,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        // if(position == WATCHLIST_SIZE) return EXPANDALL;
-        if(items.get(position) instanceof Stock)
+        if(items.get(position) == null) return PROGRESS_BAR;
+        else if(items.get(position) instanceof String)
+            return EXPANDALL;
+        else if(items.get(position) instanceof Stock)
             return STOCK;
         else
             return NEWS;
@@ -127,5 +172,26 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public ProgressViewHolder(View v) {
+            super(v);
+            progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        }
+    }
+
+    public void setLoaded() {
+        loading = false;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
     }
 }
