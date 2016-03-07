@@ -6,18 +6,12 @@ import android.widget.FrameLayout;
 
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Fragments.MainListFragment;
-import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    private DataClient client;
-    private ArrayList<String> watchlist;
-    private ArrayList<Stock> stocks;
     @Bind(R.id.flMainListHolder) FrameLayout flMainListHolder;
 
     @Override
@@ -27,24 +21,23 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Create dummy watchlist
-        watchlist = new ArrayList<>();
         getWatchlist();
 
         // get list view
-        MainListFragment fragment = MainListFragment.newInstance(watchlist);
+        MainListFragment fragment = new MainListFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flMainListHolder, fragment)
                 .commit();
     }
 
     private void getWatchlist() {
-        watchlist.add("MRVL");
-        watchlist.add("AAPL");
-        watchlist.add("YHOO");
-        watchlist.add("MSFT");
-        watchlist.add("FB");
-        watchlist.add("GOOGL");
-        watchlist.add("LNKD");
-        watchlist.add("TWTR");
+        DataClient.watchlist.add("MRVL");
+        DataClient.watchlist.add("AAPL");
+        DataClient.watchlist.add("YHOO");
+        DataClient.watchlist.add("MSFT");
+        DataClient.watchlist.add("FB");
+        DataClient.watchlist.add("GOOGL");
+        DataClient.watchlist.add("LNKD");
+        DataClient.watchlist.add("TWTR");
     }
 }

@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
  */
 public class MainListFragment extends Fragment {
     private List<Object> items;
-    private ArrayList<Stock> watchlist;
     private ArrayList<News> news;
     private MainListAdapter mainListAdapter;
     private final int EATCHLIST_DISPLAY_SIZE = 30;
@@ -36,29 +35,19 @@ public class MainListFragment extends Fragment {
     @Bind(R.id.rvList) RecyclerView rvList;
 
 
-    public static MainListFragment newInstance(ArrayList<String> watchlist) {
-        MainListFragment followerListFragment = new MainListFragment();
-        Bundle args = new Bundle();
-        args.putStringArrayList("watchlist", watchlist);
-        followerListFragment.setArguments(args);
-        return followerListFragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         items = new ArrayList<>();
-        watchlist = new ArrayList<>();
+
         news = new ArrayList<>();
         items = new ArrayList<>();
         // Todo: Load news and watchlist
-        ArrayList<String> watchlist_symbol = getArguments().getStringArrayList("watchlist");
-        DataClient.getInstance().getStocksPrice(watchlist_symbol, new CallBack() {
+        DataClient.getInstance().getStocksPrice(DataClient.watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                watchlist = returnedSocks;
-                for (int i = 0; i < watchlist.size(); i++) {
-                    Stock.stockMap.put(watchlist.get(i).symbol, watchlist.get(i));
+                for (int i = 0; i < returnedSocks.size(); i++) {
+                    DataClient.stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
                 }
                 organizeData();
                 mainListAdapter.notifyDataSetChanged();
@@ -67,17 +56,16 @@ public class MainListFragment extends Fragment {
     }
 
     private void organizeData() {
-        // Todo: Organized
         // Organize data to items
         // Stock watchlist
         String title = "WATCHLIST";
         items.add(title);
-        if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
-            items.addAll(watchlist);
+        if(DataClient.watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
+            items.addAll(DataClient.watchlist);
         }
         else {
             for(int i = 0; i < EATCHLIST_DISPLAY_SIZE; i++) {
-                items.add(watchlist.get(i));
+                items.add(DataClient.watchlist.get(i));
             }
             // Add Expand all bar
             title = "EXPAND ALL";

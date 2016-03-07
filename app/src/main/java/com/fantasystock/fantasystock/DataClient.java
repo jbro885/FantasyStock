@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -45,6 +46,11 @@ import cz.msebera.android.httpclient.Header;
  * */
 
 public class DataClient {
+    // Data Center
+    public static final transient ArrayList<String> watchlist = new ArrayList<>();
+    public static final transient HashMap<String, Stock> stockMap = new HashMap<>();
+
+
     private static final int STATUS_CODE = 200;
     private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
 

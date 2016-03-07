@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -34,7 +35,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // View Types
     private final int STOCK = 0;
     private final int NEWS  = 1;
-    private final int EXPANDALL = 2;
+    private final int TITLE_BAR = 2;
     private final int PROGRESS_BAR = 3;
 
     // The minimum amount of items to have below your current scroll position before loading more.
@@ -83,7 +84,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 viewHolder = new ProgressViewHolder(convertView);
                 break;
-            case EXPANDALL:
+            case TITLE_BAR:
                 convertView = inflater.inflate(R.layout.item_title, parent, false);
                 viewHolder = new ViewHolderTitleBar(convertView);
                 break;
@@ -107,11 +108,11 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case PROGRESS_BAR:
                 ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
                 break;
-            case EXPANDALL:
+            case TITLE_BAR:
                 bindViewHolderTitleBar((ViewHolderTitleBar) holder, (String) items.get(position));
                 break;
             case STOCK:
-                bindViewHolderStock((ViewHolderStock) holder, (Stock) items.get(position));
+                bindViewHolderStock((ViewHolderStock) holder, (String) items.get(position));
                 break;
             case NEWS:
             default:
@@ -120,7 +121,9 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private void bindViewHolderStock(final ViewHolderStock holder, final Stock stock) {
+    private void bindViewHolderStock(final ViewHolderStock holder, String symbol) {
+        final Stock stock = DataClient.stockMap.get(symbol);
+
         holder.tvSymbol.setText(stock.symbol);
         holder.tvName.setText(stock.name);
 
@@ -179,10 +182,13 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         if(items.get(position) == null) return PROGRESS_BAR;
-        else if(items.get(position) instanceof String)
-            return EXPANDALL;
-        else if(items.get(position) instanceof Stock)
-            return STOCK;
+        else if(items.get(position) instanceof String) {
+            // can be stock symbol or title
+            if(DataClient.stockMap.get(items.get(position)) == null)
+                return TITLE_BAR;
+            else
+                return STOCK;
+        }
         else
             return NEWS;
     }
