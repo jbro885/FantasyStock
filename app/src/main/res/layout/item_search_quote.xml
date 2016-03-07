@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingRight="12dp"
+    android:paddingLeft="12dp"
+
+
+    >
+    <TextView
+        android:id="@+id/tvQuoteSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@string/font_sans_serif_medium"
+        android:text="AAPL"/>
+
+    <TextView
+        android:id="@+id/tvQuoteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQuoteSymbol"
+        android:textSize="12sp"
+        android:textColor="@color/colorPrimaryGreyDark"
+        android:fontFamily="@string/font_sans_serif_light"
+        android:text="Apple Inc."/>
+
+    <TextView
+        android:id="@+id/tvQuoteMarket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/ibFavorite"
+        android:layout_alignBottom="@+id/ibFavorite"
+        android:layout_alignTop="@+id/ibFavorite"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/grey"
+        android:fontFamily="@string/font_sans_serif_medium"
+        android:text="NASDAQ"/>
+    <ImageButton
+        android:id="@+id/ibFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/tvQuoteName"
+        android:src="@drawable/ic_unstar"
+        android:background="@color/transparent"
+        />
+</RelativeLayout>

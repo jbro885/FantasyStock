@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fantasystock.fantasystock.Activities.SearchActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/fade_trasparent"/>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="26dp"
+    android:padding="16dp">
+    <EditText
+        android:id="@+id/etSearchQuote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorPrimaryGreyDark"
+        android:hint="Type a Quote..."
+        android:minWidth="300dp"
+        android:inputType="text"
+        android:textColorHint="#BBCCEE"
+        android:imeOptions="actionDone" />
+    <ImageButton
+        android:id="@+id/ibSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/etSearchQuote"
+        android:src="@drawable/ic_search"
+        android:background="@color/transparent"
+        android:tint="@color/colorPrimaryGreyDark"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@id/etSearchQuote"/>
+</RelativeLayout>
+</RelativeLayout>
