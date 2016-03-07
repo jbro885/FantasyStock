@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
@@ -31,16 +32,30 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wilsonsu on 3/6/16.
  */
 public class ChartsFragment extends Fragment {
     @Bind(R.id.lcChart) LineChart lineChart;
+    @Bind(R.id.tvPeriodOneDay) TextView tvPeriodOneDay;
+    @Bind(R.id.tvPeriodOneWeek) TextView tvPeriodOneWeek;
+    @Bind(R.id.tvPeriodOneMonth) TextView tvPeriodOneMonth;
+    @Bind(R.id.tvPeriodAnYear) TextView tvPeriodAnYear;
+    @Bind(R.id.tvPeriodHalfYear) TextView tvPeriodHalfYear;
+    @Bind(R.id.tvPeriodALL) TextView tvPeriodALL;
+
     private DataClient client;
     private HistoricalData data;
     private LimitLine openLimitLine;
     public Stock stock;
+    private static final String PERIOD_1D = "1d";
+    private static final String PERIOD_1W = "5d";
+    private static final String PERIOD_1M = "20d";
+    private static final String PERIOD_6M = "6m";
+    private static final String PERIOD_1Y = "1y";
+    private static final String PERIOD_ALL = "10y";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +69,6 @@ public class ChartsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chart, parent, false);
         return view;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -79,23 +93,21 @@ public class ChartsFragment extends Fragment {
         lineChart.getXAxis().setDrawAxisLine(false);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         lineChart.getXAxis().setTextColor(R.color.grey);
+
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawAxisLine(false);
         lineChart.getAxisLeft().setTextColor(R.color.grey);
 
+
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
-
-
-
-
-
-
-        client.getHistoricalPrices("YHOO", "1d", callBackHandler());
+        Stock stock = new Stock();
+        stock.symbol = "AAPL";
+        setStock(stock);
     }
     public void setStock(Stock stock) {
         this.stock = stock;
-
+        onOneDayClick();
     }
 
     private void setData(HistoricalData data) {
@@ -105,19 +117,22 @@ public class ChartsFragment extends Fragment {
         List<HistoricalData.SeriesEntity> prices = data.series;
         int len = prices.size();
         if (len>0) {
+            lineChart.getAxisLeft().getLimitLines().clear();
             openLimitLine = new LimitLine(prices.get(0).open, "");
             openLimitLine.setLineWidth(1.5f);
             openLimitLine.setLineColor(Color.parseColor("#55ee0000"));
             lineChart.getAxisLeft().addLimitLine(openLimitLine);
+
         }
 
         for (int i=0;i<len; ++i) {
             HistoricalData.SeriesEntity series = prices.get(i);
             yVals.add(new Entry(series.close, i));
+
             xVals.add("");
         }
         int darkColor = Color.parseColor("#2cbcb6");
-        LineDataSet lineDataSet= new LineDataSet(yVals, "YHOO");
+        LineDataSet lineDataSet= new LineDataSet(yVals, stock.symbol);
 
         lineDataSet.setColor(darkColor);
         lineDataSet.setCircleColor(darkColor);
@@ -148,5 +163,30 @@ public class ChartsFragment extends Fragment {
         };
     }
 
+    @OnClick(R.id.tvPeriodALL)
+    public void onAllClick() {onPeriodClick(PERIOD_ALL); tvPeriodALL.setTextColor(Color.BLACK);}
+    @OnClick(R.id.tvPeriodAnYear)
+    public void onYearClick() {onPeriodClick(PERIOD_1Y); tvPeriodAnYear.setTextColor(Color.BLACK);}
+    @OnClick(R.id.tvPeriodHalfYear)
+    public void onHalfYearClick() {onPeriodClick(PERIOD_6M); tvPeriodHalfYear.setTextColor(Color.BLACK);}
+    @OnClick(R.id.tvPeriodOneMonth)
+    public void onOneMonthClick() {onPeriodClick(PERIOD_1M); tvPeriodOneMonth.setTextColor(Color.BLACK);}
+    @OnClick(R.id.tvPeriodOneDay)
+    public void onOneDayClick() {onPeriodClick(PERIOD_1D); tvPeriodOneDay.setTextColor(Color.BLACK);}
+    @OnClick(R.id.tvPeriodOneWeek)
+    public void onOneWeekClick() {onPeriodClick(PERIOD_1W); tvPeriodOneWeek.setTextColor(Color.BLACK);}
 
+    private void onPeriodClick(String period) {
+        client.getHistoricalPrices(stock.symbol, period, callBackHandler());
+
+        int greyColor = ContextCompat.getColor(getContext(),R.color.grey);
+        tvPeriodALL.setTextColor(greyColor);
+        tvPeriodAnYear.setTextColor(greyColor);
+        tvPeriodHalfYear.setTextColor(greyColor);
+        tvPeriodOneDay.setTextColor(greyColor);
+        tvPeriodOneWeek.setTextColor(greyColor);
+        tvPeriodOneMonth.setTextColor(greyColor);
+
+
+    }
 }
