@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Create dummy watchlist
+        watchlist = new ArrayList<>();
         getWatchlist();
 
         // Setup parse
@@ -61,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flListHolder, fragment)
                 .commit();
-
     }
 
     private void setupParse() {
         Resources res = getResources();
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(res.getString(R.string.parse_app_id)) // should correspond to APP_ID env variable
                 .clientKey(res.getString(R.string.parse_client_key))  // set explicitly unless clientKey is explicitly configured on Parse server

@@ -39,6 +39,7 @@ public class MainListFragment extends Fragment {
         items = new ArrayList<>();
         watchlist = new ArrayList<>();
         news = new ArrayList<>();
+        items = new ArrayList<>();
         // Todo: Load news and watchlist
         dummyStock();
         dummyStock();
@@ -46,6 +47,7 @@ public class MainListFragment extends Fragment {
 
         // Todo: Organized
         // Organize data to items
+
         // Stock watchlist first
         if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
             items.addAll(watchlist);
