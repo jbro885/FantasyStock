@@ -1,12 +1,15 @@
 package com.fantasystock.fantasystock;
 
 import com.fantasystock.fantasystock.Models.HistoricalData;
+import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -70,16 +73,30 @@ public class DataClient {
     * //quote, price, change, change_percentage, last_trading_time
     * String googleQuoteURL = http://www.google.com/finance/info?infotype=infoquoteall&q=";
     * String yahooQuoteURL = "http://finance.yahoo.com/d/quotes.csv?f=sl1c1p2t1n&s=";
-    * String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/?q="
+    * String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q="
     * */
 
+    private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
+
     public void getStockPrice(String quote, CallBack callback) {
-        String url = googleQuoteURL +  quote;
+//        String url = googleQuoteURL +  quote;
+        String url = ted7726QuoteURL + quote;
         client.get(url, new RequestParams(), stocksHandler(callback));
     }
 
     private JsonHttpResponseHandler stocksHandler(final CallBack callback) {
         return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Meta meta = generalDataHandler(statusCode, response, callback);
+                if (meta!=null) {
+                    final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
+                    Gson gson = new Gson();
+                    ArrayList<Stock> stocks = gson.fromJson(meta.data, listType);
+                    callback.stocksCallBack(stocks);
+                }
+            }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 if (statusCode!=STATUS_CODE) {
@@ -102,13 +119,26 @@ public class DataClient {
      */
     private static String yahooHistoricalQuoteBaseURL = "http://chartapi.finance.yahoo.com/instrument/1.0/";
     private static String yahooHistoricalQuoteParam = "/chartdata;type=quote;range=";
+    private static final String ted7726QuoteHistoricalURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/historical";
     public void getHistoricalPrices(String quote, String period, CallBack callback) {
-        String url = yahooHistoricalQuoteBaseURL + quote + yahooHistoricalQuoteParam + period + "/json";
-        client.get(url, new RequestParams(), historicalPricesHandler(callback));
+        RequestParams params = new RequestParams("q", quote);
+        params.put("p", period);
+        client.get(ted7726QuoteHistoricalURL, params, historicalPricesHandler(callback));
     }
 
     private JsonHttpResponseHandler historicalPricesHandler(final CallBack callback) {
         return new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Meta meta = generalDataHandler(statusCode, response, callback);
+                if (meta!=null) {
+                    Gson gson = new Gson();
+                    HistoricalData data = gson.fromJson(meta.data, HistoricalData.class);
+                    callback.historicalCallBack(data);
+                }
+            }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 if (statusCode!=STATUS_CODE) {
@@ -121,5 +151,19 @@ public class DataClient {
                 }
             }
         };
+    }
+
+    private Meta generalDataHandler(int statusCode, JSONObject response, CallBack callback) {
+        if (statusCode!=STATUS_CODE) {
+            callback.onFail(response.toString());
+            return null;
+        }
+        Gson gson = new Gson();
+        Meta meta = gson.fromJson(response.toString(), Meta.class);
+        if (meta.status!=STATUS_CODE) {
+            callback.onFail(response.toString());
+            return null;
+        }
+        return meta;
     }
 }

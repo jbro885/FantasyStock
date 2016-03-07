@@ -26,7 +26,7 @@ public class HistoricalData {
 
     public List<Integer> labels;
     /**
-     * Timestamp : 1457101918
+     * timestamp : 1457101918
      * close : 32.85
      * high : 32.865
      * low : 32.79
@@ -42,14 +42,14 @@ public class HistoricalData {
         public String ticker;
 
         @SerializedName("Company-Name")
-        public String CompanyName;
+        public String companyName;
         @SerializedName("Exchange-Name")
-        public String ExchangeName;
+        public String exchangeName;
         public String unit;
         public String timezone;
         public String currency;
         public int gmtoffset;
-        public double previous_close;
+        public float previous_close;
     }
 
     public static class Range {
@@ -58,11 +58,12 @@ public class HistoricalData {
     }
 
     public static class SeriesEntity {
-        public int Timestamp;
-        public double close;
-        public double high;
-        public double low;
-        public double open;
+        @SerializedName("Timestamp")
+        public int timestamp;
+        public float close;
+        public float high;
+        public float low;
+        public float open;
         public int volume;
     }
 }

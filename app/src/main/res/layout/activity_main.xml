@@ -9,4 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activities.MainActivity">
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:name="com.fantasystock.fantasystock.Fragments.ChartsFragment"
+        android:id="@+id/fragment"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        tools:layout="@layout/fragment_chart" />
 </RelativeLayout>

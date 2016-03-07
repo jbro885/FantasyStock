@@ -23,6 +23,8 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    // Android Charts, github: https://github.com/PhilJay/MPAndroidChart
+    maven { url "https://jitpack.io" }
     mavenCentral()
 }
 
@@ -62,4 +64,7 @@ dependencies {
 
     // Facebook SDK
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    // Android Charts, github: https://github.com/PhilJay/MPAndroidChart
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
 }
