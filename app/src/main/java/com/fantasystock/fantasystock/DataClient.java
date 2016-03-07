@@ -9,6 +9,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -152,6 +154,39 @@ public class DataClient {
                     HistoricalData data = gson.fromJson(responseString, HistoricalData.class);
                     callback.historicalCallBack(data);
                 }
+            }
+        };
+    }
+
+    /**
+     * * // Search quote
+     * String searchYahooQuoteURL = "http://autoc.finance.yahoo.com/autoc?region=US&lang=en&query=";
+     * String searchGoogleQuoteURL = "https://www.google.com/finance/match?matchtype=matchall&q=";
+     */
+    private static String searchGoogleQuoteURL = "https://www.google.com/finance/match?matchtype=matchall&q=";
+    public void searchQuote(String query, CallBack callBack) {
+        client.get(searchGoogleQuoteURL+query, null, searchQuoteHandler(callBack));
+    }
+    private JsonHttpResponseHandler searchQuoteHandler(final CallBack callBack) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray matches;
+                try {
+                    matches = response.getJSONArray("matches");
+                } catch (JSONException e) {
+                    callBack.onFail(e.toString());
+                    return;
+                }
+                final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
+                Gson gson = new Gson();
+                ArrayList<Stock> stocks = gson.fromJson(matches.toString(), listType);
+                callBack.stocksCallBack(stocks);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                callBack.onFail(errorResponse.toString());
             }
         };
     }

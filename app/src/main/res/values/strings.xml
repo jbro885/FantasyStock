@@ -5,4 +5,10 @@
     <string name="parse_server_url">http://fantasystock.herokuapp.com/parse/</string>
 
     <string name="facebook_app_id">236275363381793</string>
+    <!--fonts-->
+    <string name="font_sans_serif_regular">sans-serif</string>
+    <string name="font_sans_serif_light">sans-serif-light</string>
+    <string name="font_sans_serif_condensed">sans-serif-condensed</string>
+    <string name="font_sans_serif_thin">sans-serif-thin</string>
+    <string name="font_sans_serif_medium">sans-serif-medium</string>
 </resources>

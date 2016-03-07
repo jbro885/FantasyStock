@@ -17,7 +17,7 @@ public class Stock {
     public int share;
     public float total_cost;
 
-    @SerializedName("l")
+    @SerializedName("l_fix")
     public float current_price;
     @SerializedName("c")
     public String current_change;
@@ -25,6 +25,8 @@ public class Stock {
     public String current_change_percentage;
     @SerializedName("lt")
     public String last_trading_time;
+    @SerializedName("e")
+    public String market;
 
     @SerializedName("name")
     public String name;

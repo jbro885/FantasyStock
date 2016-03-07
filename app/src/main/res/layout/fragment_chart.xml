@@ -57,7 +57,12 @@
             android:paddingRight="20dp"
             android:text="ALL"/>
     </LinearLayout>
-    <include layout="@layout/layout_loading_spinner"/>
+    <include layout="@layout/layout_loading_spinner"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/llPeriods"
+        />
 
 
 

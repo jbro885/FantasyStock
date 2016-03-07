@@ -1,18 +1,21 @@
 package com.fantasystock.fantasystock.Activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     private DataClient client;
@@ -21,13 +24,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         setupParse();
         client = DataClient.getInstance();
-
 //        ParseObject testObject = new ParseObject("TestingFantasyObject");
 //        testObject.put("AAPL", "100");
 //        testObject.saveInBackground();
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         stocks = new ArrayList<>();
         stocks.add(new Stock("AAPL"));
@@ -36,20 +42,12 @@ public class MainActivity extends AppCompatActivity {
         stocks.add(new Stock("FB"));
 
 
-
-
-
         client.getStockPrice(stocks, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 stocks = returnedSocks;
             }
         });
-
-        client.getHistoricalPrices("YHOO", "1d", new CallBack(){
-
-        });
-
     }
 
     private void setupParse() {
@@ -60,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 .clientKey(res.getString(R.string.parse_client_key))  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server(res.getString(R.string.parse_server_url)).build());
 
+    }
+
+    @OnClick(R.id.ibSearch)
+    public void onSearchClick() {
+        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
     }
 }
