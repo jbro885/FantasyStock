@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -47,6 +48,11 @@ import cz.msebera.android.httpclient.Header;
  * */
 
 public class DataClient {
+    // Data Center
+    public static final transient ArrayList<String> watchlist = new ArrayList<>();
+    public static final transient HashMap<String, Stock> stockMap = new HashMap<>();
+
+
     private static final int STATUS_CODE = 200;
     private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
 
@@ -80,10 +86,19 @@ public class DataClient {
 
     private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
 
-    public void getStockPrice(ArrayList<Stock> stocks, CallBack callback) {
+    public void getStocksPrices(ArrayList<Stock> stocks, CallBack callback) {
         String quotes = "";
         for (int i=0;i<stocks.size();++i) {
             quotes += stocks.get(i).symbol + ",";
+        }
+
+        client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
+    }
+
+    public void getStocksPrice(ArrayList<String> stocks, CallBack callback) {
+        String quotes = "";
+        for (int i=0;i<stocks.size();++i) {
+            quotes += stocks.get(i) + ",";
         }
 
         client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
@@ -97,7 +112,8 @@ public class DataClient {
                 if (meta!=null) {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     Gson gson = new Gson();
-                    ArrayList<Stock> stocks = gson.fromJson(meta.data, listType);
+                    ArrayList<Stock> stocks = gson.fromJson(meta.data.toString(), listType);
+                    //Log.d("DEBUG", meta.data.toString());
                     callback.stocksCallBack(stocks);
                 }
             }

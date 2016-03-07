@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.MainListAdapter;
+import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -26,39 +28,55 @@ import butterknife.ButterKnife;
  */
 public class MainListFragment extends Fragment {
     private List<Object> items;
-    private ArrayList<Stock> watchlist;
     private ArrayList<News> news;
     private MainListAdapter mainListAdapter;
-    private final int EATCHLIST_DISPLAY_SIZE = 4;
+    private final int EATCHLIST_DISPLAY_SIZE = 30;
 
     @Bind(R.id.rvList) RecyclerView rvList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        watchlist = new ArrayList<>();
+        items = new ArrayList<>();
+
         news = new ArrayList<>();
         items = new ArrayList<>();
         // Todo: Load news and watchlist
+        DataClient.getInstance().getStocksPrice(DataClient.watchlist, new CallBack() {
+            @Override
+            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                for (int i = 0; i < returnedSocks.size(); i++) {
+                    DataClient.stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
+                }
+                organizeData();
+                mainListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-        // Todo: Organized
+    private void organizeData() {
         // Organize data to items
-
-        // Stock watchlist first
-        if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
-            items.addAll(watchlist);
+        // Stock watchlist
+        String title = "WATCHLIST";
+        items.add(title);
+        if(DataClient.watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
+            items.addAll(DataClient.watchlist);
         }
         else {
             for(int i = 0; i < EATCHLIST_DISPLAY_SIZE; i++) {
-                items.add(watchlist.get(i));
+                items.add(DataClient.watchlist.get(i));
             }
             // Add Expand all bar
-            String str = "EXPAND_ALL";
-            items.add(str);
+            title = "EXPAND ALL";
+            items.add(title);
         }
         // News
+        title = "NEWS";
+        items.add(title);
         items.addAll(news);
     }
+
 
     @Nullable
     @Override
@@ -66,14 +84,15 @@ public class MainListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mainListAdapter = new MainListAdapter(watchlist, news, rvList);
+        mainListAdapter = new MainListAdapter(items, rvList);
+        rvList.setAdapter(mainListAdapter);
         mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 //add progress item
                 int progress_position = mainListAdapter.getItemCount();
                 items.add(null);
-                mainListAdapter.notifyItemInserted(progress_position);
+//                mainListAdapter.notifyItemInserted(progress_position);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -90,7 +109,6 @@ public class MainListFragment extends Fragment {
                 }, 2000);
             }
         });
-        rvList.setAdapter(mainListAdapter);
 
         return view;
     }

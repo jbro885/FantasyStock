@@ -83,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
     private void handleSearchResults(ArrayList<Stock> responseStocks) {
         stocks.clear();
         stocks.addAll(responseStocks);
-        client.getStockPrice(responseStocks, new CallBack(){
+        client.getStocksPrices(responseStocks, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> responseStocks) {
                 stocks.clear();
