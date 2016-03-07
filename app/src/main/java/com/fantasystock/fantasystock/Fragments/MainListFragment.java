@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.MainListAdapter;
+import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -29,9 +31,18 @@ public class MainListFragment extends Fragment {
     private ArrayList<Stock> watchlist;
     private ArrayList<News> news;
     private MainListAdapter mainListAdapter;
-    private final int EATCHLIST_DISPLAY_SIZE = 4;
+    private final int EATCHLIST_DISPLAY_SIZE = 30;
 
     @Bind(R.id.rvList) RecyclerView rvList;
+
+
+    public static MainListFragment newInstance(ArrayList<String> watchlist) {
+        MainListFragment followerListFragment = new MainListFragment();
+        Bundle args = new Bundle();
+        args.putStringArrayList("watchlist", watchlist);
+        followerListFragment.setArguments(args);
+        return followerListFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,13 +52,24 @@ public class MainListFragment extends Fragment {
         news = new ArrayList<>();
         items = new ArrayList<>();
         // Todo: Load news and watchlist
-        dummyStock();
-        dummyStock();
-        dummyStock();
+        ArrayList<String> watchlist_symbol = getArguments().getStringArrayList("watchlist");
 
+        DataClient.getInstance().getStocksPrice(watchlist_symbol, new CallBack() {
+            @Override
+            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                watchlist = returnedSocks;
+                for (int i = 0; i < watchlist.size(); i++) {
+                    Stock.stockMap.put(watchlist.get(i).symbol, watchlist.get(i));
+                }
+                organizeData();
+                mainListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void organizeData() {
         // Todo: Organized
         // Organize data to items
-
         // Stock watchlist first
         if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
             items.addAll(watchlist);
@@ -64,15 +86,6 @@ public class MainListFragment extends Fragment {
         items.addAll(news);
     }
 
-    void dummyStock() {
-        Stock s = new Stock();
-        s.symbol = "AAPL";
-        s.current_change = "0.75";
-        s.current_change_percentage = "3";
-        s.current_price = (float) 101.50;
-        s.name = "Apple, inc";
-        watchlist.add(s);
-    }
 
     @Nullable
     @Override

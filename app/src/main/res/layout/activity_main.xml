@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity"
-    android:orientation="vertical">
+    tools:context=".Activities.MainActivity">
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/clProfileCoordinatorLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        >
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/ablProfileAppBar"
@@ -36,18 +36,12 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
-
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.fantasystock.fantasystock.Fragments.MainListFragment"
-            android:id="@+id/fragment2"
-            android:layout_below="@+id/fragment"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:layout="@layout/fragment_list_main" />
     </android.support.design.widget.CoordinatorLayout>
-</LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/flMainListHolder"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
+</RelativeLayout>

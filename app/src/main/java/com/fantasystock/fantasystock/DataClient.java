@@ -1,5 +1,7 @@
 package com.fantasystock.fantasystock;
 
+import android.util.Log;
+
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -78,10 +80,10 @@ public class DataClient {
 
     private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
 
-    public void getStockPrice(ArrayList<Stock> stocks, CallBack callback) {
+    public void getStocksPrice(ArrayList<String> stocks, CallBack callback) {
         String quotes = "";
         for (int i=0;i<stocks.size();++i) {
-            quotes += stocks.get(i).symbol + ",";
+            quotes += stocks.get(i) + ",";
         }
 
         client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
@@ -95,7 +97,8 @@ public class DataClient {
                 if (meta!=null) {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     Gson gson = new Gson();
-                    ArrayList<Stock> stocks = gson.fromJson(meta.data, listType);
+                    ArrayList<Stock> stocks = gson.fromJson(meta.data.toString(), listType);
+                    Log.d("DEBUG", meta.data.toString());
                     callback.stocksCallBack(stocks);
                 }
             }

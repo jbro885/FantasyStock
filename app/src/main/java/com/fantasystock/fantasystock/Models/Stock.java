@@ -14,6 +14,9 @@ public class Stock {
         this.symbol = symbol;
     }
 
+    public Stock() {
+    }
+
     @SerializedName("t")
     public String symbol;
 

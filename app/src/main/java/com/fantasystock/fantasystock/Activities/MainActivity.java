@@ -3,21 +3,24 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
 
-import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Fragments.MainListFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 import com.parse.Parse;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     private DataClient client;
     private ArrayList<String> watchlist;
     private ArrayList<Stock> stocks;
+    @Bind(R.id.flMainListHolder) FrameLayout flMainListHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,37 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup parse
         setupParse();
-        client = DataClient.getInstance();
 
-//        ParseObject testObject = new ParseObject("TestingFantasyObject");
-//        testObject.put("AAPL", "100");
-//        testObject.saveInBackground();
+        // get list view
+        MainListFragment fragment = MainListFragment.newInstance(watchlist);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flMainListHolder, fragment)
+                .commit();
 
-        for (int i = 0; i < watchlist.size(); i++) {
-
-        }
-
-
-        stocks = new ArrayList<>();
-        stocks.add(new Stock("AAPL"));
-        stocks.add(new Stock("YHOO"));
-        stocks.add(new Stock("GOOG"));
-        stocks.add(new Stock("FB"));
-
-
-
-
-
-        client.getStockPrice(stocks, new CallBack() {
-            @Override
-            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                stocks = returnedSocks;
-            }
-        });
-
-        client.getHistoricalPrices("YHOO", "1d", new CallBack() {
-
-        });
     }
 
     private void setupParse() {

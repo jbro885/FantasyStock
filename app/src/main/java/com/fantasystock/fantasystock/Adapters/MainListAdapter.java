@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,7 +24,14 @@ import butterknife.ButterKnife;
 public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Object> items;
     private View convertView;
+    private int STOCK_STATUS_FORMAT;
 
+    // Stock status types
+    private final int CURRENT_PRICE = 0;
+    private final int CHANGE_PERCENTAGE = 1;
+    private final int CHANGE_PRICE = 2;
+
+    // View Types
     private final int STOCK = 0;
     private final int NEWS  = 1;
     private final int EXPANDALL = 2;
@@ -37,6 +45,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public MainListAdapter(List<Object> items, RecyclerView recyclerView) {
         this.items = items;
+        this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
 
         // Set up scrolling listener
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
@@ -75,7 +84,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new ProgressViewHolder(convertView);
                 break;
             case EXPANDALL:
-                convertView = inflater.inflate(R.layout.item_expand_all_main, parent, false);
+                convertView = inflater.inflate(R.layout.item_title, parent, false);
                 viewHolder = new ViewHolderExpandAll(convertView);
                 break;
             case STOCK:
@@ -111,11 +120,46 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private void bindViewHolderStock(ViewHolderStock holder, Stock stock) {
+    private void bindViewHolderStock(final ViewHolderStock holder, final Stock stock) {
         holder.tvSymbol.setText(stock.symbol);
-        holder.tvShare.setText(Integer.toString(stock.share) + " Shares");
-        holder.tvChangePercentage.setText(stock.current_change_percentage);
-        holder.tvCurrentPrice.setText(Float.toString(stock.current_price));
+        holder.tvName.setText(stock.name);
+
+        String shareStatus = Integer.toString(stock.share) + " Shares";
+        holder.tvShare.setText(shareStatus);
+        // default is current price, click will be change percentage
+        btnStatusDisplay(holder, stock);
+        holder.btnStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                STOCK_STATUS_FORMAT++;
+                STOCK_STATUS_FORMAT = STOCK_STATUS_FORMAT % 3;
+                notifyDataSetChanged();
+            }
+        });
+        // Display background color based on change price
+        if(Float.parseFloat(stock.current_change) < 0) {
+            holder.btnStatus.setSelected(false);
+        }
+        else {
+            holder.btnStatus.setSelected(true);
+        }
+    }
+
+    private void btnStatusDisplay(ViewHolderStock holder, Stock stock) {
+        String status;
+        switch(STOCK_STATUS_FORMAT) {
+            default:
+            case CURRENT_PRICE:
+                status = "$" + Float.toString(stock.current_price);
+                break;
+            case CHANGE_PERCENTAGE:
+                status = stock.current_change_percentage + "%";
+                break;
+            case CHANGE_PRICE:
+                status = stock.current_change;
+                break;
+        }
+        holder.btnStatus.setText(status);
     }
 
     private void bindViewHolderNews(ViewHolderNews holder, News news) {
@@ -145,9 +189,9 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class ViewHolderStock extends RecyclerView.ViewHolder {
         @Bind(R.id.tvSymbol) TextView tvSymbol;
+        @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvShare) TextView tvShare;
-        @Bind(R.id.tvChangePercentage) TextView tvChangePercentage;
-        @Bind(R.id.tvCurrentPrice) TextView tvCurrentPrice;
+        @Bind(R.id.btnStatus) Button btnStatus;
 
         public ViewHolderStock(View itemView) {
             super(itemView);
