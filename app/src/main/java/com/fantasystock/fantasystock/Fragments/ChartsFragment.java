@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
@@ -45,6 +47,7 @@ public class ChartsFragment extends Fragment {
     @Bind(R.id.tvPeriodAnYear) TextView tvPeriodAnYear;
     @Bind(R.id.tvPeriodHalfYear) TextView tvPeriodHalfYear;
     @Bind(R.id.tvPeriodALL) TextView tvPeriodALL;
+    @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
     private DataClient client;
     private HistoricalData data;
@@ -155,10 +158,12 @@ public class ChartsFragment extends Fragment {
     }
 
     private CallBack callBackHandler() {
+        prLoadingSpinner.setVisibility(View.VISIBLE);
         return new CallBack(){
             @Override
             public void historicalCallBack(HistoricalData returnData) {
                 setData(returnData);
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         };
     }
@@ -186,7 +191,5 @@ public class ChartsFragment extends Fragment {
         tvPeriodOneDay.setTextColor(greyColor);
         tvPeriodOneWeek.setTextColor(greyColor);
         tvPeriodOneMonth.setTextColor(greyColor);
-
-
     }
 }

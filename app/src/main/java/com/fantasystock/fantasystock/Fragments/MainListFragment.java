@@ -38,10 +38,12 @@ public class MainListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         watchlist = new ArrayList<>();
         news = new ArrayList<>();
+        items = new ArrayList<>();
         // Todo: Load news and watchlist
 
         // Todo: Organized
         // Organize data to items
+
         // Stock watchlist first
         if(watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
             items.addAll(watchlist);

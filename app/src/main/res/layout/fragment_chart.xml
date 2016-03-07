@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lcChart"
         android:layout_width="match_parent"
         android:layout_height="300dp"/>
     <LinearLayout
+        android:id="@+id/llPeriods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@id/lcChart">
         <TextView
             android:id="@+id/tvPeriodOneDay"
             android:layout_width="wrap_content"
@@ -54,5 +57,8 @@
             android:paddingRight="20dp"
             android:text="ALL"/>
     </LinearLayout>
+    <include layout="@layout/layout_loading_spinner"/>
 
-</LinearLayout>
+
+
+</RelativeLayout>

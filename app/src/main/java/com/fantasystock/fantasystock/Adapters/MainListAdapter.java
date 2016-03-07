@@ -59,6 +59,9 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
+            items = new ArrayList<>();
+            items.addAll(watchlist);
+            items.addAll(news);
         }
     }
 

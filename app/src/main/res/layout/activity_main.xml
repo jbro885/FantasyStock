@@ -11,7 +11,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        >
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/ablProfileAppBar"
@@ -22,22 +22,18 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="70dp"
+                android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
+                android:background="#ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <fragment
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:name="com.fantasystock.fantasystock.Fragments.ChartsFragment"
                     android:id="@+id/fragment"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     tools:layout="@layout/fragment_chart" />
+
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
