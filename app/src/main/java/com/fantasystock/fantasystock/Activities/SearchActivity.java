@@ -30,10 +30,8 @@ public class SearchActivity extends AppCompatActivity {
     private DataClient client;
     private ArrayList<Stock> stocks;
     private SearchQuoteArrayAdapter adapter;
-    @Bind(R.id.rvList)
-    RecyclerView rvList;
-    @Bind(R.id.etSearchQuote)
-    EditText etSearchQuote;
+    @Bind(R.id.rvList) RecyclerView rvList;
+    @Bind(R.id.etSearchQuote) EditText etSearchQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,11 +121,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public static class SearchQuoteViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tvQuoteSymbol)
-        TextView tvQuoteSymbol;
+        @Bind(R.id.tvQuoteSymbol) TextView tvQuoteSymbol;
         @Bind(R.id.tvQuoteName) TextView tvQuoteName;
-        @Bind(R.id.ibFavorite)
-        ImageButton ibFavorite;
+        @Bind(R.id.ibFavorite) ImageButton ibFavorite;
         @Bind(R.id.tvQuoteMarket) TextView tvQuoteMarket;
         private boolean isFavorited;
         private Stock stock;

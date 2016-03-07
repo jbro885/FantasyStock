@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -123,7 +123,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void bindViewHolderStock(final ViewHolderStock holder, String symbol) {
-        final Stock stock = DataClient.stockMap.get(symbol);
+        final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
 
         holder.tvSymbol.setText(stock.symbol);
         holder.tvName.setText(stock.name);
@@ -193,13 +193,17 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(items.get(position) == null) return PROGRESS_BAR;
         else if(items.get(position) instanceof String) {
             // can be stock symbol or title
-            if(DataClient.stockMap.get(items.get(position)) == null)
+            if(DataCenter.getInstance().stockMap.get(items.get(position)) == null)
                 return TITLE_BAR;
             else
                 return STOCK;
         }
         else
             return NEWS;
+    }
+
+    public void clear() {
+        items.clear();
     }
 
     public class ViewHolderStock extends RecyclerView.ViewHolder {

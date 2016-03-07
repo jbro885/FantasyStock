@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.MainListAdapter;
 import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -52,22 +53,11 @@ public class MainListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        items = new ArrayList<>();
-
         news = new ArrayList<>();
         items = new ArrayList<>();
         // Todo: Load news and watchlist
-        DataClient.getInstance().getStocksPrice(DataClient.watchlist, new CallBack() {
-            @Override
-            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                for (int i = 0; i < returnedSocks.size(); i++) {
-                    DataClient.stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
-                }
-                organizeData();
-                mainListAdapter.notifyDataSetChanged();
-            }
-        });
 
+        // Setup auto refresh
         handler.post(autoRefresh);
     }
 
@@ -76,12 +66,12 @@ public class MainListFragment extends Fragment {
         // Stock watchlist
         String title = "WATCHLIST";
         items.add(title);
-        if(DataClient.watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
-            items.addAll(DataClient.watchlist);
+        if(DataCenter.getInstance().watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
+            items.addAll(DataCenter.getInstance().watchlist);
         }
         else {
             for(int i = 0; i < EATCHLIST_DISPLAY_SIZE; i++) {
-                items.add(DataClient.watchlist.get(i));
+                items.add(DataCenter.getInstance().watchlist.get(i));
             }
             // Add Expand all bar
             title = "EXPAND ALL";
@@ -126,6 +116,8 @@ public class MainListFragment extends Fragment {
             }
         });
 
+        refreshWatchlist();
+
         return view;
     }
 
@@ -136,13 +128,32 @@ public class MainListFragment extends Fragment {
     }
 
     public void refreshStock() {
-        DataClient.getInstance().getStocksPrice(DataClient.watchlist, new CallBack() {
+        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 for (int i = 0; i < returnedSocks.size(); i++) {
-                    DataClient.stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
+                    DataCenter.getInstance().stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
                 }
                 mainListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void refreshWatchlist() {
+        mainListAdapter.clear();
+        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
+            @Override
+            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                for (int i = 0; i < returnedSocks.size(); i++) {
+                    DataCenter.getInstance().stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
+                }
+                organizeData();
+                mainListAdapter.notifyDataSetChanged();
+
+                for(int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
+                    Stock s = DataCenter.getInstance().stockMap.get(DataCenter.getInstance().watchlist.get(i));
+                    DataCenter.getInstance().favoriteStocks.put(s.symbol, s);
+                }
             }
         });
     }
