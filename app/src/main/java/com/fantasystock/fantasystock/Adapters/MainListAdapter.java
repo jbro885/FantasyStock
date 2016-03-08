@@ -45,6 +45,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
+    private interface viewHolderBinding {
+        public void setItem(Object object);
+    }
+
     public MainListAdapter(List<Object> items, RecyclerView recyclerView) {
         this.items = items;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
@@ -80,9 +84,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         switch (viewType) {
             case PROGRESS_BAR:
-                convertView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_progress, parent, false);
-
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false);
                 viewHolder = new ProgressViewHolder(convertView);
                 break;
             case TITLE_BAR:
@@ -105,82 +107,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (getItemViewType(position)) {
-            case PROGRESS_BAR:
-                ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
-                break;
-            case TITLE_BAR:
-                bindViewHolderTitleBar((ViewHolderTitleBar) holder, (String) items.get(position));
-                break;
-            case STOCK:
-                bindViewHolderStock((ViewHolderStock) holder, (String) items.get(position));
-                break;
-            case NEWS:
-            default:
-                bindViewHolderNews((ViewHolderNews) holder, (News) items.get(position));
-                break;
+        if (holder instanceof viewHolderBinding) {
+            viewHolderBinding viewHolder = (viewHolderBinding)holder;
+            viewHolder.setItem(items.get(position));
         }
-    }
-
-    private void bindViewHolderStock(final ViewHolderStock holder, String symbol) {
-        final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-
-        holder.tvSymbol.setText(stock.symbol);
-        holder.tvName.setText(stock.name);
-
-        String shareStatus = Integer.toString(stock.share) + " Shares";
-        holder.tvShare.setText(shareStatus);
-        // default is current price, click will be change percentage
-        btnStatusDisplay(holder, stock);
-        holder.btnStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                STOCK_STATUS_FORMAT++;
-                STOCK_STATUS_FORMAT = STOCK_STATUS_FORMAT % 3;
-                notifyDataSetChanged();
-            }
-        });
-        // Display background color based on change price
-        if(Float.parseFloat(stock.current_change) < 0) {
-            holder.btnStatus.setSelected(false);
-        }
-        else {
-            holder.btnStatus.setSelected(true);
-        }
-    }
-
-    private void btnStatusDisplay(final ViewHolderStock holder, Stock stock) {
-        final String status;
-        switch(STOCK_STATUS_FORMAT) {
-            default:
-            case CURRENT_PRICE:
-                status = Float.toString(stock.current_price);
-                break;
-            case CHANGE_PERCENTAGE:
-                status = stock.current_change_percentage + "%";
-                break;
-            case CHANGE_PRICE:
-                status = stock.current_change;
-                break;
-        }
-        holder.btnStatus.setAlpha(0);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                holder.btnStatus.setAlpha(1);
-                holder.btnStatus.setText(status);
-            }
-        }, 3);
-    }
-
-    private void bindViewHolderNews(ViewHolderNews holder, News news) {
-        holder.tvTitle.setText(news.title);
-        holder.tvSummary.setText(news.title);
-    }
-
-    private void bindViewHolderTitleBar(ViewHolderTitleBar holder, String title) {
-        holder.tvTitle.setText(title);
     }
 
     @Override
@@ -207,7 +137,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-    public class ViewHolderStock extends RecyclerView.ViewHolder {
+    public class ViewHolderStock extends RecyclerView.ViewHolder implements viewHolderBinding{
         @Bind(R.id.tvSymbol) TextView tvSymbol;
         @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvShare) TextView tvShare;
@@ -217,9 +147,63 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        @Override
+        public void setItem(Object object) {
+            String symbol = (String)object;
+            final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
+
+            tvSymbol.setText(stock.symbol);
+            tvName.setText(stock.name);
+
+            String shareStatus = Integer.toString(stock.share) + " Shares";
+            tvShare.setText(shareStatus);
+            // default is current price, click will be change percentage
+            btnStatusDisplay(stock);
+            btnStatus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    STOCK_STATUS_FORMAT++;
+                    STOCK_STATUS_FORMAT = STOCK_STATUS_FORMAT % 3;
+                    notifyDataSetChanged();
+                }
+            });
+            // Display background color based on change price
+            if(Float.parseFloat(stock.current_change) < 0) {
+                btnStatus.setSelected(false);
+            }
+            else {
+                btnStatus.setSelected(true);
+            }
+        }
+
+        private void btnStatusDisplay(Stock stock) {
+            final String status;
+            switch(STOCK_STATUS_FORMAT) {
+                default:
+                case CURRENT_PRICE:
+                    status = Float.toString(stock.current_price);
+                    break;
+                case CHANGE_PERCENTAGE:
+                    status = stock.current_change_percentage + "%";
+                    break;
+                case CHANGE_PRICE:
+                    status = stock.current_change;
+                    break;
+            }
+            btnStatus.setAlpha(0);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btnStatus.setAlpha(1);
+                    btnStatus.setText(status);
+                }
+            }, 3);
+        }
     }
 
-    public class ViewHolderNews extends RecyclerView.ViewHolder {
+    public class ViewHolderNews extends RecyclerView.ViewHolder implements viewHolderBinding{
         @Bind(R.id.tvTitle) TextView tvTitle;
         @Bind(R.id.tvSummary) TextView tvSummary;
 
@@ -227,23 +211,40 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        @Override
+        public void setItem(Object object) {
+            News news = (News)object;
+            tvTitle.setText(news.title);
+            tvSummary.setText(news.title);
+        }
     }
 
-    public class ViewHolderTitleBar extends RecyclerView.ViewHolder {
+    public class ViewHolderTitleBar extends RecyclerView.ViewHolder implements viewHolderBinding{
         @Bind(R.id.tvTitle) TextView tvTitle;
 
         public ViewHolderTitleBar(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        @Override
+        public void setItem(Object object) {
+            String title = (String)object;
+            tvTitle.setText(title);
+        }
     }
 
-    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder implements viewHolderBinding{
         public ProgressBar progressBar;
 
         public ProgressViewHolder(View v) {
             super(v);
             progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        }
+
+        @Override
+        public void setItem(Object object) {
         }
     }
 

@@ -40,10 +40,7 @@ import cz.msebera.android.httpclient.Header;
  * String searchYahooQuoteURL = "http://autoc.finance.yahoo.com/autoc?region=US&lang=en&query=";
  * String searchGoogleQuoteURL = "https://www.google.com/finance/match?matchtype=matchall&q=";
 
- * // News
- * https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
- * http://finance.mobile.yahoo.com/dp/newsfeed?all_content=1&category=userfeed&device_os=2&region=US&lang=en-US
- * http://www.google.com//finance/company_news?output=json&q=
+
  * */
 
 public class DataClient {
@@ -200,6 +197,13 @@ public class DataClient {
             }
         };
     }
+
+    /**
+     * // News
+     * https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
+     * http://finance.mobile.yahoo.com/dp/newsfeed?all_content=1&category=userfeed&device_os=2&region=US&lang=en-US
+     * http://www.google.com//finance/company_news?output=json&q=
+     */
 
     private Meta generalDataHandler(int statusCode, JSONObject response, CallBack callback) {
         if (statusCode!=STATUS_CODE) {
