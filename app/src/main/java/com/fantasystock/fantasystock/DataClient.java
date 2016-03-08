@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock;
 
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
+import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -199,11 +201,37 @@ public class DataClient {
     }
 
     /**
-     * // News
-     * https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
-     * http://finance.mobile.yahoo.com/dp/newsfeed?all_content=1&category=userfeed&device_os=2&region=US&lang=en-US
-     * http://www.google.com//finance/company_news?output=json&q=
+     * // Profile
+     *
      */
+    private static String ted7726ProfileQuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/profile?q=";
+    public void getQuoteProfile(String symbol, CallBack callBack) {
+        client.get(ted7726ProfileQuoteURL+symbol,null, profileQuoteHandler(callBack));
+    }
+    private JsonHttpResponseHandler profileQuoteHandler(final CallBack callBack) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Meta meta = generalDataHandler(statusCode, response, callBack);
+                if (meta != null) {
+                    Gson gson = new Gson();
+                    final Type listType = new TypeToken<ArrayList<Profile>>() {}.getType();
+                    ArrayList<Profile> profiles= gson.fromJson(meta.data, listType);
+                    if (profiles.size()>0) {
+                        callBack.profileCallBack(profiles.get(0));
+                    } else {
+                        callBack.onFail(response.toString());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                callBack.onFail(responseString);
+            }
+        };
+    }
+
+
 
     private Meta generalDataHandler(int statusCode, JSONObject response, CallBack callback) {
         if (statusCode!=STATUS_CODE) {
