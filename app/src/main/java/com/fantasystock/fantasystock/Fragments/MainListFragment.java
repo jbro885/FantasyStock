@@ -92,25 +92,24 @@ public class MainListFragment extends Fragment {
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mainListAdapter = new MainListAdapter(items, rvList);
         rvList.setAdapter(mainListAdapter);
+
         mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                //add progress item
-                int progress_position = mainListAdapter.getItemCount();
+                //add null , so the adapter will check view_type and show progress bar at bottom
                 items.add(null);
-                mainListAdapter.notifyItemInserted(progress_position);
+                mainListAdapter.notifyItemInserted(items.size() - 1);
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //remove progress item
+                        //   remove progress item
                         items.remove(items.size() - 1);
                         mainListAdapter.notifyItemRemoved(items.size());
                         //add items one by one
-                        // onScrollingDown();
+
+
                         mainListAdapter.setLoaded();
-                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
                     }
                 }, 2000);
             }

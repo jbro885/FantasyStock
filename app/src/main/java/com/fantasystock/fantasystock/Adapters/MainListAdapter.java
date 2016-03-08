@@ -40,7 +40,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int PROGRESS_BAR = 3;
 
     // The minimum amount of items to have below your current scroll position before loading more.
-    private int visibleThreshold = 2;
+    private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
