@@ -99,7 +99,8 @@ public class ChartsFragment extends Fragment {
 
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawAxisLine(false);
-        lineChart.getAxisLeft().setTextColor(R.color.grey);
+        lineChart.getAxisLeft().setTextColor(Color.WHITE);
+
 
 
         // if disabled, scaling can be done on x- and y-axis separately
@@ -168,17 +169,17 @@ public class ChartsFragment extends Fragment {
     }
 
     @OnClick(R.id.tvPeriodALL)
-    public void onAllClick() {onPeriodClick(PERIOD_ALL); tvPeriodALL.setTextColor(Color.BLACK);}
+    public void onAllClick() {onPeriodClick(PERIOD_ALL); tvPeriodALL.setTextColor(Color.WHITE);}
     @OnClick(R.id.tvPeriodAnYear)
-    public void onYearClick() {onPeriodClick(PERIOD_1Y); tvPeriodAnYear.setTextColor(Color.BLACK);}
+    public void onYearClick() {onPeriodClick(PERIOD_1Y); tvPeriodAnYear.setTextColor(Color.WHITE);}
     @OnClick(R.id.tvPeriodHalfYear)
-    public void onHalfYearClick() {onPeriodClick(PERIOD_6M); tvPeriodHalfYear.setTextColor(Color.BLACK);}
+    public void onHalfYearClick() {onPeriodClick(PERIOD_6M); tvPeriodHalfYear.setTextColor(Color.WHITE);}
     @OnClick(R.id.tvPeriodOneMonth)
-    public void onOneMonthClick() {onPeriodClick(PERIOD_1M); tvPeriodOneMonth.setTextColor(Color.BLACK);}
+    public void onOneMonthClick() {onPeriodClick(PERIOD_1M); tvPeriodOneMonth.setTextColor(Color.WHITE);}
     @OnClick(R.id.tvPeriodOneDay)
-    public void onOneDayClick() {onPeriodClick(PERIOD_1D); tvPeriodOneDay.setTextColor(Color.BLACK);}
+    public void onOneDayClick() {onPeriodClick(PERIOD_1D); tvPeriodOneDay.setTextColor(Color.WHITE);}
     @OnClick(R.id.tvPeriodOneWeek)
-    public void onOneWeekClick() {onPeriodClick(PERIOD_1W); tvPeriodOneWeek.setTextColor(Color.BLACK);}
+    public void onOneWeekClick() {onPeriodClick(PERIOD_1W); tvPeriodOneWeek.setTextColor(Color.WHITE);}
 
     private void onPeriodClick(String period) {
         client.getHistoricalPrices(stock.symbol, period, callBackHandler());

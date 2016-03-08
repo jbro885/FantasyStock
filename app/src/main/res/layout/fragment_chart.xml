@@ -6,13 +6,15 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lcChart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:background="@color/transparent"/>
     <LinearLayout
         android:id="@+id/llPeriods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:orientation="horizontal"
+        android:background="@color/transparent"
         android:layout_below="@id/lcChart">
         <TextView
             android:id="@+id/tvPeriodOneDay"

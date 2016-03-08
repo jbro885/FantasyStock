@@ -1,6 +1,8 @@
 package com.fantasystock.fantasystock.Adapters;
 
+import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Activities.DetailActivity;
+import com.fantasystock.fantasystock.Activities.SearchActivity;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -26,6 +30,7 @@ import butterknife.ButterKnife;
 public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Object> items;
     private View convertView;
+    private FragmentActivity fragmentActivity;
     private int STOCK_STATUS_FORMAT;
 
     // Stock status types
@@ -49,9 +54,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void setItem(Object object);
     }
 
-    public MainListAdapter(List<Object> items, RecyclerView recyclerView) {
+    public MainListAdapter(List<Object> items, RecyclerView recyclerView, FragmentActivity fragmentActivity) {
         this.items = items;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
+        this.fragmentActivity = fragmentActivity;
 
         // Set up scrolling listener
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
@@ -93,7 +99,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case STOCK:
                 convertView = inflater.inflate(R.layout.item_watchlist_main, parent, false);
-                viewHolder = new ViewHolderStock(convertView);
+                viewHolder = new ViewHolderStock(convertView, fragmentActivity);
                 break;
             case NEWS:
             default:
@@ -138,19 +144,24 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public class ViewHolderStock extends RecyclerView.ViewHolder implements viewHolderBinding{
+        private FragmentActivity fragmentActivity;
         @Bind(R.id.tvSymbol) TextView tvSymbol;
         @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvShare) TextView tvShare;
         @Bind(R.id.btnStatus) Button btnStatus;
 
-        public ViewHolderStock(View itemView) {
+        public ViewHolderStock(View itemView, FragmentActivity fragmentActivity) {
             super(itemView);
+            this.fragmentActivity = fragmentActivity;
             ButterKnife.bind(this, itemView);
         }
 
         @Override
         public void setItem(Object object) {
-            String symbol = (String)object;
+            if (!(object instanceof String)) {
+                return;
+            }
+            final String symbol = (String)object;
             final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
 
             tvSymbol.setText(stock.symbol);
@@ -175,6 +186,14 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             else {
                 btnStatus.setSelected(true);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
+                    intent.putExtra("symbol", symbol);
+                    fragmentActivity.startActivity(intent);
+                }
+            });
         }
 
         private void btnStatusDisplay(Stock stock) {

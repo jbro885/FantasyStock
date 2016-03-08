@@ -5,6 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/skyline_tiny"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:id="@+id/ivBackgroundBlurred"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/skyline_tiny_blurred"
+        android:scaleType="centerCrop"
+        />
+    <RelativeLayout
+        android:id="@+id/rlDim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000">
+
+    </RelativeLayout>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -14,13 +35,13 @@
             android:id="@+id/ablProfileAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:fitsSystemWindows="true">
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="56dp"
-                android:background="#ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
                 <fragment
                     android:id="@+id/fragment"

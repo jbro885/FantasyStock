@@ -7,7 +7,7 @@
     tools:context="com.fantasystock.fantasystock.Activities.DetailActivity">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fCharts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.fantasystock.fantasystock.Fragments.ChartsFragment"

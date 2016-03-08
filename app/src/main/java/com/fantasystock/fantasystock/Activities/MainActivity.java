@@ -3,9 +3,13 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.MainListFragment;
@@ -19,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int REFRESHWATCHLIST = 200;
     private MainListFragment fragment;
     @Bind(R.id.flMainListHolder) FrameLayout flMainListHolder;
+    @Bind(R.id.ablProfileAppBar) AppBarLayout ablProfileAppBar;
+
+    @Bind(R.id.ivBackground) ImageView ivBackground;
+    @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
+    @Bind(R.id.rlDim) RelativeLayout rlDim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +42,14 @@ public class MainActivity extends AppCompatActivity {
 
         // get list view
         fragment = new MainListFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flMainListHolder, fragment)
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flMainListHolder, fragment).commit();
+
+        ablProfileAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                handleScrolling(verticalOffset);
+            }
+        });
 
     }
 
@@ -61,5 +75,17 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REFRESHWATCHLIST) {
             fragment.refreshWatchlist();
         }
+    }
+
+    private void handleScrolling(int verticalOffset) {
+        float alpha = Math.abs(verticalOffset)/2500.0f;
+        if (alpha > 1) {
+            alpha = 1;
+        }
+        ivBackgroundBlurred.setAlpha(1 - alpha*0.3f);
+        Log.d("DEBUG", verticalOffset + ", " + alpha);
+
+
+
     }
 }

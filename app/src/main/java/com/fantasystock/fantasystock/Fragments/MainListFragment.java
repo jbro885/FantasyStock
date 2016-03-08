@@ -91,7 +91,7 @@ public class MainListFragment extends Fragment {
         ButterKnife.bind(this, view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvList.setLayoutManager(linearLayoutManager);
-        mainListAdapter = new MainListAdapter(items, rvList);
+        mainListAdapter = new MainListAdapter(items, rvList, getActivity());
         rvList.setAdapter(mainListAdapter);
         mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
             @Override
