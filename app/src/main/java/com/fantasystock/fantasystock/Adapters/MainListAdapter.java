@@ -204,6 +204,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void clear() {
         items.clear();
+        notifyDataSetChanged();
     }
 
     public class ViewHolderStock extends RecyclerView.ViewHolder {

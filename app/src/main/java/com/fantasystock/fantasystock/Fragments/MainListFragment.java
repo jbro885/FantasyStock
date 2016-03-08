@@ -14,6 +14,7 @@ import com.fantasystock.fantasystock.Adapters.MainListAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Listeners.EndlessRecyclerViewScrollListener;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -89,32 +90,10 @@ public class MainListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
-        rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvList.setLayoutManager(linearLayoutManager);
         mainListAdapter = new MainListAdapter(items, rvList);
         rvList.setAdapter(mainListAdapter);
-        mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                //add progress item
-                int progress_position = mainListAdapter.getItemCount();
-                items.add(null);
-                mainListAdapter.notifyItemInserted(progress_position);
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //remove progress item
-                        items.remove(items.size() - 1);
-                        mainListAdapter.notifyItemRemoved(items.size());
-                        //add items one by one
-                        // onScrollingDown();
-                        mainListAdapter.setLoaded();
-                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-                    }
-                }, 2000);
-            }
-        });
 
         refreshWatchlist();
 
@@ -150,7 +129,7 @@ public class MainListFragment extends Fragment {
                 organizeData();
                 mainListAdapter.notifyDataSetChanged();
 
-                for(int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
+                for (int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
                     Stock s = DataCenter.getInstance().stockMap.get(DataCenter.getInstance().watchlist.get(i));
                     DataCenter.getInstance().favoriteStocks.put(s.symbol, s);
                 }
