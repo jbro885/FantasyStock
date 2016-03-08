@@ -50,8 +50,8 @@ public class ChartsFragment extends Fragment {
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
     private DataClient client;
-    private HistoricalData data;
     private LimitLine openLimitLine;
+    public boolean isDarkTheme;
     public Stock stock;
     private static final String PERIOD_1D = "1d";
     private static final String PERIOD_1W = "5d";
@@ -64,6 +64,7 @@ public class ChartsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = DataClient.getInstance();
+        isDarkTheme = true;
     }
 
     @Nullable
@@ -99,9 +100,7 @@ public class ChartsFragment extends Fragment {
 
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawAxisLine(false);
-        lineChart.getAxisLeft().setTextColor(Color.WHITE);
-
-
+        lineChart.getAxisLeft().setTextColor(isDarkTheme ? Color.WHITE : Color.BLACK);
 
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
@@ -110,11 +109,11 @@ public class ChartsFragment extends Fragment {
     }
     public void setStock(Stock stock) {
         this.stock = stock;
+        lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
         onOneDayClick();
     }
 
     private void setData(HistoricalData data) {
-        this.data = data;
         ArrayList<Entry> yVals = new ArrayList<>();
         ArrayList<String> xVals = new ArrayList<>();
         List<HistoricalData.SeriesEntity> prices = data.series;
@@ -169,19 +168,19 @@ public class ChartsFragment extends Fragment {
     }
 
     @OnClick(R.id.tvPeriodALL)
-    public void onAllClick() {onPeriodClick(PERIOD_ALL); tvPeriodALL.setTextColor(Color.WHITE);}
+    public void onAllClick() {onPeriodClick(PERIOD_ALL, tvPeriodALL); }
     @OnClick(R.id.tvPeriodAnYear)
-    public void onYearClick() {onPeriodClick(PERIOD_1Y); tvPeriodAnYear.setTextColor(Color.WHITE);}
+    public void onYearClick() {onPeriodClick(PERIOD_1Y, tvPeriodAnYear); }
     @OnClick(R.id.tvPeriodHalfYear)
-    public void onHalfYearClick() {onPeriodClick(PERIOD_6M); tvPeriodHalfYear.setTextColor(Color.WHITE);}
+    public void onHalfYearClick() {onPeriodClick(PERIOD_6M, tvPeriodHalfYear); }
     @OnClick(R.id.tvPeriodOneMonth)
-    public void onOneMonthClick() {onPeriodClick(PERIOD_1M); tvPeriodOneMonth.setTextColor(Color.WHITE);}
+    public void onOneMonthClick() {onPeriodClick(PERIOD_1M, tvPeriodOneMonth); }
     @OnClick(R.id.tvPeriodOneDay)
-    public void onOneDayClick() {onPeriodClick(PERIOD_1D); tvPeriodOneDay.setTextColor(Color.WHITE);}
+    public void onOneDayClick() {onPeriodClick(PERIOD_1D, tvPeriodOneDay); }
     @OnClick(R.id.tvPeriodOneWeek)
-    public void onOneWeekClick() {onPeriodClick(PERIOD_1W); tvPeriodOneWeek.setTextColor(Color.WHITE);}
+    public void onOneWeekClick() {onPeriodClick(PERIOD_1W, tvPeriodOneWeek); }
 
-    private void onPeriodClick(String period) {
+    private void onPeriodClick(String period, TextView textView) {
         client.getHistoricalPrices(stock.symbol, period, callBackHandler());
 
         int greyColor = ContextCompat.getColor(getContext(),R.color.grey);
@@ -191,5 +190,6 @@ public class ChartsFragment extends Fragment {
         tvPeriodOneDay.setTextColor(greyColor);
         tvPeriodOneWeek.setTextColor(greyColor);
         tvPeriodOneMonth.setTextColor(greyColor);
+        textView.setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
     }
 }

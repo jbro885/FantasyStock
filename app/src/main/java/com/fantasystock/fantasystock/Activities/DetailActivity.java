@@ -59,6 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.fCharts);
         if (fragment instanceof ChartsFragment) {
             ChartsFragment chartsFragment = (ChartsFragment) fragment;
+            chartsFragment.isDarkTheme = false;
             chartsFragment.setStock(stock);
         }
         tvSymbol.setText(stock.symbol);
