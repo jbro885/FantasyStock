@@ -89,10 +89,10 @@ public class MainListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
-        rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvList.setLayoutManager(linearLayoutManager);
         mainListAdapter = new MainListAdapter(items, rvList);
         rvList.setAdapter(mainListAdapter);
-
         mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -149,7 +149,7 @@ public class MainListFragment extends Fragment {
                 organizeData();
                 mainListAdapter.notifyDataSetChanged();
 
-                for(int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
+                for (int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
                     Stock s = DataCenter.getInstance().stockMap.get(DataCenter.getInstance().watchlist.get(i));
                     DataCenter.getInstance().favoriteStocks.put(s.symbol, s);
                 }

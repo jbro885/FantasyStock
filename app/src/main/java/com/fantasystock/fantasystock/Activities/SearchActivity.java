@@ -159,6 +159,7 @@ public class SearchActivity extends AppCompatActivity {
             ibFavorite.setImageResource(
                     isFavorited ? R.drawable.ic_star : R.drawable.ic_unstar
             );
+
         }
     }
 }
