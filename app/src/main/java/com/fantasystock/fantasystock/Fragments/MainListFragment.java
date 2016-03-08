@@ -14,7 +14,6 @@ import com.fantasystock.fantasystock.Adapters.MainListAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Listeners.EndlessRecyclerViewScrollListener;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
