@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
@@ -18,6 +20,7 @@ import com.fantasystock.fantasystock.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wilsonsu on 3/8/16.
@@ -79,6 +82,22 @@ public class DetailFragment extends Fragment{
 
     }
 
+    @OnClick(R.id.btnBuy)
+    public void onBuy(View view) {
+        onTrade("buy");
+    }
+
+    @OnClick(R.id.btnSell)
+    public void onSell(View view) {
+        onTrade("sell");
+    }
+
+    private void onTrade(String buySell) {
+        Intent intent = new Intent(getContext(), TradeActivity.class);
+        intent.putExtra("symbol", symbol);
+        intent.putExtra("buySell", buySell);
+        startActivity(intent);
+    }
 
     private void setStock() {
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);

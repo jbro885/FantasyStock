@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
@@ -21,18 +20,16 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
-    private String symbol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
-        symbol = intent.getStringExtra("symbol");
+        String symbol = intent.getStringExtra("symbol");
 
         ButterKnife.bind(this);
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
@@ -51,23 +48,6 @@ public class DetailActivity extends AppCompatActivity {
                 vpViewPager.setCurrentItem(i);
             }
         }
-    }
-
-    @OnClick(R.id.btnBuy)
-    public void onBuy(View view) {
-        onTrade("buy");
-    }
-
-    @OnClick(R.id.btnSell)
-    public void onSell(View view) {
-        onTrade("sell");
-    }
-
-    private void onTrade(String buySell) {
-        Intent intent = new Intent(this, TradeActivity.class);
-        intent.putExtra("symbol", symbol);
-        intent.putExtra("buySell", buySell);
-        startActivity(intent);
     }
 
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
