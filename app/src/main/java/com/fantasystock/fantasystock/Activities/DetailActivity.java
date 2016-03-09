@@ -2,33 +2,23 @@ package com.fantasystock.fantasystock.Activities;
 
 
 import android.content.Intent;
-<<<<<<< dd4e839e827c996f7ec7c2c4ef3a97c2695e4cda
 import android.graphics.drawable.Drawable;
-=======
 import android.os.Bundle;
->>>>>>> Add basic trading function
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< dd4e839e827c996f7ec7c2c4ef3a97c2695e4cda
-import android.os.Bundle;
-=======
 import android.view.View;
 import android.widget.TextView;
->>>>>>> Add basic trading function
 
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-<<<<<<< dd4e839e827c996f7ec7c2c4ef3a97c2695e4cda
 
 import java.util.ArrayList;
-=======
->>>>>>> Add basic trading function
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -63,7 +53,6 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< dd4e839e827c996f7ec7c2c4ef3a97c2695e4cda
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
         private ArrayList<Stock> stocks;
         private Drawable fadeBlue;
@@ -72,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
             this.fadeBlue = fadeBlue;
             stocks = DataCenter.getInstance().allFavoritedStocks();
         }
-=======
+
     @OnClick(R.id.btnBuy)
     public void onBuy(View view) {
         onTrade("buy");
@@ -107,8 +96,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         };
     }
->>>>>>> Add basic trading function
-
         @Override
         public Fragment getItem(int position) {
             DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position).symbol);
