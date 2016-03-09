@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.fantasystock.fantasystock.Activities.TradeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shares of"
+        android:id="@+id/tvSymbol"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="62dp"
+        android:layout_marginLeft="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Market Price"
+        android:id="@+id/tvMarketPrice"
+        android:layout_below="@+id/tvSymbol"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated Cost"
+        android:id="@+id/tvEstimatedCost"
+        android:layout_below="@+id/tvMarketPrice"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$88.88"
+        android:id="@+id/tvUnitPrice"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignTop="@+id/tvMarketPrice"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$888.88"
+        android:id="@+id/tvTotalCost"
+        android:layout_alignTop="@+id/tvEstimatedCost"
+        android:layout_alignRight="@+id/tvUnitPrice"
+        android:layout_alignEnd="@+id/tvUnitPrice"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="3"
+        android:id="@+id/etShares"
+        android:text="888"
+        android:gravity="right"
+        android:layout_above="@+id/tvUnitPrice"
+        android:layout_alignRight="@+id/tvUnitPrice"
+        android:layout_alignEnd="@+id/tvUnitPrice"
+        android:layout_alignLeft="@+id/tvTotalCost"
+        android:layout_alignStart="@+id/tvTotalCost"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BUY/SELL"
+        android:id="@+id/btnTrade"
+        android:layout_below="@+id/tvEstimatedCost"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"/>
+
+</RelativeLayout>
