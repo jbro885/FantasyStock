@@ -97,6 +97,19 @@ public class DataClient {
         client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
     }
 
+    public void getStockPrice(String symbol, final CallBack callBack) {
+        client.get(ted7726QuoteURL+symbol, new RequestParams(), stocksHandler(new CallBack(){
+            @Override
+            public void stocksCallBack(ArrayList<Stock> stocks) {
+                if (stocks.size()>0) {
+                    callBack.stockCallBack(stocks.get(0));
+                } else {
+                    callBack.onFail("Return 0 stock");
+                }
+            }
+        }));
+    }
+
     private JsonHttpResponseHandler stocksHandler(final CallBack callback) {
         return new JsonHttpResponseHandler() {
             @Override

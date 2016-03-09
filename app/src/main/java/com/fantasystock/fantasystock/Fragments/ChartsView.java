@@ -1,11 +1,14 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +42,7 @@ import butterknife.OnClick;
 /**
  * Created by wilsonsu on 3/6/16.
  */
-public class ChartsFragment extends Fragment {
+public class ChartsView extends RecyclerView.ViewHolder {
     @Bind(R.id.lcChart) LineChart lineChart;
     @Bind(R.id.tvPeriodOneDay) TextView tvPeriodOneDay;
     @Bind(R.id.tvPeriodOneWeek) TextView tvPeriodOneWeek;
@@ -48,7 +51,7 @@ public class ChartsFragment extends Fragment {
     @Bind(R.id.tvPeriodHalfYear) TextView tvPeriodHalfYear;
     @Bind(R.id.tvPeriodALL) TextView tvPeriodALL;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
-
+    public Drawable fadeBlue;
     private DataClient client;
     private LimitLine openLimitLine;
     public boolean isDarkTheme;
@@ -60,24 +63,19 @@ public class ChartsFragment extends Fragment {
     private static final String PERIOD_1Y = "1y";
     private static final String PERIOD_ALL = "10y";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public ChartsView(View itemView, Drawable fadeBlue) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
+        this.fadeBlue = fadeBlue;
         client = DataClient.getInstance();
         isDarkTheme = true;
+        Stock stock = new Stock("AAPL");
+        setStock(stock);
+        initChart();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chart, parent, false);
-        return view;
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ButterKnife.bind(this, getActivity());
+    private void initChart() {
 
         lineChart.setDescription("");
         lineChart.setNoDataTextDescription("You need to provide data for the chart.");
@@ -104,14 +102,15 @@ public class ChartsFragment extends Fragment {
 
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
-        Stock stock = new Stock("AAPL");
-        setStock(stock);
     }
+
+
     public void setStock(Stock stock) {
         this.stock = stock;
         lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
         onOneDayClick();
     }
+
 
     private void setData(HistoricalData data) {
         ArrayList<Entry> yVals = new ArrayList<>();
@@ -143,8 +142,11 @@ public class ChartsFragment extends Fragment {
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawCubic(true);
         lineDataSet.setValueTextSize(9f);
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.fade_blue);
-        lineDataSet.setFillDrawable(drawable);
+
+        if (fadeBlue!=null) {
+            lineDataSet.setFillDrawable(fadeBlue);
+        }
+
         lineDataSet.setDrawFilled(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(lineDataSet); // add the datasets
@@ -182,8 +184,7 @@ public class ChartsFragment extends Fragment {
 
     private void onPeriodClick(String period, TextView textView) {
         client.getHistoricalPrices(stock.symbol, period, callBackHandler());
-
-        int greyColor = ContextCompat.getColor(getContext(),R.color.grey);
+        int greyColor = Color.parseColor("#7788AA");
         tvPeriodALL.setTextColor(greyColor);
         tvPeriodAnYear.setTextColor(greyColor);
         tvPeriodHalfYear.setTextColor(greyColor);

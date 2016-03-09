@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Fragments.ChartsView;
 import com.fantasystock.fantasystock.Fragments.MainListFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -30,10 +30,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REFRESHWATCHLIST = 200;
+    private static final int REFRESH_WATCHLIST = 200;
     private MainListFragment fragment;
     @Bind(R.id.flMainListHolder) FrameLayout flMainListHolder;
     @Bind(R.id.ablProfileAppBar) AppBarLayout ablProfileAppBar;
+    @Bind(R.id.fCharts) View chartView;
 
     @Bind(R.id.ivBackground) ImageView ivBackground;
     @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        ChartsView chartsView = new ChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        chartsView.setStock(new Stock("AAPL"));
+
 
         // Create dummy watchlist
         getWatchlist();
@@ -116,12 +120,12 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.ibSearch)
     public void onSearchClick() {
-        startActivityForResult(new Intent(getApplicationContext(), SearchActivity.class), REFRESHWATCHLIST);
+        startActivityForResult(new Intent(getApplicationContext(), SearchActivity.class), REFRESH_WATCHLIST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REFRESHWATCHLIST) {
+        if (requestCode == REFRESH_WATCHLIST) {
             fragment.refreshWatchlist();
         }
     }

@@ -43,13 +43,11 @@
                 android:layout_height="wrap_content"
                 android:minHeight="56dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-                <fragment
-                    android:id="@+id/fragment"
+                <include layout="@layout/fragment_chart"
+                    android:id="@+id/fCharts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="82dp"
-                    android:name="com.fantasystock.fantasystock.Fragments.ChartsFragment"
-                    tools:layout="@layout/fragment_chart" />
+                    android:layout_marginTop="82dp" />
 
 
             </android.support.design.widget.CollapsingToolbarLayout>
