@@ -3,6 +3,9 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -12,10 +15,17 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.Utils;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /*
  * Instruction for facebook login:
@@ -26,6 +36,11 @@ public class SignupActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     @Bind(R.id.login_button) LoginButton loginButton;
+    @Bind(R.id.btnSignIn) Button signInButton;
+    @Bind(R.id.btnSignUp) Button signUpButton;
+    @Bind(R.id.etEmail) EditText etEmail;
+    @Bind(R.id.etPassword) EditText etPassword;
+    @Bind(R.id.tvWarning) TextView tvWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,5 +95,66 @@ public class SignupActivity extends AppCompatActivity {
 
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
+    }
+
+    @OnClick(R.id.btnSignUp)
+    public void onSignUp() {
+        if (!checkEmailPassword()) {
+            return;
+        }
+        ParseUser user = new ParseUser();
+        user.setUsername(etEmail.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+        user.setEmail(etEmail.getText().toString());
+
+        // other fields can be set just like with ParseObject
+
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    DataCenter.getInstance().user = ParseUser.getCurrentUser();
+                    finish();
+
+                    // Hooray! Let them use the app now.
+                } else {
+                    tvWarning.setText("Fail to sign up");
+                    Utils.fadeIneAnimation(tvWarning);
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                }
+            }
+        });
+
+    }
+
+    @OnClick(R.id.btnSignIn)
+    public void onSignIn() {
+        if (!checkEmailPassword()) {
+            return;
+        }
+        ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    DataCenter.getInstance().user = user;
+                    finish();
+
+                } else {
+                    tvWarning.setText("Fail to sign in");
+                    Utils.fadeIneAnimation(tvWarning);
+                }
+            }
+        });
+    }
+
+    private boolean checkEmailPassword() {
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        if (email.length()>0 && password.length()>0) {
+            return true;
+        }
+        tvWarning.setText("password or email is not filled in");
+        Utils.fadeIneAnimation(tvWarning);
+
+        return false;
     }
 }

@@ -68,4 +68,9 @@ public class Utils {
         });
         view.startAnimation(animation1);
     }
+
+    public static void fadeIneAnimation(final View view) {
+        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
+        view.startAnimation(animation);
+    }
 }

@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock;
 
 import com.fantasystock.fantasystock.Models.Stock;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ public class DataCenter {
     public HashMap<String, Stock> favoriteStocks;
     public ArrayList<String> watchlist;
     public HashMap<String, Stock> stockMap;
+    public ParseUser user;
+
 
 
     private static DataCenter mInstance;
@@ -47,5 +50,10 @@ public class DataCenter {
 
     public ArrayList<Stock> allFavoritedStocks() {
         return new ArrayList<>(favoriteStocks.values());
+    }
+
+    public void setUser(ParseUser user) {
+        this.user = user;
+        // deal something with user
     }
 }

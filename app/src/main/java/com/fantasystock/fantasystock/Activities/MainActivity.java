@@ -117,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
         DataCenter.getInstance().watchlist.add("TWTR");
         DataCenter.getInstance().watchlist.add("INTC");
     }
+    @OnClick(R.id.ibMenu)
+    public void onMenuClick() {
+        startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+    }
 
     @OnClick(R.id.ibSearch)
     public void onSearchClick() {
