@@ -14,7 +14,7 @@ public class DataCenter {
     public ArrayList<String> watchlist;
     public HashMap<String, Stock> stockMap;
     public ParseUser user;
-
+    public float availableFund;
 
 
     private static DataCenter mInstance;
@@ -29,6 +29,7 @@ public class DataCenter {
         favoriteStocks = new HashMap<>();
         watchlist = new ArrayList<>();
         stockMap = new HashMap<>();
+        availableFund = 1000000.00f;  // Millionaire!
     }
 
     public void favoriteStock(Stock stock) {
