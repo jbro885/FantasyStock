@@ -3,8 +3,10 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.etEmail) EditText etEmail;
     @Bind(R.id.etPassword) EditText etPassword;
     @Bind(R.id.tvWarning) TextView tvWarning;
+    @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
         // Set content and bind views
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+        prLoadingSpinner.setVisibility(View.INVISIBLE);
 
         // Initial facebook callback manager
         callbackManager = CallbackManager.Factory.create();
@@ -60,8 +64,7 @@ public class SignupActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent i = new Intent(getApplication(), MainActivity.class);
-                startActivity(i);
+                finish();
             }
 
             @Override
@@ -108,7 +111,7 @@ public class SignupActivity extends AppCompatActivity {
         user.setEmail(etEmail.getText().toString());
 
         // other fields can be set just like with ParseObject
-
+        prLoadingSpinner.setVisibility(View.VISIBLE);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -122,6 +125,7 @@ public class SignupActivity extends AppCompatActivity {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                 }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -132,6 +136,7 @@ public class SignupActivity extends AppCompatActivity {
         if (!checkEmailPassword()) {
             return;
         }
+        prLoadingSpinner.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
@@ -142,6 +147,7 @@ public class SignupActivity extends AppCompatActivity {
                     tvWarning.setText("Fail to sign in");
                     Utils.fadeIneAnimation(tvWarning);
                 }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
     }
