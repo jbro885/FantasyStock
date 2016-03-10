@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.Activities.SearchActivity;
+import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.Utils;
 
 import java.util.List;
 
@@ -197,8 +199,19 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         private void btnStatusDisplay(Stock stock) {
-            final String status;
-            switch(STOCK_STATUS_FORMAT) {
+            final String status = stockStatus(stock, STOCK_STATUS_FORMAT);
+            final String prevStatus = stockStatus(stock, (STOCK_STATUS_FORMAT+2)%3);
+            btnStatus.setText(prevStatus);
+            Utils.fadeInAndOutAnimationGenerator(btnStatus, new CallBack() {
+                @Override
+                public void task() {
+                    btnStatus.setText(status);
+                }
+            });
+        }
+        private String stockStatus(Stock stock, int statusCode) {
+            String status;
+            switch(statusCode) {
                 default:
                 case CURRENT_PRICE:
                     status = Float.toString(stock.current_price);
@@ -210,15 +223,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     status = stock.current_change;
                     break;
             }
-            btnStatus.setAlpha(0);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    btnStatus.setAlpha(1);
-                    btnStatus.setText(status);
-                }
-            }, 3);
+            return status;
         }
     }
 

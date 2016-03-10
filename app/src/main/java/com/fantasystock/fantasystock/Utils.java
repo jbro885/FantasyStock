@@ -73,4 +73,25 @@ public class Utils {
         AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
         view.startAnimation(animation);
     }
+    public static void fadeInAndOutAnimationGenerator(final View view, final CallBack callBack) {
+        final AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
+        final AlphaAnimation animation2 = new AlphaAnimation(1.0f, 0.0f);
+        animation1.setDuration(500);
+        animation2.setDuration(500);
+
+        //animation2 AnimationListener
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                // start animation1 when animation2 ends (repeat)
+                callBack.task();
+                view.startAnimation(animation1);
+            }
+        });
+        view.startAnimation(animation2);
+    }
 }
