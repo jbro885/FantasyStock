@@ -5,9 +5,9 @@
 ## User Stories
 
 *Required User Stories:*
-* [ ] SignIn/SignUp with Facebook - 3h
+* [x] SignIn/SignUp with Facebook - 3h
 will be able to sign in/sign out/sign up with parse or facebook
-* [ ] Stock Detail information
+* [x] Stock Detail information
 Providing Intraday/week/months/years price Chart
 how many shares user owns
 comments/reply on Specific Stock
@@ -15,11 +15,11 @@ profiles of the stocks
 News about the stock
 * [ ] News
 In general market news with related Stock, tapping on Stock, it will jump into stock detail
-* [ ] Watchlist
+* [x] Watchlist
 Stocks that user is following
 User is able to edit/delete/rearrange stocks
 search for stock/quotes and be able to favorite it
-* [ ] Transaction Page
+* [x] Transaction Page
 User is able to buy/sell
 Tutorial telling what’s limited price/market price
 * [ ] History Page
@@ -31,7 +31,7 @@ Portfolios charts and mark with all the transaction
 * [ ] Be able to message/chat with other user
 * [ ] favorite/follow other user and show who is following friends
 * [ ] create a League and invite other users to join
-* [ ] multicharts for watchlists
+* [x] multicharts for watchlists
 
 *Notes:*
 
