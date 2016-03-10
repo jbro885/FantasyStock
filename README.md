@@ -44,7 +44,9 @@ https://wireframe.cc/Fs3kPw
 
 *Walkthrough of all user stories:*
 
-![Video Walkthrough]()
+![Video Walkthrough]
+<img src='rec201.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
