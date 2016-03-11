@@ -130,9 +130,6 @@ public class MainListFragment extends Fragment {
         DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                for (int i = 0; i < returnedSocks.size(); i++) {
-                    DataCenter.getInstance().stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
-                }
                 mainListAdapter.notifyDataSetChanged();
             }
         });
@@ -143,16 +140,8 @@ public class MainListFragment extends Fragment {
         DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                for (int i = 0; i < returnedSocks.size(); i++) {
-                    DataCenter.getInstance().stockMap.put(returnedSocks.get(i).symbol, returnedSocks.get(i));
-                }
                 organizeData();
                 mainListAdapter.notifyDataSetChanged();
-
-                for (int i = 0; i < DataCenter.getInstance().watchlist.size(); i++) {
-                    Stock s = DataCenter.getInstance().stockMap.get(DataCenter.getInstance().watchlist.get(i));
-                    DataCenter.getInstance().favoriteStocks.put(s.symbol, s);
-                }
             }
         });
     }

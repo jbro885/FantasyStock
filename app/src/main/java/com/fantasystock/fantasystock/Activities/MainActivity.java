@@ -107,15 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWatchlist() {
-        DataCenter.getInstance().watchlist.add("MRVL");
-        DataCenter.getInstance().watchlist.add("AAPL");
-        DataCenter.getInstance().watchlist.add("YHOO");
-        DataCenter.getInstance().watchlist.add("MSFT");
-        DataCenter.getInstance().watchlist.add("FB");
-        DataCenter.getInstance().watchlist.add("GOOGL");
-        DataCenter.getInstance().watchlist.add("LNKD");
-        DataCenter.getInstance().watchlist.add("TWTR");
-        DataCenter.getInstance().watchlist.add("INTC");
+
     }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {

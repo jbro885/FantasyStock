@@ -119,8 +119,14 @@ public class DataClient {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     Gson gson = new Gson();
                     ArrayList<Stock> stocks = gson.fromJson(meta.data.toString(), listType);
-                    //Log.d("DEBUG", meta.data.toString());
-                    callback.stocksCallBack(stocks);
+                    int len = stocks.size();
+                    for (int i=0;i<len;++i) {
+                        Stock stock = stocks.get(i);
+                        DataCenter.getInstance().stockMap.put(stock.symbol, stock);
+                    }
+                    if (callback!=null) {
+                        callback.stocksCallBack(stocks);
+                    }
                 }
             }
 
@@ -138,6 +144,7 @@ public class DataClient {
             }
         };
     }
+
 
     /**
      * String googleQuoteOptionURL = "http://www.google.com/finance/option_chain?type=All&output=json&q=";

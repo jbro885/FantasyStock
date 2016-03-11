@@ -41,27 +41,27 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setCurrentPageToStock(String symbol) {
-        ArrayList<Stock> stocks = DataCenter.getInstance().allFavoritedStocks();
+        ArrayList<String> stocks = DataCenter.getInstance().watchlist;
         int len = stocks.size();
         for (int i=0;i<len; ++i) {
-            if (symbol.equals(stocks.get(i).symbol)) {
+            if (symbol.equals(stocks.get(i))) {
                 vpViewPager.setCurrentItem(i);
             }
         }
     }
 
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<Stock> stocks;
+        private ArrayList<String> stocks;
         private Drawable fadeBlue;
         public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue) {
             super(fm);
             this.fadeBlue = fadeBlue;
-            stocks = DataCenter.getInstance().allFavoritedStocks();
+            stocks = DataCenter.getInstance().watchlist;
         }
 
         @Override
         public Fragment getItem(int position) {
-            DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position).symbol);
+            DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position));
             detailFragment.fadeBlue = fadeBlue;
             return detailFragment;
         }

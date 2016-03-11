@@ -34,6 +34,14 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.fDetailCharts) View vChart;
 
+    //
+    @Bind(R.id.tvShares) TextView tvShares;
+    @Bind(R.id.tvEquityValue) TextView tvEquityValue;
+    @Bind(R.id.tvTotalReturnPercentage) TextView tvTotalReturnPercentage;
+    @Bind(R.id.tvAvgCost) TextView tvAvgCost;
+    @Bind(R.id.tvTotalReturn) TextView tvTotalReturn;
+    @Bind(R.id.tvTodayReturn) TextView tvTodayReturn;
+
     //Profiles
     @Bind(R.id.tvMarketCap) TextView tvMarketCap;
     @Bind(R.id.tvOpen) TextView tvOpen;
@@ -109,10 +117,26 @@ public class DetailFragment extends Fragment{
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
+                if (!DataCenter.getInstance().investingStocksMap.containsKey(symbol)) {
+                    tvShares.setText("0");
+                    tvAvgCost.setText("0");
+                    tvEquityValue.setText("0");
+                    tvTodayReturn.setText("0");
+
+                } else {
+                    Stock ownStock = DataCenter.getInstance().investingStocksMap.get(symbol);
+                    tvShares.setText(ownStock.share+"");
+                    tvAvgCost.setText(ownStock.total_cost / ownStock.share + "");
+                    tvEquityValue.setText(ownStock.share * stock.current_price + "");
+                    tvTodayReturn.setText(ownStock.share * Float.parseFloat(stock.current_change_percentage) * 0.01 + "");
+
+                }
             }
         });
-
         DataClient.getInstance().getQuoteProfile(symbol, profileCallbackHandler());
+
+
+
     }
 
     private CallBack profileCallbackHandler() {

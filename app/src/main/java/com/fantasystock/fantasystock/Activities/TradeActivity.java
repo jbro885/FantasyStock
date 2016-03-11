@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -71,7 +72,7 @@ public class TradeActivity extends AppCompatActivity {
     }
     if (numShares == 0) {
       if (buySell.equals("buy")) {
-        tvTotalCost.setText(formatter.format(dataCenter.getInstance().availableFund) + " avialable");
+        tvTotalCost.setText(formatter.format(dataCenter.getInstance().availableFund) + " available");
       } else {
         tvTotalCost.setText(stock.share + " shares available");
       }
@@ -82,34 +83,30 @@ public class TradeActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnTrade)
   public void onTrade() {
-    int numShares = 0;
-    try {
-      numShares = Integer.parseInt(etShares.getText().toString());
-    } catch (NumberFormatException e) {
-      numShares = 0;
-    }
-    if (numShares == 0) {
-      finish();
-    }
-    float cost = numShares * stock.current_price;
-    if (buySell.equals("buy")) {
-      if (cost > dataCenter.availableFund) {
-        Toast.makeText(this, "Not enough funds to buy", Toast.LENGTH_LONG).show();
-        return;
+      int numShares = 0;
+      try {
+        numShares = Integer.parseInt(etShares.getText().toString());
+      } catch (NumberFormatException e) {
+          finish();
       }
-      stock.share += numShares;
-      dataCenter.availableFund -= cost;
-      Toast.makeText(this, "Bought " + numShares + " shares of " + symbol + " for " + formatter.format(cost), Toast.LENGTH_LONG).show();
-      finish();
-    } else {
-      if (stock.share < numShares) {
-        Toast.makeText(this, "Not enough shares to sell.", Toast.LENGTH_LONG).show();
-        return;
+
+      float cost = numShares * stock.current_price;
+      if (buySell.equals("buy")) {
+        if (cost > dataCenter.availableFund) {
+          Toast.makeText(this, "Not enough funds to buy", Toast.LENGTH_LONG).show();
+          return;
+        }
+        Toast.makeText(this, "Bought " + numShares + " shares of " + symbol + " for " + formatter.format(cost), Toast.LENGTH_LONG).show();
+
+      } else {
+        if (stock.share < numShares) {
+          Toast.makeText(this, "Not enough shares to sell.", Toast.LENGTH_LONG).show();
+          return;
+        }
+        Toast.makeText(this, "Sold " + numShares + " shares of " + symbol + " for " + formatter.format(cost), Toast.LENGTH_LONG).show();
       }
-      stock.share -= numShares;
-      dataCenter.availableFund += cost;
-      Toast.makeText(this, "Sold " + numShares + " shares of " + symbol + " for " + formatter.format(cost), Toast.LENGTH_LONG).show();
+      if (!buySell.equals("buy")) numShares = -numShares;
+      DataCenter.getInstance().trade(stock.symbol, numShares, new CallBack());
       finish();
-    }
   }
 }

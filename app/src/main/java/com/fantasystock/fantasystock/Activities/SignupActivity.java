@@ -114,18 +114,18 @@ public class SignupActivity extends AppCompatActivity {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
-                if (e == null) {
-                    DataCenter.getInstance().user = ParseUser.getCurrentUser();
-                    finish();
+            if (e == null) {
+                DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
+                finish();
 
-                    // Hooray! Let them use the app now.
-                } else {
-                    tvWarning.setText("Fail to sign up");
-                    Utils.fadeIneAnimation(tvWarning);
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
-                }
-                prLoadingSpinner.setVisibility(View.INVISIBLE);
+                // Hooray! Let them use the app now.
+            } else {
+                tvWarning.setText("Fail to sign up");
+                Utils.fadeIneAnimation(tvWarning);
+                // Sign up didn't succeed. Look at the ParseException
+                // to figure out what went wrong
+            }
+            prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -139,15 +139,15 @@ public class SignupActivity extends AppCompatActivity {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    DataCenter.getInstance().user = user;
-                    finish();
+            if (user != null) {
+                DataCenter.getInstance().setUser(user);
+                finish();
 
-                } else {
-                    tvWarning.setText("Fail to sign in");
-                    Utils.fadeIneAnimation(tvWarning);
-                }
-                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            } else {
+                tvWarning.setText("Fail to sign in");
+                Utils.fadeIneAnimation(tvWarning);
+            }
+            prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
     }
