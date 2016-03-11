@@ -1,19 +1,24 @@
 package com.fantasystock.fantasystock;
 
+import android.telecom.Call;
 import android.util.Log;
 
+import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by wilsonsu on 3/7/16.
@@ -82,12 +87,14 @@ public class DataCenter {
     // shares > 0 -> buy, shares < 0 -> sell
     public void trade(final String symbol, final int shares, final CallBack callBack) {
         // fetch the latest price
-        client.getStockPrice(symbol, new CallBack(){
+        client.getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(final Stock stock) {
                 final float total = stock.current_price * shares;
-                Stock investingStock = investingStocksMap.get(symbol);
-                if (availableFund >= total || (investingStock != null && investingStock.share + shares >= 0)) {
+                Stock iStock = investingStocksMap.get(symbol);
+                if (iStock == null) iStock = stock;
+                final Stock investingStock = iStock;
+                if (availableFund >= total && investingStock.share + shares >= 0) {
                     ParseObject transaction = new ParseObject(USER_HISTORY + user.getObjectId());
                     transaction.put(TRANSACTION_SHARES, shares);
                     transaction.put(TRANSACTION_SYMBOL, stock.symbol);
@@ -97,10 +104,9 @@ public class DataCenter {
                         public void done(ParseException e) {
                             if (e == null) {
                                 availableFund -= total;
-                                stock.share += shares;
-                                stock.total_cost += total;
-                                updateStock(stock);
-                                callBack.stockCallBack(stock);
+                                investingStock.share += shares;
+                                investingStock.total_cost += total;
+                                updateStock(investingStock, callBack);
                             } else {
                                 callBack.onFail("transaction is failed");
                             }
@@ -116,7 +122,7 @@ public class DataCenter {
     public void favoriteStock(Stock stock) {
         watchlistSet.add(stock.symbol);
         watchlist.add(stock.symbol);
-        updateUser();
+        updateUser(null);
     }
     public void unfavoriteStock(Stock stock) {
         watchlistSet.remove(stock.symbol);
@@ -126,7 +132,7 @@ public class DataCenter {
                 break;
             }
         }
-        updateUser();
+        updateUser(null);
     }
 
     public boolean isFavoritedStock(Stock stock) {
@@ -149,17 +155,26 @@ public class DataCenter {
         // deal something with user
     }
 
-    private void updateUser() {
+    private void updateUser(final CallBack callBack) {
         if (user!=null) {
             Gson gson = new Gson();
             user.put(USER_WATCH_LIST, gson.toJsonTree(watchlist).toString());
             user.put(USER_AVAILABLE_FUND, availableFund);
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
-            user.saveInBackground();
+            if (callBack==null) {
+                user.saveInBackground();
+                return;
+            }
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    callBack.done();
+                }
+            });
         }
     }
 
-    private void updateStock(Stock stock) {
+    private void updateStock(Stock stock, CallBack callBack) {
         if (stock.share > 0) {
             if (!investingStocksMap.containsKey(stock.symbol)) {
                 investingStocks.add(stock);
@@ -170,6 +185,55 @@ public class DataCenter {
             investingStocks.remove(stock.symbol);
         }
         stockMap.put(stock.symbol, stock);
-        updateUser();
+        updateUser(callBack);
+    }
+
+    public void portfolios(String period, final CallBack callBack) {
+
+        final int len = investingStocks.size();
+        final HashSet<String> dataSet = new HashSet<>();
+        final ArrayList<HistoricalData> datas = new ArrayList<>();
+        for (int i=0;i<len;++i) {
+            final String symbol = investingStocks.get(i).symbol;
+            DataClient.getInstance().getHistoricalPrices(symbol, period, new CallBack(){
+                @Override
+                public void historicalCallBack(HistoricalData data) {
+
+                    if (!dataSet.contains(symbol)) {
+                        dataSet.add(symbol);
+                        datas.add(data);
+                    }
+                    if (dataSet.size() == len) {
+                        portfoliosCalculator(datas, callBack);
+                    }
+                }
+            });
+        }
+    }
+
+    private void portfoliosCalculator(ArrayList<HistoricalData> datas, CallBack callBack) {
+        int len = datas.size(), seriesLen = Integer.MAX_VALUE;
+        for (int i=0;i<len; ++i) {
+            seriesLen = Math.min(datas.get(i).series.size(), seriesLen);
+        }
+        ArrayList<HistoricalData.SeriesEntity> series = new ArrayList<>();
+        for (int i=0;i<seriesLen;++i) {
+
+            double close = availableFund;
+            double open = availableFund;
+            for (int j=0;j<len; ++j) {
+                int share = investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase()).share;
+                 close += datas.get(j).series.get(i).close * share;
+                 open += datas.get(j).series.get(i).open * share;
+            }
+            HistoricalData.SeriesEntity seriesEntity = new HistoricalData.SeriesEntity();
+            seriesEntity.close = (float)close;
+            seriesEntity.open = (float)open;
+            series.add(seriesEntity);
+        }
+        HistoricalData historicalData = new HistoricalData();
+        historicalData.series = series;
+        callBack.historicalCallBack(historicalData);
+
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.TradeActivity;
@@ -17,6 +18,7 @@ import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +36,9 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.fDetailCharts) View vChart;
 
-    //
+
+    @Bind(R.id.llSharesInfo) LinearLayout llSharesInfo;
+    //Shares Info
     @Bind(R.id.tvShares) TextView tvShares;
     @Bind(R.id.tvEquityValue) TextView tvEquityValue;
     @Bind(R.id.tvTotalReturnPercentage) TextView tvTotalReturnPercentage;
@@ -118,24 +122,20 @@ public class DetailFragment extends Fragment{
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
                 if (!DataCenter.getInstance().investingStocksMap.containsKey(symbol)) {
-                    tvShares.setText("0");
-                    tvAvgCost.setText("0");
-                    tvEquityValue.setText("0");
-                    tvTodayReturn.setText("0");
-
+                    Utils.setHeight(llSharesInfo,0);
                 } else {
+                    Utils.setHeight(llSharesInfo,-1);
                     Stock ownStock = DataCenter.getInstance().investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share+"");
-                    tvAvgCost.setText(ownStock.total_cost / ownStock.share + "");
+                    tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share*100)/100 + "");
                     tvEquityValue.setText(ownStock.share * stock.current_price + "");
-                    tvTodayReturn.setText(ownStock.share * Float.parseFloat(stock.current_change_percentage) * 0.01 + "");
-
+                    tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
+                    tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
+                    tvTotalReturnPercentage.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost)/ownStock.total_cost + "");
                 }
             }
         });
         DataClient.getInstance().getQuoteProfile(symbol, profileCallbackHandler());
-
-
 
     }
 
@@ -151,8 +151,8 @@ public class DetailFragment extends Fragment{
                 tvMarketCap.setText(profile.mkt_cap);
                 tvOpen.setText(profile.open);
                 tvDivYield.setText(profile.dividend_yld);
-                tvVolume.setText(profile.vol);
-                tvAvgVolume.setText(profile.ave_vol);
+                tvVolume.setText(Utils.numberConverter(Integer.parseInt(profile.vol)));
+                tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
             }
         };
     }

@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock;
 
 import android.text.format.DateUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
@@ -29,9 +30,18 @@ public class Utils {
     }
 
     public static String numberConverter(int n) {
-        String text =  (n > 1000 ? n / 1000 + "k" : n + "");
+        String text;
+        if (n>1000000) {
+            text = n/1000000 + "M";
+        } else if (n>1000) {
+            text = n/1000 + "k";
+        } else {
+            text = n + "";
+        }
         return text;
     }
+
+
 
     public static void repeatAnimationGenerator(final View view, final CallBack callBack) {
         final AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
@@ -93,5 +103,17 @@ public class Utils {
             }
         });
         view.startAnimation(animation2);
+    }
+
+    public static void setHeight(View view, int height) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (height == -1) {
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        } else {
+            params.height = height;
+        }
+
+        view.setLayoutParams(params);
+
     }
 }

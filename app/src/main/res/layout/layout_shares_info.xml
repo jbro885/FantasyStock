@@ -13,31 +13,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Open"
+            android:text="shares"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="High"
+            android:text="Equity Value"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Low"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="52W High"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="52W Low"
+            android:text="total return %"
             />
     </LinearLayout>
     <LinearLayout
@@ -46,51 +34,32 @@
         android:layout_weight="0.15"
         android:orientation="vertical"
         >
-
         <TextView
-            android:id="@+id/tvOpen"
+            android:id="@+id/tvShares"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
+            android:text="10"
             />
         <TextView
-            android:id="@+id/tvHigh"
+            android:id="@+id/tvEquityValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
+            android:text="$ 1,000"
             />
         <TextView
-            android:id="@+id/tvLow"
+            android:id="@+id/tvTotalReturnPercentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
-            />
-        <TextView
-            android:id="@+id/tv52High"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:padding="5dp"
-            android:gravity="end"
-            android:text="100.00"
-            />
-        <TextView
-            android:id="@+id/tv52Low"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:padding="5dp"
-            android:gravity="end"
-            android:text="100.00"
+            android:text="5 %"
             />
     </LinearLayout>
     <LinearLayout
@@ -101,36 +70,23 @@
         android:orientation="vertical"
 
         >
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Volume"
+            android:text="Avg Cost $"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Avg Volume"
+            android:text="Total Return"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="MarketCap"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="P/E"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Div/Yield"
+            android:text="Today Return"
             />
     </LinearLayout>
     <LinearLayout
@@ -138,51 +94,35 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.15"
         android:orientation="vertical"
+
         >
         <TextView
-            android:id="@+id/tvVolume"
+            android:id="@+id/tvAvgCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
+            android:text="10"
             />
         <TextView
-            android:id="@+id/tvAvgVolume"
+            android:id="@+id/tvTotalReturn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
+            android:text="$ 1,000"
             />
         <TextView
-            android:id="@+id/tvMarketCap"
+            android:id="@+id/tvTodayReturn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
+            android:text="5 %"
             />
-        <TextView
-            android:id="@+id/tvPERatio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:padding="5dp"
-            android:gravity="end"
-            android:text="100.00"
-            />
-        <TextView
-            android:id="@+id/tvDivYield"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:padding="5dp"
-            android:gravity="end"
-            android:text="100.00"
-            />
+
     </LinearLayout>
 </LinearLayout>

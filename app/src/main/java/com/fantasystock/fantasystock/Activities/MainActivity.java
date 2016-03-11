@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ChartsView chartsView = new ChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
-        chartsView.setStock(new Stock("AAPL"));
+        chartsView.setStock(new Stock("portfolios"));
 
 
         // Create dummy watchlist

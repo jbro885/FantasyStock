@@ -168,8 +168,13 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             tvSymbol.setText(stock.symbol);
             tvName.setText(stock.name);
+            String shareStatus;
+            if (DataCenter.getInstance().investingStocksMap.containsKey(stock.symbol)) {
+                shareStatus = Integer.toString(DataCenter.getInstance().investingStocksMap.get(stock.symbol).share) + " Shares";
+            } else {
+                shareStatus = "";
+            }
 
-            String shareStatus = Integer.toString(stock.share) + " Shares";
             tvShare.setText(shareStatus);
             // default is current price, click will be change percentage
             btnStatusDisplay(stock);

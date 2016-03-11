@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -69,8 +70,6 @@ public class ChartsView extends RecyclerView.ViewHolder {
         this.fadeBlue = fadeBlue;
         client = DataClient.getInstance();
         isDarkTheme = true;
-        Stock stock = new Stock("AAPL");
-        setStock(stock);
         initChart();
     }
 
@@ -183,7 +182,13 @@ public class ChartsView extends RecyclerView.ViewHolder {
     public void onOneWeekClick() {onPeriodClick(PERIOD_1W, tvPeriodOneWeek); }
 
     private void onPeriodClick(String period, TextView textView) {
-        client.getHistoricalPrices(stock.symbol, period, callBackHandler());
+        if (stock.symbol.equals("portfolios")) {
+            DataCenter.getInstance().portfolios(period, callBackHandler());
+        } else {
+            client.getHistoricalPrices(stock.symbol, period, callBackHandler());
+        }
+
+
         int greyColor = Color.parseColor("#7788AA");
         tvPeriodALL.setTextColor(greyColor);
         tvPeriodAnYear.setTextColor(greyColor);

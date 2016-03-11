@@ -70,11 +70,17 @@
             android:text="Sell"
             />
     </LinearLayout>
+    <include layout="@layout/layout_shares_info"
+        android:id="@+id/llSharesInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llTransactionOptions"
+        />
 
     <include layout="@layout/layout_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/llTransactionOptions"
+        android:layout_below="@+id/llSharesInfo"
         />
 
     <FrameLayout

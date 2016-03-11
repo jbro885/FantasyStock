@@ -32,6 +32,7 @@ public class Stock {
 
     @SerializedName("name")
     public String name;
+
 }
 
 

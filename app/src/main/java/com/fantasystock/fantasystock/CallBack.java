@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class CallBack {
     public void task() {}
+    public void done() {}
     public void stockCallBack(Stock stock) {}
     public void stocksCallBack(ArrayList<Stock> stocks) {}
     public void historicalCallBack(HistoricalData data) {}

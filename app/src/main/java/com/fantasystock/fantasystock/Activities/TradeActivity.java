@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
@@ -53,10 +54,21 @@ public class TradeActivity extends AppCompatActivity {
     btnTrade.setText(buySell);
 
     dataCenter = DataCenter.getInstance();
-    stock = (Stock) dataCenter.stockMap.get(symbol);
+    stock = (Stock) dataCenter.investingStocksMap.get(symbol);
     formatter = new DecimalFormat("$###,##0.00");
-    tvUnitPrice.setText(formatter.format(stock.current_price));
+      DataClient.getInstance().getStockPrice(symbol, new CallBack() {
+          @Override
+          public void stockCallBack(Stock returnStock) {
+              tvUnitPrice.setText(formatter.format(returnStock.current_price));
+              if (stock==null) {
+                  stock = returnStock;
+              } else {
+                  stock.current_price = returnStock.current_price;
+              }
 
+
+          }
+      });
     etShares.setText("");
     etShares.requestFocus();
     // TODO: input method is not default out :(
@@ -106,7 +118,12 @@ public class TradeActivity extends AppCompatActivity {
         Toast.makeText(this, "Sold " + numShares + " shares of " + symbol + " for " + formatter.format(cost), Toast.LENGTH_LONG).show();
       }
       if (!buySell.equals("buy")) numShares = -numShares;
-      DataCenter.getInstance().trade(stock.symbol, numShares, new CallBack());
-      finish();
+      DataCenter.getInstance().trade(stock.symbol, numShares, new CallBack() {
+          @Override
+          public void done() {
+              finish();
+          }
+      });
+
   }
 }
