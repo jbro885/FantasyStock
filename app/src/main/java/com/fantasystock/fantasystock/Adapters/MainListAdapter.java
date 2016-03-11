@@ -34,6 +34,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private View convertView;
     private FragmentActivity fragmentActivity;
     private int STOCK_STATUS_FORMAT;
+    private static final int REFRESH_WATCHLIST = 200;
 
     // Stock status types
     private final int CURRENT_PRICE = 0;
@@ -199,6 +200,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
                     intent.putExtra("symbol", symbol);
                     fragmentActivity.startActivity(intent);
+                    fragmentActivity.startActivityForResult(intent, REFRESH_WATCHLIST);
                 }
             });
         }

@@ -4,12 +4,14 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
+    private ArrayList<String> stocks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,16 @@ public class DetailActivity extends AppCompatActivity {
         String symbol = intent.getStringExtra("symbol");
 
         ButterKnife.bind(this);
+
+        if (!DataCenter.getInstance().watchlistSet.contains(symbol)) {
+            stocks = new ArrayList<>();
+            stocks.add(symbol);
+        } else {
+            stocks = DataCenter.getInstance().watchlist;
+        }
+
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue);
+        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue, stocks);
         vpViewPager.setAdapter(detailsPagerAdapter);
 
         setCurrentPageToStock(symbol);
@@ -41,7 +52,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setCurrentPageToStock(String symbol) {
-        ArrayList<String> stocks = DataCenter.getInstance().watchlist;
+
+
         int len = stocks.size();
         for (int i=0;i<len; ++i) {
             if (symbol.equals(stocks.get(i))) {
@@ -53,10 +65,15 @@ public class DetailActivity extends AppCompatActivity {
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
         private ArrayList<String> stocks;
         private Drawable fadeBlue;
-        public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue) {
+        public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue, ArrayList<String> stocks) {
             super(fm);
             this.fadeBlue = fadeBlue;
-            stocks = DataCenter.getInstance().watchlist;
+            if (stocks == null) {
+                this.stocks = DataCenter.getInstance().watchlist;
+            } else {
+                this.stocks = stocks;
+            }
+
         }
 
         @Override

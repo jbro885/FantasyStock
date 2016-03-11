@@ -1,6 +1,8 @@
 package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     private void setup() {
         client = DataClient.getInstance();
         stocks = DataCenter.getInstance().allFavoritedStocks();
-        adapter = new SearchQuoteArrayAdapter(stocks);
+        adapter = new SearchQuoteArrayAdapter(stocks, this);
         etSearchQuote.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,9 +96,11 @@ public class SearchActivity extends AppCompatActivity {
 
     private static class SearchQuoteArrayAdapter extends RecyclerView.Adapter<SearchQuoteViewHolder> {
         private ArrayList<Stock> stocks;
+        private FragmentActivity fragmentActivity;
 
-        public SearchQuoteArrayAdapter(ArrayList<Stock> stocks) {
+        public SearchQuoteArrayAdapter(ArrayList<Stock> stocks, FragmentActivity fragmentActivity) {
             this.stocks = stocks;
+            this.fragmentActivity = fragmentActivity;
         }
 
         @Override
@@ -104,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
             final Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.item_search_quote, parent, false);
-            return new SearchQuoteViewHolder(view);
+            return new SearchQuoteViewHolder(view, fragmentActivity);
         }
 
         @Override
@@ -120,6 +124,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public static class SearchQuoteViewHolder extends RecyclerView.ViewHolder {
+        FragmentActivity fragmentActivity;
         @Bind(R.id.tvQuoteSymbol) TextView tvQuoteSymbol;
         @Bind(R.id.tvQuoteName) TextView tvQuoteName;
         @Bind(R.id.ibFavorite) ImageButton ibFavorite;
@@ -127,10 +132,20 @@ public class SearchActivity extends AppCompatActivity {
         private boolean isFavorited;
         private Stock stock;
 
-        public SearchQuoteViewHolder(View itemView) {
+        public SearchQuoteViewHolder(View itemView, final FragmentActivity fragmentActivity) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            this.fragmentActivity = fragmentActivity;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
+                    intent.putExtra("symbol", stock.symbol);
+                    fragmentActivity.startActivity(intent);
+                }
+            });
         }
+
         public void setStock(Stock stock) {
             this.stock = stock;
             tvQuoteSymbol.setText(stock.symbol);
