@@ -3,11 +3,8 @@ package com.fantasystock.fantasystock.Adapters;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -18,9 +15,9 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Utils;
 
 import java.util.Collections;
@@ -218,6 +215,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Stock stock = DataCenter.getInstance().investingStocksMap.get(items.get(position));
 
         if(stock == null || stock.share == 0) {
+            stock = DataCenter.getInstance().stockMap.get(items.get(position));
             // Delete item in watchlist
             DataCenter.getInstance().unfavoriteStock(stock);
             // Delete item on rvList

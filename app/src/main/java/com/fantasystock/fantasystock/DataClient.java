@@ -1,5 +1,7 @@
 package com.fantasystock.fantasystock;
 
+import android.util.Log;
+
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.News;
@@ -132,6 +134,7 @@ public class DataClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("DEBUG", "stocksHandler");
                 if (statusCode!=STATUS_CODE) {
                     callback.onFail(responseString);
                 } else {
@@ -175,6 +178,7 @@ public class DataClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("DEBUG", "historicalPricesHandler");
                 if (statusCode!=STATUS_CODE) {
                     callback.onFail(responseString);
                 } else {
@@ -215,6 +219,7 @@ public class DataClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("DEBUG", "searchQuoteHandler");
                 callBack.onFail(errorResponse.toString());
             }
         };
@@ -246,6 +251,7 @@ public class DataClient {
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("DEBUG", "profileQuoteHandler");
                 callBack.onFail(responseString);
             }
         };
@@ -326,7 +332,7 @@ public class DataClient {
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("DEBUG", "latestNewsHandler");
                 callback.onFail(responseString);
             }
         };
@@ -350,7 +356,7 @@ public class DataClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("DEBUG", "previousNewsHandler");
                 callback.onFail(responseString);
             }
         };
