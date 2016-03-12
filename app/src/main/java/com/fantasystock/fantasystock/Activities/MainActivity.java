@@ -4,21 +4,19 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Fragments.ChartsView;
-import com.fantasystock.fantasystock.Fragments.MainListFragment;
+import com.fantasystock.fantasystock.Fragments.NewsListFragment;
+import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
@@ -31,9 +29,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REFRESH_WATCHLIST = 200;
-    private MainListFragment fragment;
-    @Bind(R.id.flMainListHolder) FrameLayout flMainListHolder;
-    @Bind(R.id.ablProfileAppBar) AppBarLayout ablProfileAppBar;
+    private NewsListFragment newsListFragment;
+    private WatchlistFragment watchlistFragment;
     @Bind(R.id.fCharts) View chartView;
 
     @Bind(R.id.ivBackground) ImageView ivBackground;
@@ -62,15 +59,10 @@ public class MainActivity extends AppCompatActivity {
         getWatchlist();
 
         // get list view
-        fragment = new MainListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.flMainListHolder, fragment).commit();
-
-        ablProfileAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                handleScrolling(verticalOffset);
-            }
-        });
+        watchlistFragment = new WatchlistFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+        newsListFragment = new NewsListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
         stocks = new ArrayList<>();
         stocks.add(new Stock(".DJI"));
@@ -122,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REFRESH_WATCHLIST) {
-            fragment.refreshWatchlist();
+            watchlistFragment.refreshWatchlist();
         }
     }
 

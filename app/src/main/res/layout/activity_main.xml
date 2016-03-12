@@ -24,51 +24,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#99000000">
-
     </RelativeLayout>
 
-    <android.support.design.widget.CoordinatorLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/ablProfileAppBar"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:fitsSystemWindows="true">
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/fragment_chart"
+                android:id="@+id/fCharts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="56dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-                <include layout="@layout/fragment_chart"
-                    android:id="@+id/fCharts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="82dp" />
+                android:layout_marginTop="82dp" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/flWatchListHolder"
+                android:layout_below="@id/fCharts">
+            </FrameLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/flNewsListHolder"
+                android:layout_below="@id/flWatchListHolder">
+            </FrameLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </RelativeLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    </ScrollView>
 
-            android:id="@+id/flMainListHolder">
-        </FrameLayout>
-    </RelativeLayout>
-
-
-
-    </android.support.design.widget.CoordinatorLayout>
     <include layout="@layout/toolbar"/>
 </RelativeLayout>
 

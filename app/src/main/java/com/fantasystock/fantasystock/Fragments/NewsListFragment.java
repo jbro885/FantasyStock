@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.MainListAdapter;
 import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
-import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
 import java.util.ArrayList;
@@ -28,26 +26,13 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/5/16.
  */
-public class MainListFragment extends Fragment {
+public class NewsListFragment extends Fragment {
     private List<Object> items;
     private ArrayList<News> news;
     private ArrayList<String> previousNews;
     private int indicator;
     private MainListAdapter mainListAdapter;
-
-    // constant
-    private final int REFRESH_INTERVAL_MIN = 30;
-    private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
-
-    // For auto refresh
     private Handler handler = new Handler();
-    private Runnable autoRefresh = new Runnable(){
-        @Override
-        public void run() {
-            refreshStock();
-            handler.postDelayed(autoRefresh, REFRESH_INTERVAL_MILLION_SECOND);
-        }
-    };
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
@@ -58,8 +43,6 @@ public class MainListFragment extends Fragment {
         previousNews = new ArrayList<>();
         indicator = 0;
         items = new ArrayList<>();
-        // Setup auto refresh
-        handler.post(autoRefresh);
     }
 
     @Nullable
@@ -92,11 +75,8 @@ public class MainListFragment extends Fragment {
             }
         });
 
-        // Get Watchlist
-        refreshWatchlist();
         // Get News
         getLatestNews();
-
         return view;
     }
 
@@ -104,26 +84,6 @@ public class MainListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-    }
-
-    public void refreshStock() {
-        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
-            @Override
-            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                mainListAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    public void refreshWatchlist() {
-        mainListAdapter.clear();
-        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
-            @Override
-            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                organizeData();
-                mainListAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     public void getLatestNews() {
@@ -157,14 +117,8 @@ public class MainListFragment extends Fragment {
 
     private void organizeData() {
         items.clear();
-        // Organize data to items
-        // Stock watchlist
-        String title = "WATCHLIST";
-        items.add(title);
-        items.addAll(DataCenter.getInstance().watchlist);
-
         // News
-        title = "NEWS";
+        String title = "NEWS";
         items.add(title);
         items.addAll(news);
     }
