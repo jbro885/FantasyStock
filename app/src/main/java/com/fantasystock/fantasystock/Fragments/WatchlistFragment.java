@@ -16,7 +16,6 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
-import com.fantasystock.fantasystock.OnStartDragListener;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.SimpleItemTouchHelperCallback;
 
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistFragment extends Fragment implements OnStartDragListener{
+public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnStartDragListener{
     private List<Object> items;
     private WatchlistAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -66,7 +65,6 @@ public class WatchlistFragment extends Fragment implements OnStartDragListener{
 
         mAdapter = new WatchlistAdapter(items, getActivity(), this);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvList.setHasFixedSize(true);
         rvList.setAdapter(mAdapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
@@ -107,10 +105,6 @@ public class WatchlistFragment extends Fragment implements OnStartDragListener{
 
     private void organizeData() {
         items.clear();
-        // Organize data to items
-        // Stock watchlist
-        String title = "WATCHLIST";
-        items.add(title);
         items.addAll(DataCenter.getInstance().watchlist);
     }
 

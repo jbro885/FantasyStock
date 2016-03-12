@@ -15,11 +15,9 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.ItemTouchHelperAdapter;
-import com.fantasystock.fantasystock.ItemTouchHelperViewHolder;
 import com.fantasystock.fantasystock.Models.Stock;
-import com.fantasystock.fantasystock.OnStartDragListener;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.SimpleItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Utils;
 
 import java.util.Collections;
@@ -31,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
+public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SimpleItemTouchHelperCallback.ItemTouchHelperAdapter {
     private List<Object> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
@@ -42,24 +40,6 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int CURRENT_PRICE = 0;
     private final int CHANGE_PERCENTAGE = 1;
     private final int CHANGE_PRICE = 2;
-
-    // View Types
-    private final int STOCK = 0;
-    private final int TITLE_BAR = 1;
-
-    @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(items, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
-        return true;
-    }
-
-    @Override
-    public void onItemDismiss(int position) {
-        items.remove(position);
-        notifyItemRemoved(position);
-    }
-
 
     private interface viewHolderBinding {
         void setItem(Object object, View view);
@@ -79,41 +59,20 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        switch (viewType) {
-            case TITLE_BAR:
-                convertView = inflater.inflate(R.layout.item_title, parent, false);
-                viewHolder = new ViewHolderTitleBar(convertView);
-                break;
-            default:
-            case STOCK:
-                convertView = inflater.inflate(R.layout.item_watchlist_main, parent, false);
-                viewHolder = new ViewHolderStock(convertView, fragmentActivity);
-                break;
-        }
-
+        convertView = inflater.inflate(R.layout.item_watchlist_main, parent, false);
+        viewHolder = new ViewHolderStock(convertView, fragmentActivity);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof viewHolderBinding) {
-            viewHolderBinding viewHolder = (viewHolderBinding)holder;
-            viewHolder.setItem(items.get(position), convertView);
-        }
+        viewHolderBinding viewHolder = (viewHolderBinding)holder;
+        viewHolder.setItem(items.get(position), convertView);
     }
 
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if(DataCenter.getInstance().stockMap.get(items.get(position)) == null)
-            return TITLE_BAR;
-        else
-            return STOCK;
     }
 
     public void clear() {
@@ -229,18 +188,38 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public class ViewHolderTitleBar extends RecyclerView.ViewHolder implements viewHolderBinding{
-        @Bind(R.id.tvTitle) TextView tvTitle;
+    public interface ItemTouchHelperViewHolder {
+        void onItemSelected();
+        void onItemClear();
+    }
 
-        public ViewHolderTitleBar(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+    public interface OnStartDragListener {
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        // Swap items in DataCenter
+        Collections.swap(DataCenter.getInstance().watchlist, fromPosition, toPosition);
+
+        // Swap items on rvList
+        Collections.swap(items, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        Stock stock = DataCenter.getInstance().stockMap.get(items.get(position));
+        if(DataCenter.getInstance().investingStocksMap.get(stock.symbol) == null) {
+            // Delete item in watchlist
+            DataCenter.getInstance().watchlist.remove(position);
+            // Delete item on rvList
+            items.remove(position);
+            notifyItemRemoved(position);
         }
-
-        @Override
-        public void setItem(Object object, View view) {
-            String title = (String)object;
-            tvTitle.setText(title);
+        else {
+            notifyItemChanged(position);
         }
     }
 }
