@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -104,11 +103,11 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             tvSymbol.setText(stock.symbol);
             tvName.setText(stock.name);
-            String shareStatus;
+            String shareStatus = "";
             if (DataCenter.getInstance().investingStocksMap.containsKey(stock.symbol)) {
-                shareStatus = Integer.toString(DataCenter.getInstance().investingStocksMap.get(stock.symbol).share) + " Shares";
-            } else {
-                shareStatus = "";
+                int share = DataCenter.getInstance().investingStocksMap.get(stock.symbol).share;
+                if(share > 0)
+                    shareStatus = Integer.toString(share) + " Shares";
             }
 
             tvShare.setText(shareStatus);
@@ -214,9 +213,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Stock stock = DataCenter.getInstance().investingStocksMap.get(items.get(position));
 
         if(stock == null || stock.share == 0) {
-            if(stock != null) Log.d("DEBUG", Integer.toString(stock.share));
             // Delete item in watchlist
-            // DataCenter.getInstance().watchlist.remove(position);
+            DataCenter.getInstance().unfavoriteStock(stock);
             // Delete item on rvList
             items.remove(position);
             notifyItemRemoved(position);
