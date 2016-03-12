@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -210,10 +211,12 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onItemDismiss(int position) {
-        Stock stock = DataCenter.getInstance().stockMap.get(items.get(position));
-        if(DataCenter.getInstance().investingStocksMap.get(stock.symbol) == null) {
+        Stock stock = DataCenter.getInstance().investingStocksMap.get(items.get(position));
+
+        if(stock == null || stock.share == 0) {
+            if(stock != null) Log.d("DEBUG", Integer.toString(stock.share));
             // Delete item in watchlist
-            DataCenter.getInstance().watchlist.remove(position);
+            // DataCenter.getInstance().watchlist.remove(position);
             // Delete item on rvList
             items.remove(position);
             notifyItemRemoved(position);
