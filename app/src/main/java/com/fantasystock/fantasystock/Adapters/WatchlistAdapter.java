@@ -108,11 +108,11 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             tvSymbol.setText(stock.symbol);
             tvName.setText(stock.name);
-            String shareStatus;
+            String shareStatus = "";
             if (DataCenter.getInstance().investingStocksMap.containsKey(stock.symbol)) {
-                shareStatus = Integer.toString(DataCenter.getInstance().investingStocksMap.get(stock.symbol).share) + " Shares";
-            } else {
-                shareStatus = "";
+                int share = DataCenter.getInstance().investingStocksMap.get(stock.symbol).share;
+                if(share > 0)
+                    shareStatus = Integer.toString(share) + " Shares";
             }
 
             tvShare.setText(shareStatus);
@@ -215,10 +215,11 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onItemDismiss(int position) {
-        Stock stock = DataCenter.getInstance().stockMap.get(items.get(position));
-        if(DataCenter.getInstance().investingStocksMap.get(stock.symbol) == null) {
+        Stock stock = DataCenter.getInstance().investingStocksMap.get(items.get(position));
+
+        if(stock == null || stock.share == 0) {
             // Delete item in watchlist
-            DataCenter.getInstance().watchlist.remove(position);
+            DataCenter.getInstance().unfavoriteStock(stock);
             // Delete item on rvList
             items.remove(position);
             notifyItemRemoved(position);
