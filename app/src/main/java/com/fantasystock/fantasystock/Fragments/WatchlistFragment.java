@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.OnStartDragListener;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +29,10 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistFragment extends Fragment {
+public class WatchlistFragment extends Fragment implements OnStartDragListener{
     private List<Object> items;
     private WatchlistAdapter mAdapter;
+    private ItemTouchHelper mItemTouchHelper;
 
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
@@ -59,10 +63,15 @@ public class WatchlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvList.setLayoutManager(linearLayoutManager);
-        mAdapter = new WatchlistAdapter(items, getActivity());
+
+        mAdapter = new WatchlistAdapter(items, getActivity(), this);
+        rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvList.setHasFixedSize(true);
         rvList.setAdapter(mAdapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(rvList);
 
         // Get Watchlist
         refreshWatchlist();
@@ -105,4 +114,8 @@ public class WatchlistFragment extends Fragment {
         items.addAll(DataCenter.getInstance().watchlist);
     }
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 }

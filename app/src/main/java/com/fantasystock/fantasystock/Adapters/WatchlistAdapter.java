@@ -1,9 +1,12 @@
 package com.fantasystock.fantasystock.Adapters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,10 +15,14 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.ItemTouchHelperAdapter;
+import com.fantasystock.fantasystock.ItemTouchHelperViewHolder;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.OnStartDragListener;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -24,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
     private List<Object> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
@@ -40,16 +47,33 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int STOCK = 0;
     private final int TITLE_BAR = 1;
 
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(items, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
 
     private interface viewHolderBinding {
         void setItem(Object object, View view);
     }
 
-    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity) {
+    private final OnStartDragListener mDragStartListener;
+
+    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity, OnStartDragListener dragStartListener) {
         this.items = items;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
         this.fragmentActivity = fragmentActivity;
+        this.mDragStartListener = dragStartListener;
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -97,14 +121,12 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public class ViewHolderStock extends RecyclerView.ViewHolder implements viewHolderBinding{
+    public class ViewHolderStock extends RecyclerView.ViewHolder implements viewHolderBinding, ItemTouchHelperViewHolder {
         private FragmentActivity fragmentActivity;
-        @Bind(R.id.tvSymbol)
-        TextView tvSymbol;
+        @Bind(R.id.tvSymbol) TextView tvSymbol;
         @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvShare) TextView tvShare;
-        @Bind(R.id.btnStatus)
-        Button btnStatus;
+        @Bind(R.id.btnStatus) Button btnStatus;
 
         public ViewHolderStock(View itemView, FragmentActivity fragmentActivity) {
             super(itemView);
@@ -156,6 +178,16 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     fragmentActivity.startActivityForResult(intent, REFRESH_WATCHLIST);
                 }
             });
+            final RecyclerView.ViewHolder holder = this;
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        mDragStartListener.onStartDrag(holder);
+                    }
+                    return false;
+                }
+            });
         }
 
         private void btnStatusDisplay(Stock stock) {
@@ -184,6 +216,16 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
             }
             return status;
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 
