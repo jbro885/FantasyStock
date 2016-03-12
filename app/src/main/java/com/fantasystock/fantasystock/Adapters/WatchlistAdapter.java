@@ -17,7 +17,7 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.SimpleItemTouchHelperCallback;
+import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Utils;
 
 import java.util.Collections;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SimpleItemTouchHelperCallback.ItemTouchHelperAdapter {
+public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperCallback.ItemTouchHelperAdapter {
     private List<Object> items;
     private View convertView;
     private FragmentActivity fragmentActivity;

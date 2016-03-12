@@ -17,7 +17,7 @@ import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.SimpleItemTouchHelperCallback;
+import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvList.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rvList);
 
