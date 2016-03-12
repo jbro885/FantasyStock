@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +109,7 @@ public class NewsListFragment extends Fragment {
                 news.addAll(previousNews);
                 organizeData();
                 newsListAdapter.notifyDataSetChanged();
-                Log.d("DEBUG_PRE", Integer.toString(news.size()));
+                //Log.d("DEBUG_PRE", Integer.toString(news.size()));
             }
         });
     }

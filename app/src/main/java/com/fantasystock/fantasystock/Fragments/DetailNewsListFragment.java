@@ -122,7 +122,7 @@ public class DetailNewsListFragment extends Fragment {
                 news.addAll(previousNews);
                 organizeData();
                 newsListAdapter.notifyDataSetChanged();
-                Log.d("DEBUG_PRE", Integer.toString(news.size()));
+                //Log.d("DEBUG_PRE", Integer.toString(news.size()));
             }
         });
     }
