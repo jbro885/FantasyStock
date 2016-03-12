@@ -41,6 +41,10 @@ public class Utils {
         return text;
     }
 
+    public static String moneyConverter(double n) {
+        return Double.toString(Math.round(n * 100)/100);
+    }
+
 
 
     public static void repeatAnimationGenerator(final View view, final CallBack callBack) {

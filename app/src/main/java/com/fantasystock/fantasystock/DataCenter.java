@@ -180,6 +180,10 @@ public class DataCenter {
         }
     }
 
+    public void updateTotalValues(final CallBack callBack) {
+        DataClient.getInstance().getStocksPrices(investingStocks, callBack);
+    }
+
     private void updateStock(Stock stock, CallBack callBack) {
         if (stock.share > 0) {
             if (!investingStocksMap.containsKey(stock.symbol)) {
