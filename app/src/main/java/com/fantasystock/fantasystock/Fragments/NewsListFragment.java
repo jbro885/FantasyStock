@@ -116,9 +116,6 @@ public class NewsListFragment extends Fragment {
 
     private void organizeData() {
         items.clear();
-        // News
-        String title = "NEWS";
-        items.add(title);
         items.addAll(news);
     }
 

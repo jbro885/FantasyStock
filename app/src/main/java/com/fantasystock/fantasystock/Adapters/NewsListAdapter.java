@@ -29,9 +29,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     // View Types
-    private final int NEWS  = 1;
-    private final int TITLE_BAR = 2;
-    private final int PROGRESS_BAR = 3;
+    private final int NEWS  = 0;
+    private final int PROGRESS_BAR = 1;
 
     // The minimum amount of items to have below your current scroll position before loading more.
     private int visibleThreshold = 5;
@@ -81,10 +80,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false);
                 viewHolder = new ProgressViewHolder(convertView);
                 break;
-            case TITLE_BAR:
-                convertView = inflater.inflate(R.layout.item_title, parent, false);
-                viewHolder = new ViewHolderTitleBar(convertView);
-                break;
             case NEWS:
             default:
                 convertView = inflater.inflate(R.layout.item_news_main, parent, false);
@@ -111,8 +106,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         if(items.get(position) == null) return PROGRESS_BAR;
-        else if(items.get(position) instanceof String)
-            return TITLE_BAR;
         else
             return NEWS;
     }
@@ -145,21 +138,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         .load(news.images.get(0).url)
                         .into(ivImage);
             }
-        }
-    }
-
-    public class ViewHolderTitleBar extends RecyclerView.ViewHolder implements viewHolderBinding{
-        @Bind(R.id.tvTitle) TextView tvTitle;
-
-        public ViewHolderTitleBar(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        @Override
-        public void setItem(Object object, View view) {
-            String title = (String)object;
-            tvTitle.setText(title);
         }
     }
 

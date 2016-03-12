@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvIndexPrice) TextView tvIndexPrice;
     @Bind(R.id.tvIndexPriceChange) TextView tvIndexPriceChange;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
+    // Title bar
     private ArrayList<Stock> stocks;
     private int indexesIndex;
 
