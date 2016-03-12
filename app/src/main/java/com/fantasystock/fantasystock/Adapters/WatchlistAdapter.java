@@ -124,7 +124,13 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
             // Display background color based on change price
-            if(Float.parseFloat(stock.current_change) < 0) {
+            Float currentChange = 0.0f;
+            try {
+                currentChange = Float.parseFloat(stock.current_change);
+            } catch (Exception e) {
+
+            }
+            if(currentChange < 0.0f) {
                 btnStatus.setSelected(false);
             }
             else {
