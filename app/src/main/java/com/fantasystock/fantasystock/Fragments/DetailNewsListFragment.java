@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fantasystock.fantasystock.Adapters.MainListAdapter;
+import com.fantasystock.fantasystock.Adapters.NewsListAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.News;
@@ -32,7 +32,7 @@ public class DetailNewsListFragment extends Fragment {
     private ArrayList<News> news;
     private ArrayList<String> previousNews;
     private int indicator;
-    private MainListAdapter mainListAdapter;
+    private NewsListAdapter newsListAdapter;
     private Handler handler = new Handler();
 
     @Bind(R.id.rvList) RecyclerView rvList;
@@ -62,24 +62,24 @@ public class DetailNewsListFragment extends Fragment {
         ButterKnife.bind(this, view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvList.setLayoutManager(linearLayoutManager);
-        mainListAdapter = new MainListAdapter(items, rvList, getActivity());
-        rvList.setAdapter(mainListAdapter);
-        mainListAdapter.setOnLoadMoreListener(new MainListAdapter.OnLoadMoreListener() {
+        newsListAdapter = new NewsListAdapter(items, rvList, getActivity());
+        rvList.setAdapter(newsListAdapter);
+        newsListAdapter.setOnLoadMoreListener(new NewsListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 //add null , so the adapter will check view_type and show progress bar at bottom
                 items.add(null);
-                // mainListAdapter.notifyItemInserted(items.size() - 1);
+                // newsListAdapter.notifyItemInserted(items.size() - 1);
 
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //   remove progress item
                         items.remove(items.size() - 1);
-                        mainListAdapter.notifyItemRemoved(items.size());
+                        newsListAdapter.notifyItemRemoved(items.size());
                         //add items one by one
                         getPreviousNews();
-                        mainListAdapter.setLoaded();
+                        newsListAdapter.setLoaded();
                     }
                 }, 2000);
             }
@@ -104,7 +104,7 @@ public class DetailNewsListFragment extends Fragment {
                 news = latestNews;
                 previousNews = previousNewsId;
                 organizeData();
-                mainListAdapter.notifyDataSetChanged();
+                newsListAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -121,7 +121,7 @@ public class DetailNewsListFragment extends Fragment {
             public void previousNewsCallBack(ArrayList<News> previousNews) {
                 news.addAll(previousNews);
                 organizeData();
-                mainListAdapter.notifyDataSetChanged();
+                newsListAdapter.notifyDataSetChanged();
                 Log.d("DEBUG_PRE", Integer.toString(news.size()));
             }
         });

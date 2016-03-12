@@ -1,7 +1,5 @@
 package com.fantasystock.fantasystock;
 
-import android.util.Log;
-
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.News;
@@ -283,12 +281,12 @@ public class DataClient {
 
 
     public void getLatestNews(CallBack callback) {
-        Log.d("AL_DEBUG", YAHOO_NEWS_ALL_URL);
+        //Log.d("AL_DEBUG", YAHOO_NEWS_ALL_URL);
         client.get(YAHOO_NEWS_ALL_URL, new RequestParams(), latestNewsHandler(callback));
     }
 
     public void getPreviousNewsById(ArrayList<String> newsId, CallBack callback) {
-        Log.d("ID_DEBUG", YAHOO_NEWS_ALL_URL);
+        //Log.d("ID_DEBUG", YAHOO_NEWS_ALL_URL);
         if(newsId.isEmpty()) return;
         String quotes = "";
         for (int i=0;i<newsId.size();++i) {
@@ -298,7 +296,7 @@ public class DataClient {
     }
 
     public void getLatestNewsBySymbol(String symbol, CallBack callback) {
-        Log.d("SY_DEBUG", YAHOO_NEWS_SYMBOL_URL + symbol);
+        //Log.d("SY_DEBUG", YAHOO_NEWS_SYMBOL_URL + symbol);
         client.get(YAHOO_NEWS_SYMBOL_URL + symbol, new RequestParams(), latestNewsHandler(callback));
     }
 
@@ -311,7 +309,7 @@ public class DataClient {
                 ArrayList<String> previousNewsId = new ArrayList<>();
 
                 try {
-                    Log.d("LA_DEBUG", response.toString());
+                    //Log.d("LA_DEBUG", response.toString());
                     JSONObject result = response.getJSONObject("result");
                     JSONArray items = result.getJSONArray("items");
                     latestNews = gson.fromJson(items.toString(), new TypeToken<ArrayList<News>>() {}.getType());
@@ -341,7 +339,7 @@ public class DataClient {
                 Gson gson = new Gson();
                 ArrayList<News> previousNews = null;
                 try {
-                    Log.d("PR_DEBUG", response.toString());
+                    //Log.d("PR_DEBUG", response.toString());
                     JSONArray result = response.getJSONObject("items").getJSONArray("result");
                     previousNews = gson.fromJson(result.toString(), new TypeToken<ArrayList<News>>() {}.getType());
                 } catch (JSONException e) {

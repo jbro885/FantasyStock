@@ -150,7 +150,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
+                    Intent intent = new Intent(v.getContext(), DetailActivity.class);
                     intent.putExtra("symbol", symbol);
                     fragmentActivity.startActivity(intent);
                     fragmentActivity.startActivityForResult(intent, REFRESH_WATCHLIST);
