@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.Adapters;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
-import com.fantasystock.fantasystock.Activities.SearchActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Models.News;
@@ -54,7 +54,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnLoadMoreListener onLoadMoreListener;
 
     private interface viewHolderBinding {
-        public void setItem(Object object);
+        void setItem(Object object, View view);
     }
 
     public MainListAdapter(List<Object> items, RecyclerView recyclerView, FragmentActivity fragmentActivity) {
@@ -118,7 +118,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof viewHolderBinding) {
             viewHolderBinding viewHolder = (viewHolderBinding)holder;
-            viewHolder.setItem(items.get(position));
+            viewHolder.setItem(items.get(position), convertView);
         }
     }
 
@@ -160,7 +160,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void setItem(Object object) {
+        public void setItem(Object object, View view) {
             if (!(object instanceof String)) {
                 return;
             }
@@ -236,7 +236,12 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class ViewHolderNews extends RecyclerView.ViewHolder implements viewHolderBinding{
         @Bind(R.id.tvTitle) TextView tvTitle;
+        @Bind(R.id.tvId) TextView tvId;
+        @Bind(R.id.tvAuthor) TextView tvAuthor;
+        @Bind(R.id.tvPublished) TextView tvPublished;
+        @Bind(R.id.tvPublisher) TextView tvPublisher;
         @Bind(R.id.tvSummary) TextView tvSummary;
+        @Bind(R.id.ivImage) ImageView ivImage;
 
         public ViewHolderNews(View itemView) {
             super(itemView);
@@ -244,10 +249,19 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void setItem(Object object) {
+        public void setItem(Object object, View view) {
             News news = (News)object;
             tvTitle.setText(news.title);
+            tvId.setText(news.id);
+            tvAuthor.setText(news.author);
+            tvPublished.setText(news.published);
+            tvPublisher.setText(news.publisher);
             tvSummary.setText(news.title);
+            if(news.images != null) {
+                Glide.with(convertView.getContext())
+                        .load(news.images.get(0).url)
+                        .into(ivImage);
+            }
         }
     }
 
@@ -260,7 +274,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void setItem(Object object) {
+        public void setItem(Object object, View view) {
             String title = (String)object;
             tvTitle.setText(title);
         }
@@ -275,7 +289,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void setItem(Object object) {
+        public void setItem(Object object, View view) {
         }
     }
 

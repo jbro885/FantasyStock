@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,11 @@ import butterknife.ButterKnife;
 public class MainListFragment extends Fragment {
     private List<Object> items;
     private ArrayList<News> news;
+    private ArrayList<String> previousNews;
+    private int indicator;
     private MainListAdapter mainListAdapter;
 
     // constant
-    private final int EATCHLIST_DISPLAY_SIZE = 30;
     private final int REFRESH_INTERVAL_MIN = 30;
     private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
 
@@ -49,40 +51,16 @@ public class MainListFragment extends Fragment {
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         news = new ArrayList<>();
+        previousNews = new ArrayList<>();
+        indicator = 0;
         items = new ArrayList<>();
-        // Todo: Load news and watchlist
-
         // Setup auto refresh
         handler.post(autoRefresh);
     }
-
-    private void organizeData() {
-        // Organize data to items
-        // Stock watchlist
-        String title = "WATCHLIST";
-        items.add(title);
-        if(DataCenter.getInstance().watchlist.size() < EATCHLIST_DISPLAY_SIZE) {
-            items.addAll(DataCenter.getInstance().watchlist);
-        }
-        else {
-            for(int i = 0; i < EATCHLIST_DISPLAY_SIZE; i++) {
-                items.add(DataCenter.getInstance().watchlist.get(i));
-            }
-            // Add Expand all bar
-            title = "EXPAND ALL";
-            items.add(title);
-        }
-        // News
-        title = "NEWS";
-        items.add(title);
-        items.addAll(news);
-    }
-
 
     @Nullable
     @Override
@@ -107,15 +85,17 @@ public class MainListFragment extends Fragment {
                         items.remove(items.size() - 1);
                         mainListAdapter.notifyItemRemoved(items.size());
                         //add items one by one
-
-
+                        getPreviousNews();
                         mainListAdapter.setLoaded();
                     }
                 }, 2000);
             }
         });
 
+        // Get Watchlist
         refreshWatchlist();
+        // Get News
+        getLatestNews();
 
         return view;
     }
@@ -146,5 +126,47 @@ public class MainListFragment extends Fragment {
         });
     }
 
+    public void getLatestNews() {
+        DataClient.getInstance().getLatestNews(new CallBack() {
+            @Override
+            public void latestNewsCallBack(ArrayList<News> latestNews, ArrayList<String> previousNewsId) {
+                news = latestNews;
+                previousNews = previousNewsId;
+                organizeData();
+                mainListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void getPreviousNews() {
+        ArrayList<String> newsId = new ArrayList<>();
+        int indicator_end = indicator + 5;
+        for (indicator = 0; indicator < Math.min(previousNews.size(), indicator_end); indicator++) {
+            newsId.add(previousNews.get(indicator));
+        }
+        DataClient.getInstance().getPreviousNewsById(newsId, new CallBack() {
+            @Override
+            public void previousNewsCallBack(ArrayList<News> previousNews) {
+                news.addAll(previousNews);
+                organizeData();
+                mainListAdapter.notifyDataSetChanged();
+                Log.d("DEBUG_PRE", Integer.toString(news.size()));
+            }
+        });
+    }
+
+    private void organizeData() {
+        items.clear();
+        // Organize data to items
+        // Stock watchlist
+        String title = "WATCHLIST";
+        items.add(title);
+        items.addAll(DataCenter.getInstance().watchlist);
+
+        // News
+        title = "NEWS";
+        items.add(title);
+        items.addAll(news);
+    }
 
 }

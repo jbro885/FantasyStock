@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock;
 
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
+import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.google.gson.Gson;
@@ -14,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -265,5 +265,78 @@ public class DataClient {
             return null;
         }
         return meta;
+    }
+
+    /***********************************************************************************************
+     *  News
+     **********************************************************************************************/
+
+    private final String YAHOO_NEWS_ALL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0";
+    private final String YAHOO_NEWS_ID_URL = "http://finance.mobile.yahoo.com/dp/newsitems?device_os=2&region=US&lang=en-US&uuids=";
+
+    public void getLatestNews(CallBack callback) {
+        client.get(YAHOO_NEWS_ALL_URL, new RequestParams(), latestNewsHandler(callback));
+    }
+
+    public void getPreviousNewsById(ArrayList<String> newsId, CallBack callback) {
+        String quotes = "";
+        for (int i=0;i<newsId.size();++i) {
+            quotes += newsId.get(i) + ",";
+        }
+        client.get(YAHOO_NEWS_ID_URL + quotes, new RequestParams(), previousNewsHandler(callback));
+    }
+
+    private JsonHttpResponseHandler latestNewsHandler(final CallBack callback) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Gson gson = new Gson();
+                ArrayList<News> latestNews = null;
+                ArrayList<String> previousNewsId = new ArrayList<>();
+
+                try {
+                    JSONObject result = response.getJSONObject("result");
+                    JSONArray items = result.getJSONArray("items");
+                    latestNews = gson.fromJson(items.toString(), new TypeToken<ArrayList<News>>() {}.getType());
+                    // Get more items
+                    JSONArray more_items = result.getJSONArray("more_items");
+                    for (int i = 0; i < more_items.length(); i++) {
+                        previousNewsId.add(more_items.getJSONObject(i).getString("id"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.latestNewsCallBack(latestNews, previousNewsId);
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                callback.onFail(responseString);
+            }
+        };
+    }
+
+    private JsonHttpResponseHandler previousNewsHandler(final CallBack callback) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Gson gson = new Gson();
+                ArrayList<News> previousNews = null;
+                try {
+                    JSONArray result = response.getJSONObject("items").getJSONArray("result");
+                    previousNews = gson.fromJson(result.toString(), new TypeToken<ArrayList<News>>() {}.getType());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.previousNewsCallBack(previousNews);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                callback.onFail(responseString);
+            }
+        };
     }
 }
