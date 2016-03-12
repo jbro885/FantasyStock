@@ -5,10 +5,13 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -98,6 +101,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (!(object instanceof String)) {
                 return;
             }
+
+
             final String symbol = (String)object;
             final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
 
@@ -138,13 +143,13 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
             final RecyclerView.ViewHolder holder = this;
-            itemView.setOnTouchListener(new View.OnTouchListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        mDragStartListener.onStartDrag(holder);
-                    }
-                    return false;
+                public boolean onLongClick(View v) {
+                    Animation enlargeAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.bouncing);
+                    v.startAnimation(enlargeAnimation);
+                    mDragStartListener.onStartDrag(holder);
+                    return true;
                 }
             });
         }
