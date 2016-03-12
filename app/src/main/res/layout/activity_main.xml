@@ -33,12 +33,34 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="82dp"
+                android:text="100.00"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/tvChanges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTotal"
+                android:text="+100 ( 2% )"
+                android:textSize="20sp"
+                android:textColor="#ff13CC52"
+                android:fontFamily="@string/font_sans_serif_regular"
+                android:gravity="center_horizontal"
+                />
 
             <include layout="@layout/fragment_chart"
                 android:id="@+id/fCharts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="82dp" />
+                android:layout_below="@id/tvChanges" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvTitleWatchlist"
@@ -112,8 +134,3 @@
 
     <include layout="@layout/toolbar"/>
 </RelativeLayout>
-
-
-
-
-

@@ -4,6 +4,7 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Fragments.ChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvIndexName) TextView tvIndexName;
     @Bind(R.id.tvIndexPrice) TextView tvIndexPrice;
     @Bind(R.id.tvIndexPriceChange) TextView tvIndexPriceChange;
+    @Bind(R.id.tvTotal) TextView tvTotal;
+    @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
     // Title bar
     private ArrayList<Stock> stocks;
@@ -96,6 +100,24 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        final DataCenter data = DataCenter.getInstance();
+        if (data.user != null) {
+            DataCenter.getInstance().updateTotalValues(new CallBack() {
+                @Override
+                public void stocksCallBack(ArrayList<Stock> stocks) {
+                    int len = stocks.size();
+                    double total = data.availableFund, change = 0;
+                    for (int i = 0; i < len; ++i) {
+                        Stock stock = stocks.get(i);
+                        Stock investingStock = data.investingStocksMap.get(stock.symbol);
+                        total += investingStock.share * stock.current_price;
+                        change += investingStock.share * Float.parseFloat(stock.current_change);
+                    }
+                    tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(change / total * 100) + "% )");
+                    tvTotal.setText(Utils.moneyConverter(total));
+                }
+            });
+        }
 
     }
 
@@ -104,7 +126,11 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+        if (DataCenter.getInstance().user!=null) {
+            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
+        } else {
+            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+        }
     }
 
     @OnClick(R.id.ibSearch)

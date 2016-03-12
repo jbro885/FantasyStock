@@ -120,7 +120,13 @@ public class DataClient {
                 if (meta!=null) {
                     final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                     Gson gson = new Gson();
-                    ArrayList<Stock> stocks = gson.fromJson(meta.data.toString(), listType);
+                    ArrayList<Stock> stocks = new ArrayList<>();
+                    try {
+                        stocks = gson.fromJson(meta.data.toString(), listType);
+                    } catch (Exception e) {
+                        callback.onFail(e.toString());
+                        return;
+                    }
                     int len = stocks.size();
                     for (int i=0;i<len;++i) {
                         Stock stock = stocks.get(i);
