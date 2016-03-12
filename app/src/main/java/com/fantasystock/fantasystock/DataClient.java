@@ -1,5 +1,7 @@
 package com.fantasystock.fantasystock;
 
+import android.util.Log;
+
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.News;
@@ -269,21 +271,35 @@ public class DataClient {
 
     /***********************************************************************************************
      *  News
+     *
+     * https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=YHOO
+     * http://finance.mobile.yahoo.com/dp/newsfeed?all_content=1&category=userfeed&device_os=2&region=US&lang=en-US
+     * http://www.google.com//finance/company_news?output=json&q=
      **********************************************************************************************/
 
     private final String YAHOO_NEWS_ALL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0";
     private final String YAHOO_NEWS_ID_URL = "http://finance.mobile.yahoo.com/dp/newsitems?device_os=2&region=US&lang=en-US&uuids=";
+    private final String YAHOO_NEWS_SYMBOL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=";
+
 
     public void getLatestNews(CallBack callback) {
+        Log.d("AL_DEBUG", YAHOO_NEWS_ALL_URL);
         client.get(YAHOO_NEWS_ALL_URL, new RequestParams(), latestNewsHandler(callback));
     }
 
     public void getPreviousNewsById(ArrayList<String> newsId, CallBack callback) {
+        Log.d("ID_DEBUG", YAHOO_NEWS_ALL_URL);
+        if(newsId.isEmpty()) return;
         String quotes = "";
         for (int i=0;i<newsId.size();++i) {
             quotes += newsId.get(i) + ",";
         }
         client.get(YAHOO_NEWS_ID_URL + quotes, new RequestParams(), previousNewsHandler(callback));
+    }
+
+    public void getLatestNewsBySymbol(String symbol, CallBack callback) {
+        Log.d("SY_DEBUG", YAHOO_NEWS_SYMBOL_URL + symbol);
+        client.get(YAHOO_NEWS_SYMBOL_URL + symbol, new RequestParams(), latestNewsHandler(callback));
     }
 
     private JsonHttpResponseHandler latestNewsHandler(final CallBack callback) {
@@ -295,6 +311,7 @@ public class DataClient {
                 ArrayList<String> previousNewsId = new ArrayList<>();
 
                 try {
+                    Log.d("LA_DEBUG", response.toString());
                     JSONObject result = response.getJSONObject("result");
                     JSONArray items = result.getJSONArray("items");
                     latestNews = gson.fromJson(items.toString(), new TypeToken<ArrayList<News>>() {}.getType());
@@ -324,6 +341,7 @@ public class DataClient {
                 Gson gson = new Gson();
                 ArrayList<News> previousNews = null;
                 try {
+                    Log.d("PR_DEBUG", response.toString());
                     JSONArray result = response.getJSONObject("items").getJSONArray("result");
                     previousNews = gson.fromJson(result.toString(), new TypeToken<ArrayList<News>>() {}.getType());
                 } catch (JSONException e) {

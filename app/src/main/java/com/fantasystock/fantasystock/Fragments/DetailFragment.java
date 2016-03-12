@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +84,15 @@ public class DetailFragment extends Fragment{
         ButterKnife.bind(this, view);
         chartsView = new ChartsView(vChart, fadeBlue);
         chartsView.isDarkTheme = false;
-        
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // News List
+        Fragment fragment = DetailNewsListFragment.newInstance(symbol);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.flMainListHolder, fragment).commit();
     }
 
     @Override
