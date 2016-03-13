@@ -419,7 +419,7 @@ public class DataClient {
                 if (e != null) callback.onFail(e.toString());
                 int len = scoreList.size();
                 ArrayList<Comment> comments = new ArrayList<>();
-                for (int i = 0; i < len; ++i) {
+                for (int i = len-1; i >=0; --i) {
                     comments.add(parseComment(scoreList.get(i)));
                 }
                 callback.commentsCallBack(comments);
