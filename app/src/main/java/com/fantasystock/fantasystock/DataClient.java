@@ -1,19 +1,26 @@
 package com.fantasystock.fantasystock;
 
+import android.telecom.Call;
 import android.util.Log;
 
+import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.Transaction;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +28,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -50,6 +58,10 @@ import cz.msebera.android.httpclient.Header;
  * */
 
 public class DataClient {
+    private static final String USER_COMMENT = "user_comment";
+    private static final String USER_COMMENT_TEXT = "comment";
+    private static final String USER_COMMENT_USER_ID = "user_id";
+    private static final String USER_COMMENT_SYMBOL = "symbol";
     private static final int STATUS_CODE = 200;
     private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
 
@@ -370,5 +382,55 @@ public class DataClient {
         };
     }
 
+    /**
+     * Comments in Parse
+     */
 
+
+    public void addComment(String text, String symbol, final CallBack callBack) {
+        if (text==null || symbol == null || DataCenter.getInstance().user == null) {
+            return;
+        }
+        final ParseObject comment = new ParseObject(USER_COMMENT);
+        comment.put(USER_COMMENT_TEXT, text);
+        comment.put(USER_COMMENT_SYMBOL, symbol);
+        comment.put(USER_COMMENT_USER_ID, DataCenter.getInstance().user.getObjectId());
+
+        comment.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null) {
+                    callBack.onFail(e.toString());
+                } else {
+//                    callBack.commentCallBack(parseComment(comment));
+                }
+            }
+        });
+    }
+
+    public void getComments(String symbol, final CallBack callback) {
+        if (callback==null) return;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(USER_COMMENT);
+        if (symbol!=null) {
+            query.whereEqualTo(USER_COMMENT_SYMBOL, symbol);
+        }
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e != null) callback.onFail(e.toString());
+                int len = scoreList.size();
+                ArrayList<Comment> comments = new ArrayList<>();
+                for (int i = 0; i < len; ++i) {
+                    comments.add(parseComment(scoreList.get(i)));
+                }
+                callback.commentsCallBack(comments);
+            }
+        });
+    }
+
+    private Comment parseComment(ParseObject object) {
+        Gson gson = Utils.gsonForParseQuery();
+        JsonElement json = gson.toJsonTree(object);
+        String jsonString =json.getAsJsonObject().get("state").toString();
+        return gson.fromJson(jsonString, Comment.class);
+    }
 }

@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock;
 
+import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Profile;
@@ -20,6 +21,8 @@ public class CallBack {
     public void historicalCallBack(HistoricalData data) {}
     public void profileCallBack(Profile profile) {}
     public void transactionsCallBack(ArrayList<Transaction> transactions) {}
+    public void commentsCallBack(ArrayList<Comment> comments) {}
+    public void commentCallBack(Comment comment) {}
     public void onFail(String failureMessage){}
 
 

@@ -6,6 +6,9 @@
     android:background="@drawable/signup_page"
     tools:context="com.fantasystock.fantasystock.Activities.PortfoliosActivity">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:background="#55000000"/>
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,13 +20,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@color/transparent"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvList"
-                android:padding="10dp"
+            <fragment
+                android:id="@+id/fTransactions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lcPortfolios"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/lcPortfolios"
+                android:name="com.fantasystock.fantasystock.Fragments.TransactionsFragment"
+                android:layout_gravity="center_vertical"
+                tools:layout="@layout/fragment_list_main" />
 
         </RelativeLayout>
     </ScrollView>

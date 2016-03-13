@@ -115,6 +115,9 @@ public class ChartsView extends RecyclerView.ViewHolder {
         ArrayList<Entry> yVals = new ArrayList<>();
         ArrayList<String> xVals = new ArrayList<>();
         List<HistoricalData.SeriesEntity> prices = data.series;
+        if (prices==null) {
+            return;
+        }
         int len = prices.size();
         if (len>0) {
             lineChart.getAxisLeft().getLimitLines().clear();

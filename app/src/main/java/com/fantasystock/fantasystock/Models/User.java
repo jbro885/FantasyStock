@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 public class User {
     public int id;
+    public String profileImageUrl;
     public String created_time;
+    public String username;
     public float cash;
     public ArrayList<Stock> shared_stock;
     public ArrayList<Transaction> history;

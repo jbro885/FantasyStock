@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.Fragments.TransactionsFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.R;
@@ -37,11 +38,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PortfoliosActivity extends AppCompatActivity implements OnChartValueSelectedListener {
-    private ArrayList<Transaction> transactions;
-    private ArrayList<Stock> investingStocks;
-    private TransactionsArrayAdapter adapter;
+
     @Bind(R.id.lcPortfolios) PieChart pieChart;
-    @Bind(R.id.rvList) RecyclerView rvList;
+    private ArrayList<Stock> investingStocks;
+    private TransactionsFragment transactionsFragment;
+
     private static final int[] PIE_COLORS = {
             Color.parseColor("#0F00D2"),
             Color.parseColor("#1FE500"),
@@ -58,12 +59,10 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portfolios);
         ButterKnife.bind(this);
-        transactions = new ArrayList<>();
-        adapter = new TransactionsArrayAdapter(transactions);
-        rvList.setAdapter(adapter);
-        rvList.setLayoutManager(new LinearLayoutManager(this));
         setupPieChart();
-        handleQueryTransactions(null);
+        transactionsFragment = (TransactionsFragment) getSupportFragmentManager().findFragmentById(R.id.fTransactions);
+        transactionsFragment.queryTransactions(null);
+
     }
 
     private void setupPieChart() {
@@ -163,69 +162,16 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
 
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-        handleQueryTransactions(investingStocks.get(e.getXIndex()).symbol);
+        transactionsFragment.queryTransactions(investingStocks.get(e.getXIndex()).symbol);
     }
 
     @Override
     public void onNothingSelected() {
-        handleQueryTransactions(null);
+        transactionsFragment.queryTransactions(null);
     }
 
-    private void handleQueryTransactions(String symbol) {
-        DataCenter.getInstance().getTransactions(symbol, new CallBack(){
-            @Override
-            public void transactionsCallBack(ArrayList<Transaction> returnTransactions) {
-                transactions.clear();
-                transactions.addAll(returnTransactions);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
 
-    private static class TransactionsArrayAdapter extends RecyclerView.Adapter<TransactionsViewHolder> {
-        private ArrayList<Transaction> transactions;
 
-        public TransactionsArrayAdapter(ArrayList<Transaction> transactions) {
-            this.transactions = transactions;
-        }
 
-        @Override
-        public TransactionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final Context context = parent.getContext();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.item_transaction, parent, false);
-            return new TransactionsViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(TransactionsViewHolder holder, int position) {
-            holder.setTransaction(transactions.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return transactions.size();
-        }
-    }
-    public static class TransactionsViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tvQuoteSymbol) TextView tvQuoteSymbol;
-        @Bind(R.id.tvTransactionDate) TextView tvTransactionDate;
-        @Bind(R.id.tvEquityValue) TextView tvEquityValue;
-        @Bind(R.id.tvShares) TextView tvShares;
-
-        public TransactionsViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-        public void setTransaction(Transaction transaction) {
-            String buyText = (transaction.data.shares>0?"BUY":"SELL");
-            tvQuoteSymbol.setText(buyText + " " + transaction.data.symbol);
-            tvEquityValue.setText(Utils.moneyConverter(transaction.data.shares * transaction.data.avgPrice));
-            DateFormat df = new SimpleDateFormat("HH:mm MM/dd/yyyy");
-            tvTransactionDate.setText(df.format(transaction.updatedAt));
-            tvShares.setText(Math.abs(transaction.data.shares) + " shares at $" + Utils.moneyConverter(transaction.data.avgPrice));
-
-        }
-    }
 
 }

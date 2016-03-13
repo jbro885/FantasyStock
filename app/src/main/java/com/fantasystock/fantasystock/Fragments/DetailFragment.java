@@ -91,8 +91,11 @@ public class DetailFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // News List
         Fragment fragment = DetailNewsListFragment.newInstance(symbol);
+        Fragment commentsFragment = CommentsFragment.newInstance(symbol);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.flMainListHolder, fragment).commit();
+
+        transaction.replace(R.id.flMainListHolder, fragment);
+        transaction.replace(R.id.flCommentsHolder, commentsFragment).commit();
     }
 
     @Override

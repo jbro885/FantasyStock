@@ -268,11 +268,7 @@ public class DataCenter {
                 if (e != null) callback.onFail(e.toString());
                 int len = scoreList.size();
 
-                Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                        return new Date(json.getAsJsonPrimitive().getAsLong());
-                    }
-                }).create();
+                Gson gson = Utils.gsonForParseQuery();
                 ArrayList<Transaction> transactions = new ArrayList<>();
 
                 for (int i=0;i<len;++i) {
@@ -283,9 +279,5 @@ public class DataCenter {
                 callback.transactionsCallBack(transactions);
             }
         });
-
-
-
-
     }
 }
