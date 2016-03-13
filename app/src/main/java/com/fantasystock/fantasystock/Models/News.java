@@ -13,6 +13,7 @@ public class News {
     public String author;
     public String published;
     public String publisher;
+    public String content;
 
     public ArrayList<Entity> entities;
     public ArrayList<Image> images;

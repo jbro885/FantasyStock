@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionName="newsContent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:id="@+id/tvTitle"
+                android:textSize="@dimen/news_title_text_size"
+                android:textStyle="bold"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:layout_below="@+id/tvPublisher"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="time"
+                android:textSize="10sp"
+                android:id="@+id/tvPublished"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:layout_below="@+id/tvTitle"
+                android:layout_alignLeft="@+id/tvTitle"
+                android:layout_alignStart="@+id/tvTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Financial Times"
+                android:textSize="10sp"
+                android:id="@+id/tvPublisher"
+                android:textStyle="italic"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivImage"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/tvPublished"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Content"
+                android:id="@+id/tvContent"
+                android:layout_below="@+id/ivImage"
+                android:layout_alignLeft="@+id/tvPublished"
+                android:layout_alignStart="@+id/tvPublished" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock.Adapters;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fantasystock.fantasystock.Activities.NewsActivity;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -82,7 +86,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NEWS:
             default:
-                convertView = inflater.inflate(R.layout.item_news_main, parent, false);
+                convertView = inflater.inflate(R.layout.item_news, parent, false);
                 viewHolder = new ViewHolderNews(convertView);
                 break;
         }
@@ -112,11 +116,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class ViewHolderNews extends RecyclerView.ViewHolder implements viewHolderBinding{
         @Bind(R.id.tvTitle) TextView tvTitle;
-        @Bind(R.id.tvId) TextView tvId;
-        @Bind(R.id.tvAuthor) TextView tvAuthor;
+        @Bind(R.id.tvSummary) TextView tvSummary;
         @Bind(R.id.tvPublished) TextView tvPublished;
         @Bind(R.id.tvPublisher) TextView tvPublisher;
-        @Bind(R.id.tvSummary) TextView tvSummary;
         @Bind(R.id.ivImage) ImageView ivImage;
 
         public ViewHolderNews(View itemView) {
@@ -126,18 +128,34 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public void setItem(Object object, View view) {
-            News news = (News)object;
+            final News news = (News)object;
             tvTitle.setText(news.title);
-            tvId.setText(news.id);
-            tvAuthor.setText(news.author);
+            tvSummary.setText(news.summary);
+            tvSummary.setMaxLines(2);
             tvPublished.setText(news.published);
             tvPublisher.setText(news.publisher);
-            tvSummary.setText(news.title);
             if(news.images != null) {
+                ivImage.getLayoutParams().width = (int) view.getResources().getDimension(R.dimen.news_image_width);;
                 Glide.with(convertView.getContext())
                         .load(news.images.get(0).url)
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(ivImage);
             }
+            else {
+                ivImage.getLayoutParams().width = 0;
+            }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), NewsActivity.class);
+                    String newsString = new Gson().toJson(news);
+                    intent.putExtra("newsString", newsString);
+                    fragmentActivity.startActivity(intent);
+                }
+            });
         }
     }
 
