@@ -80,6 +80,12 @@ public class NewsListFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ButterKnife.bind(this, getActivity());
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);

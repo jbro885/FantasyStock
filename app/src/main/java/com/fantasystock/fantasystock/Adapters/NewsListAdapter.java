@@ -1,7 +1,9 @@
 package com.fantasystock.fantasystock.Adapters;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -153,7 +155,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Intent intent = new Intent(v.getContext(), NewsActivity.class);
                     String newsString = new Gson().toJson(news);
                     intent.putExtra("newsString", newsString);
-                    fragmentActivity.startActivity(intent);
+
+                    Pair<View, String> p1 = Pair.create((View)tvTitle, "newsTitle");
+                    Pair<View, String> p2 = Pair.create((View) ivImage, "newsImage");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, p1, p2);
+                    fragmentActivity.startActivity(intent, options.toBundle());
                 }
             });
         }

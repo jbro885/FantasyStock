@@ -54,6 +54,12 @@ public class DetailNewsListFragment extends Fragment {
         items = new ArrayList<>();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ButterKnife.bind(this, getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
