@@ -4,6 +4,7 @@ import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.Transaction;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class CallBack {
     public void stocksCallBack(ArrayList<Stock> stocks) {}
     public void historicalCallBack(HistoricalData data) {}
     public void profileCallBack(Profile profile) {}
+    public void transactionsCallBack(ArrayList<Transaction> transactions) {}
     public void onFail(String failureMessage){}
 
 
