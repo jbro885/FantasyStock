@@ -12,6 +12,7 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
 import java.text.DecimalFormat;
@@ -54,7 +55,7 @@ public class TradeActivity extends AppCompatActivity {
     btnTrade.setText(buySell);
 
     dataCenter = DataCenter.getInstance();
-    stock = (Stock) dataCenter.investingStocksMap.get(symbol);
+    stock = (Stock) User.currentUser.investingStocksMap.get(symbol);
     formatter = new DecimalFormat("$###,##0.00");
       DataClient.getInstance().getStockPrice(symbol, new CallBack() {
           @Override
@@ -84,7 +85,7 @@ public class TradeActivity extends AppCompatActivity {
     }
     if (numShares == 0) {
       if (buySell.equals("buy")) {
-        tvTotalCost.setText(formatter.format(dataCenter.getInstance().availableFund) + " available");
+        tvTotalCost.setText(formatter.format(User.currentUser.availableFund) + " available");
       } else {
         tvTotalCost.setText(stock.share + " shares available");
       }
@@ -104,7 +105,7 @@ public class TradeActivity extends AppCompatActivity {
 
       float cost = numShares * stock.current_price;
       if (buySell.equals("buy")) {
-        if (cost > dataCenter.availableFund) {
+        if (cost > User.currentUser.availableFund) {
           Toast.makeText(this, "Not enough funds to buy", Toast.LENGTH_LONG).show();
           return;
         }

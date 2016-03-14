@@ -16,6 +16,7 @@ import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.TransactionsFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.Transaction;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
 import com.github.mikephil.charting.animation.Easing;
@@ -96,7 +97,7 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
         // add a selection listener
         pieChart.setOnChartValueSelectedListener(this);
 
-        investingStocks = DataCenter.getInstance().investingStocks;
+        investingStocks = User.currentUser.investingStocks;
         DataCenter.getInstance().updateTotalValues(new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> stocks) {
@@ -116,18 +117,17 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
     private void setData(ArrayList<Stock> stocks) {
 
         int len = stocks.size();
-        final DataCenter data = DataCenter.getInstance();
-        double total = data.availableFund, change = 0;
+        double total = User.currentUser.availableFund, change = 0;
         for (int i=0;i<len;++i) {
             Stock stock = stocks.get(i);
-            Stock investingStock = data.investingStocksMap.get(stock.symbol);
+            Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
             total += investingStock.share * stock.current_price;
         }
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i=0;i<len; ++i) {
             Stock stock = stocks.get(i);
-            Stock investingStock = data.investingStocksMap.get(stock.symbol);
+            Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
             yVals1.add(new Entry((float) ((investingStock.share * stock.current_price)/total), i));
             xVals.add(stock.symbol);
         }

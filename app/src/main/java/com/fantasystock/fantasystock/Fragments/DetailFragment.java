@@ -18,6 +18,7 @@ import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
 
@@ -132,11 +133,11 @@ public class DetailFragment extends Fragment{
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
-                if (!DataCenter.getInstance().investingStocksMap.containsKey(symbol)) {
+                if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo,0);
                 } else {
                     Utils.setHeight(llSharesInfo,-1);
-                    Stock ownStock = DataCenter.getInstance().investingStocksMap.get(symbol);
+                    Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share+"");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share*100)/100 + "");
                     tvEquityValue.setText(ownStock.share * stock.current_price + "");

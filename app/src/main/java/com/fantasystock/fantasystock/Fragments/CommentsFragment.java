@@ -21,6 +21,7 @@ import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -73,7 +74,7 @@ public class CommentsFragment extends Fragment{
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
-        DataClient.getInstance().getComments(symbol, new CallBack() {
+        Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
                 comments.clear();
@@ -85,11 +86,12 @@ public class CommentsFragment extends Fragment{
     @OnClick(R.id.btnSend)
     public void onSend() {
 
-        DataClient.getInstance().addComment(etCommentText.getText().toString(), symbol, new CallBack(){
+        Comment.addComment(etCommentText.getText().toString(), symbol, new CallBack() {
             @Override
             public void commentCallBack(Comment comment) {
                 comments.add(comment);
                 adapter.notifyDataSetChanged();
+                etCommentText.setText("");
             }
         });
 
@@ -133,17 +135,28 @@ public class CommentsFragment extends Fragment{
         public void setComment(Comment comment) {
             tvCommentTime.setText(Utils.converTimetoRelativeTime(comment.updatedAt));
             tvComment.setText(comment.data.comment);
-            User user = comment.data.user;
+            User.queryUser(comment.data.userId, new CallBack() {
+                @Override
+                public void done(Object object) {
+                    if (object == null || !(object instanceof ParseUser)) {
+                        return;
+                    }
+                    ParseUser parseUser = (ParseUser) object;
+                    User user = new User(parseUser);
+                    if (user == null ) {
+                        return;
+                    }
+                    tvName.setText(user.username);
+                    if (user.profileImageUrl == null ) {
+                        ivUserProfile.setImageResource(R.drawable.ic_profile);
+                    }
+                    ivUserProfile.setImageResource(0);
+                    Context context = ivUserProfile.getContext();
+                    String url = user.profileImageUrl;
+                    Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
+                }
+            });
 
-            if (user == null || user.profileImageUrl == null) {
-                ivUserProfile.setImageResource(R.drawable.ic_profile);
-                return;
-            }
-            tvName.setText(user.username);
-            ivUserProfile.setImageResource(0);
-            Context context = ivUserProfile.getContext();
-            String url = comment.data.user.profileImageUrl;
-            Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
         }
     }
 
