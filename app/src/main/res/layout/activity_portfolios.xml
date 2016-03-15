@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/lcPortfolios"
+                android:layout_margin="15dp"
                 android:name="com.fantasystock.fantasystock.Fragments.TransactionsFragment"
                 android:layout_gravity="center_vertical"
                 tools:layout="@layout/fragment_list_main" />
