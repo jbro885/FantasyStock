@@ -68,4 +68,7 @@ dependencies {
 
     // Android Charts, github: https://github.com/PhilJay/MPAndroidChart
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
+
+    // viewPager
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
