@@ -171,8 +171,18 @@ public class DetailFragment extends Fragment{
                 tvMarketCap.setText(profile.mkt_cap);
                 tvOpen.setText(profile.open);
                 tvDivYield.setText(profile.dividend_yld);
-                tvVolume.setText(Utils.numberConverter(Integer.parseInt(profile.vol)));
-                tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
+
+                try {
+                    tvVolume.setText(Utils.numberConverter(Integer.parseInt(profile.vol)));
+                } catch (NumberFormatException e ) {
+                    tvVolume.setText("N/A");
+                }
+                try {
+                    tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
+                } catch (NumberFormatException e ) {
+                    tvAvgVolume.setText("N/A");
+                }
+
             }
         };
     }
