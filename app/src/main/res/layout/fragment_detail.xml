@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -87,21 +88,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llTransactionOptions"
                 />
-
-            <include layout="@layout/layout_profile"
-                android:id="@+id/llProfileInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llSharesInfo"
-                />
             <com.astuetz.PagerSlidingTabStrip
                 android:id="@+id/pgTabs"
                 app:pstsShouldExpand="true"
-                app:pstsTextAllCaps="true"
-                app:pstsIndicatorColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@+id/llProfileInfo"/>
+                android:layout_below="@+id/llSharesInfo"/>
             <android.support.v4.view.ViewPager
                 android:id="@+id/vpInfoViewPager"
                 android:layout_width="match_parent"
