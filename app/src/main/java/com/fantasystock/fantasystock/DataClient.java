@@ -54,6 +54,9 @@ import cz.msebera.android.httpclient.Header;
  * // Search quote
  * String searchYahooQuoteURL = "http://autoc.finance.yahoo.com/autoc?region=US&lang=en&query=";
  * String searchGoogleQuoteURL = "https://www.google.com/finance/match?matchtype=matchall&q=";
+ *
+ * // Smart link
+ * https://mobile-homerun-yql.media.yahoo.com/api/vibe/v1/smartlink?url=https://www.apple.com
 
 
  * */
