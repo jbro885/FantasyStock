@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,10 @@ import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +52,7 @@ public class DetailFragment extends Fragment{
 
     @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
     @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
-    ChartsView chartsView;
+    PeriodChartsView periodChartsView;
     public Drawable fadeBlue;
 
     public static DetailFragment newInstance(String symbol) {
@@ -80,8 +76,8 @@ public class DetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, parent, false);
         ButterKnife.bind(this, view);
-        chartsView = new ChartsView(vChart, fadeBlue);
-        chartsView.isDarkTheme = false;
+        periodChartsView = new PeriodChartsView(vChart, fadeBlue);
+        periodChartsView.isDarkTheme = false;
         return view;
     }
 
@@ -120,7 +116,7 @@ public class DetailFragment extends Fragment{
 
     private void setStock() {
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-        chartsView.setStock(stock);
+        periodChartsView.setStock(stock);
 
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
