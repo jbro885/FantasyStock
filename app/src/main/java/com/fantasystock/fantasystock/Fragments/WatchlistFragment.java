@@ -1,5 +1,8 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -7,9 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.fantasystock.fantasystock.Adapters.WatchlistAdapter;
 import com.fantasystock.fantasystock.CallBack;
@@ -68,9 +74,17 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvList.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter){
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                View itemView= viewHolder.itemView;
+                scaleItem(itemView, false);
+                super.clearView(recyclerView, viewHolder);
+            }
+        };
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rvList);
+
 
         // Get Watchlist
         refreshWatchlist();
@@ -111,6 +125,18 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+
+        View itemView= viewHolder.itemView;
+        scaleItem(itemView, true);
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    private void scaleItem(View itemView, boolean scaleUp) {
+        AnimatorSet set = new AnimatorSet();
+        float from = scaleUp?1.00f:1.03f;
+        float to = scaleUp?1.03f:1.00f;
+        set.playTogether(ObjectAnimator.ofFloat(itemView, "scaleX", from, to).setDuration(300),
+                        ObjectAnimator.ofFloat(itemView, "scaleY", from, to).setDuration(300) );
+        set.start();
     }
 }

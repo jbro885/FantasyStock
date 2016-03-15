@@ -1,12 +1,15 @@
 package com.fantasystock.fantasystock.Activities;
 
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +19,8 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Fragments.ChartsView;
+import com.fantasystock.fantasystock.Fragments.ChartView;
+import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     @Bind(R.id.fCharts) View chartView;
+    @Bind(R.id.rlWindowChart) View windowCharts;
 
     @Bind(R.id.ivBackground) ImageView ivBackground;
     @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvTotal) TextView tvTotal;
     @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
+    @Bind(R.id.vTouchView) View vTouchView;
     // Title bar
     private ArrayList<Stock> stocks;
     private int indexesIndex;
@@ -57,8 +63,36 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ChartsView chartsView = new ChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
-        chartsView.setStock(new Stock("portfolios"));
+        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        periodChartsView.setStock(new Stock("portfolios"));
+
+        ChartView chartView = new ChartView(windowCharts, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        chartView.setStock(new Stock("AAPL"));
+
+//        vTouchView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                Log.d("DEBUG", event.getY() + "," + event.getX());
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//
+//                    ClipData data = ClipData.newPlainText("", "");
+//                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+//                    v.startDrag(data, shadowBuilder, v, 0);
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//
+//            }
+//        });
+//
+//        vTouchView.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                Log.d("DEBUG", "Dragging!!!:"+event.getY() + "," + event.getX());
+//                return false;
+//            }
+//        });
 
 
         // Create dummy watchlist

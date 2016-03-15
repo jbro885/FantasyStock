@@ -50,7 +50,7 @@
                 android:gravity="center_horizontal"
                 />
 
-            <include layout="@layout/fragment_chart"
+            <include layout="@layout/fragment_period_chart"
                 android:id="@+id/fDetailCharts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
