@@ -5,13 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
@@ -21,6 +25,8 @@ import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,6 +65,9 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvDivYield) TextView tvDivYield;
     @Bind(R.id.tvVolume) TextView tvVolume;
     @Bind(R.id.tvAvgVolume) TextView tvAvgVolume;
+
+    @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
+    @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
     ChartsView chartsView;
     public Drawable fadeBlue;
 
@@ -90,13 +99,11 @@ public class DetailFragment extends Fragment{
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // News List
-        Fragment fragment = DetailNewsListFragment.newInstance(symbol);
-        Fragment commentsFragment = CommentsFragment.newInstance(symbol);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.flMainListHolder, fragment);
-        transaction.replace(R.id.flCommentsHolder, commentsFragment).commit();
+
+        InfoPagerAdapter detailsPagerAdapter = new InfoPagerAdapter(getChildFragmentManager(), symbol);
+        vpInfoViewPager.setAdapter(detailsPagerAdapter);
+        pgSlidingTab.setViewPager(vpInfoViewPager);
     }
 
     @Override
@@ -136,14 +143,15 @@ public class DetailFragment extends Fragment{
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo,0);
                 } else {
-                    Utils.setHeight(llSharesInfo,-1);
+                    Utils.setHeight(llSharesInfo, -1);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share+"");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share*100)/100 + "");
                     tvEquityValue.setText(ownStock.share * stock.current_price + "");
                     tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
                     tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
-                    tvTotalReturnPercentage.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost)/ownStock.total_cost + "");
+                    tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost*100)  + "%");
+
                 }
             }
         });
@@ -167,5 +175,34 @@ public class DetailFragment extends Fragment{
                 tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
             }
         };
+    }
+
+    private static class InfoPagerAdapter extends FragmentPagerAdapter {
+        private String symbol;
+        public InfoPagerAdapter(FragmentManager fm, String symbol) {
+            super(fm);
+            this.symbol = symbol;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return DetailNewsListFragment.newInstance(symbol);
+            }
+            return CommentsFragment.newInstance(symbol);
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return "NEWS";
+            }
+            return "COMMENTS";
+        }
     }
 }

@@ -126,11 +126,12 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        if (User.currentUser!=null) {
-            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
-        } else {
-            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
-        }
+        startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+//        if (User.currentUser!=null) {
+//            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
+//        } else {
+//            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+//        }
     }
 
     @OnClick(R.id.ibSearch)
