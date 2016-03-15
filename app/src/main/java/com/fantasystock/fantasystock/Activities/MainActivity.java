@@ -20,6 +20,7 @@ import com.fantasystock.fantasystock.Fragments.ChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
 
@@ -100,16 +101,15 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        final DataCenter data = DataCenter.getInstance();
-        if (data.user != null) {
+        if (User.currentUser != null) {
             DataCenter.getInstance().updateTotalValues(new CallBack() {
                 @Override
                 public void stocksCallBack(ArrayList<Stock> stocks) {
                     int len = stocks.size();
-                    double total = data.availableFund, change = 0;
+                    double total = User.currentUser.availableFund, change = 0;
                     for (int i = 0; i < len; ++i) {
                         Stock stock = stocks.get(i);
-                        Stock investingStock = data.investingStocksMap.get(stock.symbol);
+                        Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
                         total += investingStock.share * stock.current_price;
                         change += investingStock.share * Float.parseFloat(stock.current_change);
                     }
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        if (DataCenter.getInstance().user!=null) {
+        if (User.currentUser!=null) {
             startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
         } else {
             startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);

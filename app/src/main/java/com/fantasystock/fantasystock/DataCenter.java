@@ -6,12 +6,9 @@ import android.util.Log;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.Transaction;
+import com.fantasystock.fantasystock.Models.User;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -20,11 +17,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,24 +27,14 @@ import java.util.List;
  * Created by wilsonsu on 3/7/16.
  */
 public class DataCenter {
-    private final static String USER_WATCH_LIST = "user_watch_list";
-    private final static String USER_INVESTING_STOCKS = "user_investing_stocks";
-    private final static String USER_AVAILABLE_FUND = "user_available_fund";
     private final static String USER_HISTORY = "user_history";
 
     private final static String TRANSACTION_SYMBOL = "transaction_symbol";
     private final static String TRANSACTION_SHARES = "transaction_shares";
     private final static String TRANSACTION_AVG_PRICE = "transaction_avg_price";
-    public HashSet<String> watchlistSet;
-    public ArrayList<String> watchlist;
-
-    public ArrayList<Stock> investingStocks;
-    public HashMap<String, Stock> investingStocksMap; // this stock keeps the updated shares and avg costs, but the price could be not updated
-
     public HashMap<String, Stock> stockMap; // these stocks have the updated price, but shares could be wrong
-    public ParseUser user;
-    public double availableFund;
     private DataClient client;
+    private User currentUser;
 
 
     private static DataCenter mInstance;
@@ -62,11 +46,11 @@ public class DataCenter {
     }
 
     public DataCenter() {
-        user = ParseUser.getCurrentUser();
-        setUser(user);
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        setUser(parseUser);
 
         client = DataClient.getInstance();
-        client.getStocksPrice(watchlist, null);
+        client.getStocksPrice(currentUser.watchlist, null);
 
         getTransactions("", new CallBack());
     }
@@ -77,11 +61,11 @@ public class DataCenter {
             @Override
             public void stockCallBack(final Stock stock) {
                 final float total = stock.current_price * shares;
-                Stock iStock = investingStocksMap.get(symbol);
+                Stock iStock = currentUser.investingStocksMap.get(symbol);
                 if (iStock == null) iStock = stock;
                 final Stock investingStock = iStock;
-                if (availableFund >= total && investingStock.share + shares >= 0) {
-                    ParseObject transaction = new ParseObject(USER_HISTORY + user.getObjectId());
+                if (currentUser.availableFund >= total && investingStock.share + shares >= 0) {
+                    ParseObject transaction = new ParseObject(USER_HISTORY + currentUser.id);
                     transaction.put(TRANSACTION_SHARES, shares);
                     transaction.put(TRANSACTION_SYMBOL, stock.symbol);
                     transaction.put(TRANSACTION_AVG_PRICE, stock.current_price);
@@ -89,7 +73,7 @@ public class DataCenter {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                availableFund -= total;
+                                currentUser.availableFund -= total;
                                 investingStock.share += shares;
                                 investingStock.total_cost += total;
                                 updateStock(investingStock, callBack);
@@ -106,114 +90,75 @@ public class DataCenter {
     }
 
     public void favoriteStock(Stock stock) {
-        if (watchlist.contains(stock.symbol)) {
+        if (currentUser.watchlist.contains(stock.symbol)) {
             return;
         }
-        watchlistSet.add(stock.symbol);
-        watchlist.add(stock.symbol);
-        updateUser(null);
+        currentUser.watchlistSet.add(stock.symbol);
+        currentUser.watchlist.add(stock.symbol);
+        currentUser.updateUser(null);
     }
     public void unfavoriteStock(Stock stock) {
-        if (!watchlistSet.contains(stock.symbol)) {
+        if (!currentUser.watchlistSet.contains(stock.symbol)) {
             return;
         }
-        watchlistSet.remove(stock.symbol);
-        for(int i = 0; i < watchlist.size(); i++) {
-            if(watchlist.get(i).equals(stock.symbol)) {
-                watchlist.remove(i);
+        currentUser.watchlistSet.remove(stock.symbol);
+        for(int i = 0; i < currentUser.watchlist.size(); i++) {
+            if(currentUser.watchlist.get(i).equals(stock.symbol)) {
+                currentUser.watchlist.remove(i);
                 break;
             }
         }
-        updateUser(null);
+        currentUser.updateUser(null);
     }
 
     public boolean isFavoritedStock(Stock stock) {
-        return watchlistSet.contains(stock.symbol);
+        return currentUser.watchlistSet.contains(stock.symbol);
     }
 
     public ArrayList<Stock> allFavoritedStocks() {
         ArrayList<Stock> stocks = new ArrayList<>();
-        for (int i=0;i<watchlist.size();++i) {
-            stocks.add(stockMap.get(watchlist.get(i)));
+        for (int i=0;i<currentUser.watchlist.size();++i) {
+            stocks.add(stockMap.get(currentUser.watchlist.get(i)));
         }
         return stocks;
     }
 
-    public void setUser(ParseUser user) {
-        this.user = user;
-        if (user != null) {
-            final Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-            Gson gson = new Gson();
-            watchlist = gson.fromJson(user.getString(USER_WATCH_LIST), listType);
-            final Type stockListType = new TypeToken<ArrayList<Stock>>() {}.getType();
-            investingStocks = gson.fromJson(user.getString(USER_INVESTING_STOCKS), stockListType);
-            availableFund = user.getDouble(USER_AVAILABLE_FUND);
-        }
-
-        if (watchlistSet==null) watchlistSet = new HashSet<>();
-        if (watchlist==null) watchlist = new ArrayList<>();
+    public void setUser(ParseUser parseUser) {
+        User.currentUser = new User(parseUser);
+        currentUser = User.currentUser;
         if (stockMap==null) stockMap = new HashMap<>();
-        if (investingStocks==null) investingStocks = new ArrayList<>();
-        if (investingStocksMap==null) investingStocksMap = new HashMap<>();
-        if (availableFund == 0) availableFund = 1000000;
-
-        for (int i=0;i<watchlist.size();++i) {
-            String symbol = watchlist.get(i);
-            watchlistSet.add(symbol);
-        }
-
-        for (int i=0;i<investingStocks.size();++i) {
-            Stock stock = investingStocks.get(i);
-            investingStocksMap.put(stock.symbol, stock);
+        for (int i=0;i<currentUser.investingStocks.size();++i) {
+            Stock stock = currentUser.investingStocks.get(i);
             stockMap.put(stock.symbol, stock);
         }
     }
 
-    private void updateUser(final CallBack callBack) {
-        if (user!=null) {
-            Gson gson = new Gson();
-            user.put(USER_WATCH_LIST, gson.toJsonTree(watchlist).toString());
-            user.put(USER_AVAILABLE_FUND, availableFund);
-            user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
-            if (callBack==null) {
-                user.saveInBackground();
-                return;
-            }
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    callBack.done();
-                }
-            });
-        }
-    }
-
     public void updateTotalValues(final CallBack callBack) {
-        DataClient.getInstance().getStocksPrices(investingStocks, callBack);
+        DataClient.getInstance().getStocksPrices(currentUser.investingStocks, callBack);
     }
 
     private void updateStock(Stock stock, CallBack callBack) {
         if (stock.share > 0) {
-            if (!investingStocksMap.containsKey(stock.symbol)) {
-                investingStocks.add(stock);
+            if (!currentUser.investingStocksMap.containsKey(stock.symbol)) {
+                currentUser.investingStocks.add(stock);
             }
             favoriteStock(stock);
-            investingStocksMap.put(stock.symbol, stock);
+            currentUser.investingStocksMap.put(stock.symbol, stock);
         } else {
-            investingStocksMap.remove(stock.symbol);
-            investingStocks.remove(stock.symbol);
+            currentUser.investingStocksMap.remove(stock.symbol);
+            currentUser.investingStocks.remove(stock.symbol);
         }
         stockMap.put(stock.symbol, stock);
-        updateUser(callBack);
+        currentUser.updateUser(callBack);
     }
 
     public void portfolios(String period, final CallBack callBack) {
 
-        final int len = investingStocks.size();
+        final int len = currentUser.investingStocks.size();
         final HashSet<String> dataSet = new HashSet<>();
         final ArrayList<HistoricalData> datas = new ArrayList<>();
         for (int i=0;i<len;++i) {
-            final String symbol = investingStocks.get(i).symbol;
+            final String symbol = currentUser.investingStocks.get(i).symbol;
             DataClient.getInstance().getHistoricalPrices(symbol, period, new CallBack(){
                 @Override
                 public void historicalCallBack(HistoricalData data) {
@@ -238,12 +183,12 @@ public class DataCenter {
         ArrayList<HistoricalData.SeriesEntity> series = new ArrayList<>();
         for (int i=0;i<seriesLen;++i) {
 
-            double close = availableFund;
-            double open = availableFund;
+            double close = currentUser.availableFund;
+            double open = currentUser.availableFund;
             for (int j=0;j<len; ++j) {
-                int share = investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase()).share;
-                 close += datas.get(j).series.get(i).close * share;
-                 open += datas.get(j).series.get(i).open * share;
+                int share = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase()).share;
+                close += datas.get(j).series.get(i).close * share;
+                open += datas.get(j).series.get(i).open * share;
             }
             HistoricalData.SeriesEntity seriesEntity = new HistoricalData.SeriesEntity();
             seriesEntity.close = (float)close;
@@ -256,10 +201,10 @@ public class DataCenter {
     }
 
     public void getTransactions(String symbol, final CallBack callback) {
-        if (user==null) {
+        if (currentUser==null) {
             return;
         }
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(USER_HISTORY + user.getObjectId());
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(USER_HISTORY + currentUser.id);
         if (symbol!=null) {
             query.whereEqualTo(TRANSACTION_SYMBOL, symbol);
         }
@@ -268,11 +213,7 @@ public class DataCenter {
                 if (e != null) callback.onFail(e.toString());
                 int len = scoreList.size();
 
-                Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                        return new Date(json.getAsJsonPrimitive().getAsLong());
-                    }
-                }).create();
+                Gson gson = Utils.gsonForParseQuery();
                 ArrayList<Transaction> transactions = new ArrayList<>();
 
                 for (int i=0;i<len;++i) {
@@ -283,9 +224,5 @@ public class DataCenter {
                 callback.transactionsCallBack(transactions);
             }
         });
-
-
-
-
     }
 }

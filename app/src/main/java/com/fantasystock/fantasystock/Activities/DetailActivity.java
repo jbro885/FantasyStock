@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
 import java.util.ArrayList;
@@ -36,11 +37,11 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        if (!DataCenter.getInstance().watchlistSet.contains(symbol)) {
+        if (!User.currentUser.watchlistSet.contains(symbol)) {
             stocks = new ArrayList<>();
             stocks.add(symbol);
         } else {
-            stocks = DataCenter.getInstance().watchlist;
+            stocks = User.currentUser.watchlist;
         }
 
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
@@ -69,7 +70,7 @@ public class DetailActivity extends AppCompatActivity {
             super(fm);
             this.fadeBlue = fadeBlue;
             if (stocks == null) {
-                this.stocks = DataCenter.getInstance().watchlist;
+                this.stocks = User.currentUser.watchlist;
             } else {
                 this.stocks = stocks;
             }

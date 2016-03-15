@@ -16,6 +16,7 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 
@@ -84,7 +85,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     }
 
     public void refreshStock() {
-        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
+        DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 mAdapter.notifyDataSetChanged();
@@ -94,7 +95,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     public void refreshWatchlist() {
         mAdapter.clear();
-        DataClient.getInstance().getStocksPrice(DataCenter.getInstance().watchlist, new CallBack() {
+        DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 organizeData();
@@ -105,7 +106,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     private void organizeData() {
         items.clear();
-        items.addAll(DataCenter.getInstance().watchlist);
+        items.addAll(User.currentUser.watchlist);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
 
@@ -106,8 +107,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tvSymbol.setText(stock.symbol);
             tvName.setText(stock.name);
             String shareStatus = "";
-            if (DataCenter.getInstance().investingStocksMap.containsKey(stock.symbol)) {
-                int share = DataCenter.getInstance().investingStocksMap.get(stock.symbol).share;
+            if (User.currentUser.investingStocksMap.containsKey(stock.symbol)) {
+                int share = User.currentUser.investingStocksMap.get(stock.symbol).share;
                 if(share > 0)
                     shareStatus = Integer.toString(share) + " Shares";
             }
@@ -207,7 +208,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         // Swap items in DataCenter
-        Collections.swap(DataCenter.getInstance().watchlist, fromPosition, toPosition);
+        Collections.swap(User.currentUser.watchlist, fromPosition, toPosition);
 
         // Swap items on rvList
         Collections.swap(items, fromPosition, toPosition);
@@ -217,7 +218,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onItemDismiss(int position) {
-        Stock stock = DataCenter.getInstance().investingStocksMap.get(items.get(position));
+        Stock stock = User.currentUser.investingStocksMap.get(items.get(position));
 
         if(stock == null || stock.share == 0) {
             stock = DataCenter.getInstance().stockMap.get(items.get(position));
