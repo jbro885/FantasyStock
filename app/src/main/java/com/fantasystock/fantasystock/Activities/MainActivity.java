@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -141,6 +142,15 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                handleScrolling(scrollView.getScrollY());
+            }
+        });
+
+
+
 
         // Create dummy watchlist
         getWatchlist();
@@ -234,11 +244,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleScrolling(int verticalOffset) {
-        float alpha = Math.abs(verticalOffset)/3000.0f;
+        float alpha = Math.abs(verticalOffset)/1000.0f;
         if (alpha > 1) {
             alpha = 1;
         }
-        ivBackgroundBlurred.setAlpha(1 - alpha * 0.3f);
+//        ivBackgroundBlurred.setAlpha(0.6f + alpha * 0.4f);
+        ivBackgroundBlurred.setAlpha(alpha);
     }
 
     @OnClick(R.id.ibWindowCloseButton)

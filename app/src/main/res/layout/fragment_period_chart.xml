@@ -6,7 +6,7 @@
         android:id="@+id/lcChart"
         android:transitionName="windowCharts"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@color/transparent"/>
     <LinearLayout
         android:id="@+id/llPeriods"
