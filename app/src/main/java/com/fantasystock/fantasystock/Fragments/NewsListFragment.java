@@ -58,7 +58,7 @@ public class NewsListFragment extends Fragment {
             public void onLoadMore() {
                 //add null , so the adapter will check view_type and show progress bar at bottom
                 items.add(null);
-                // newsListAdapter.notifyItemInserted(items.size() - 1);
+                //newsListAdapter.notifyItemInserted(items.size() - 1);
 
                 handler.postDelayed(new Runnable() {
                     @Override
