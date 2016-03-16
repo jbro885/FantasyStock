@@ -27,6 +27,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/svScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -136,20 +137,34 @@
     <RelativeLayout
         android:id="@+id/rlWindowChart"
         android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/round_rectangle">
-        <include layout="@layout/fragment_chart"
+
+        <include layout="@layout/fragment_window_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
         <View
             android:id="@+id/vTouchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>
+    <ImageButton
+        android:id="@+id/ibWindowCloseButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        android:scaleType="centerInside"
+        android:padding="6dp"
+        android:layout_alignTop="@+id/rlWindowChart"
+        android:layout_alignRight="@+id/rlWindowChart"
+        android:layout_marginRight="-12dp"
+        android:layout_marginTop="-12dp"
+        android:background="@drawable/shape_circle"/>
 </RelativeLayout>

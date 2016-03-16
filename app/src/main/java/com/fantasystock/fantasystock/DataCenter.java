@@ -35,6 +35,7 @@ public class DataCenter {
     public HashMap<String, Stock> stockMap; // these stocks have the updated price, but shares could be wrong
     private DataClient client;
     private User currentUser;
+    private String lastViewedStock;
 
 
     private static DataCenter mInstance;
@@ -87,6 +88,14 @@ public class DataCenter {
                 }
             }
         });
+    }
+
+    synchronized public String getLastViewedStock() {
+        return lastViewedStock;
+    }
+
+    synchronized public void setLastViewedStock(String lastViewedStock) {
+        this.lastViewedStock = lastViewedStock;
     }
 
     public void favoriteStock(Stock stock) {

@@ -49,6 +49,7 @@ import butterknife.OnClick;
 public class ChartView extends RecyclerView.ViewHolder {
     @Bind(R.id.lcChart) LineChart lineChart;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+
     public Drawable fadeBlue;
     private DataClient client;
     private LimitLine openLimitLine;
@@ -171,6 +172,7 @@ public class ChartView extends RecyclerView.ViewHolder {
         } else {
             client.getHistoricalPrices(stock.symbol, period, callBackHandler());
         }
+
 
     }
 }

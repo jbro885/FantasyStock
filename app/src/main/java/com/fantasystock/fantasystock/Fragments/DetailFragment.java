@@ -94,8 +94,8 @@ public class DetailFragment extends Fragment{
     public void onResume() {
         super.onResume();
         setStock();
-
     }
+
 
     @OnClick(R.id.btnBuy)
     public void onBuy(View view) {

@@ -1,19 +1,27 @@
 package com.fantasystock.fantasystock.Activities;
 
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
@@ -23,6 +31,7 @@ import com.fantasystock.fantasystock.Fragments.ChartView;
 import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
+import com.fantasystock.fantasystock.Fragments.WindowChartView;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -52,9 +61,16 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
     @Bind(R.id.vTouchView) View vTouchView;
+    @Bind(R.id.svScrollView) ScrollView scrollView;
+    @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
+
     // Title bar
     private ArrayList<Stock> stocks;
     private int indexesIndex;
+
+    private WindowChartView windowChartView;
+    private float windowWidth;
+    private Point startPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,31 +82,58 @@ public class MainActivity extends AppCompatActivity {
         PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
         periodChartsView.setStock(new Stock("portfolios"));
 
-        ChartView chartView = new ChartView(windowCharts, ContextCompat.getDrawable(this, R.drawable.fade_blue));
-        chartView.setStock(new Stock("AAPL"));
+        windowChartView = new WindowChartView(windowCharts, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        chartView.setVisibility(View.INVISIBLE);
+//        windowChartView.setStock(new Stock("AAPL"));
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        windowWidth = size.x;
+
 
 //        vTouchView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                Log.d("DEBUG", event.getY() + "," + event.getX());
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
 //
-//                    ClipData data = ClipData.newPlainText("", "");
-//                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-//                    v.startDrag(data, shadowBuilder, v, 0);
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    // Construct draggable shadow for view
+//                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//                    // Start the drag of the shadow
+//                    view.startDrag(null, shadowBuilder, view, 0);
+//                    Log.d("DEBUG", "start drag");
+//                    // Hide the actual view as shadow is being dragged
+//                    view.setVisibility(View.INVISIBLE);
 //                    return true;
 //                } else {
 //                    return false;
 //                }
-//
 //            }
 //        });
 //
-//        vTouchView.setOnDragListener(new View.OnDragListener() {
+//        scrollView.setOnDragListener(new View.OnDragListener() {
 //            @Override
 //            public boolean onDrag(View v, DragEvent event) {
-//                Log.d("DEBUG", "Dragging!!!:"+event.getY() + "," + event.getX());
-//                return false;
+//                int eventAction = event.getAction();
+//                if (eventAction == DragEvent.ACTION_DRAG_STARTED) {
+//                    startPoint = new Point(Math.round(event.getX()), Math.round(event.getY()));
+//                } else if (eventAction == DragEvent.ACTION_DRAG_ENDED){
+//                    AnimatorSet set = new AnimatorSet();
+//                    set.playTogether(
+//
+//                            ObjectAnimator.ofFloat(windowCharts, "translationX", windowCharts.getTranslationX(), 0.0f).setDuration(300),
+//                            ObjectAnimator.ofFloat(windowCharts, "translationY", windowCharts.getTranslationY(), 0.0f).setDuration(300)
+//                    );
+//                    set.start();
+//                    vTouchView.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            vTouchView.setVisibility(View.VISIBLE);
+//                        }
+//                    });
+//                } else {
+//                    windowCharts.setTranslationX(event.getX() - startPoint.x);
+//                    windowCharts.setTranslationY(event.getY() - startPoint.y);
+//                }
+//                return true;
 //            }
 //        });
 
@@ -177,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REFRESH_WATCHLIST) {
             watchlistFragment.refreshWatchlist();
         }
+        String symbol = DataCenter.getInstance().getLastViewedStock();
+        windowChartView.setStock(new Stock(symbol));
     }
 
     private void handleScrolling(int verticalOffset) {
@@ -185,5 +230,21 @@ public class MainActivity extends AppCompatActivity {
             alpha = 1;
         }
         ivBackgroundBlurred.setAlpha(1 - alpha * 0.3f);
+    }
+
+    @OnClick(R.id.vTouchView)
+    public void onScreenClick() {
+        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+        intent.putExtra("symbol", "AAPL");
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, windowCharts, "windowCharts");
+        startActivity(intent, options.toBundle());
+    }
+
+    @OnClick(R.id.ibWindowCloseButton)
+    public void onCloseWindowButton() {
+        ObjectAnimator windowFadeOut = ObjectAnimator.ofFloat(windowCharts, "alpha", 0.0f).setDuration(300);
+        ObjectAnimator closeButtonFadeOute = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
+        windowFadeOut.start();
+        closeButtonFadeOute.start();
     }
 }
