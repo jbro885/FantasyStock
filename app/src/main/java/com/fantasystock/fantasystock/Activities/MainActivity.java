@@ -4,6 +4,7 @@ package com.fantasystock.fantasystock.Activities;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     @Bind(R.id.fCharts) View chartView;
+    @Bind(R.id.fWindowChart) View fWindowChart;
     @Bind(R.id.rlWindowChart) View windowCharts;
 
     @Bind(R.id.ivBackground) ImageView ivBackground;
@@ -82,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
         PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
         periodChartsView.setStock(new Stock("portfolios"));
 
-        windowChartView = new WindowChartView(windowCharts, ContextCompat.getDrawable(this, R.drawable.fade_blue));
-        chartView.setVisibility(View.INVISIBLE);
 //        windowChartView.setStock(new Stock("AAPL"));
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         windowWidth = size.x;
+        windowChartView = new WindowChartView(fWindowChart, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        windowCharts.setAlpha(0.0f);
+        ibWindowCloseButton.setAlpha(0.0f);
 
 
 //        vTouchView.setOnTouchListener(new View.OnTouchListener() {
@@ -195,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void getWatchlist() {
@@ -221,7 +224,10 @@ public class MainActivity extends AppCompatActivity {
             watchlistFragment.refreshWatchlist();
         }
         String symbol = DataCenter.getInstance().getLastViewedStock();
+        if (symbol == null) return;
         windowChartView.setStock(new Stock(symbol));
+        windowCharts.setAlpha(1.0f);
+        ibWindowCloseButton.setAlpha(1.0f);
     }
 
     private void handleScrolling(int verticalOffset) {

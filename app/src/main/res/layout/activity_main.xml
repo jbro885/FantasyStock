@@ -146,6 +146,7 @@
         android:background="@drawable/round_rectangle">
 
         <include layout="@layout/fragment_window_chart"
+            android:id="@+id/fWindowChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
