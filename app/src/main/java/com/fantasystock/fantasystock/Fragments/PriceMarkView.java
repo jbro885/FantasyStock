@@ -31,10 +31,10 @@ public class PriceMarkView extends MarkerView {
 
             CandleEntry ce = (CandleEntry) e;
 
-            tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
+            tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 2, true));
         } else {
 
-            tvContent.setText("" + Utils.formatNumber(e.getVal(), 0, true));
+            tvContent.setText("" + Utils.formatNumber(e.getVal(), (e.getVal()>1000?0:2), true));
         }
     }
 

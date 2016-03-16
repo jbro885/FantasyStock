@@ -197,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(change / total * 100) + "% )");
                     tvTotal.setText(Utils.moneyConverter(total));
+                    User.currentUser.totalValue = total;
+                    User.currentUser.updateUser(null);
                 }
             });
         }
