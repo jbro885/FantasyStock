@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
         periodChartsView.setStock(new Stock("portfolios"));
 
 //        windowChartView.setStock(new Stock("AAPL"));
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         windowWidth = size.x;
-        windowChartView = new WindowChartView(fWindowChart, ContextCompat.getDrawable(this, R.drawable.fade_blue));
+        windowChartView = new WindowChartView(fWindowChart, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
         windowCharts.setAlpha(0.0f);
         ibWindowCloseButton.setAlpha(0.0f);
 
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get list view
         watchlistFragment = new WatchlistFragment();
+        watchlistFragment.fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
         getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
         newsListFragment = new NewsListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
@@ -236,14 +237,6 @@ public class MainActivity extends AppCompatActivity {
             alpha = 1;
         }
         ivBackgroundBlurred.setAlpha(1 - alpha * 0.3f);
-    }
-
-    @OnClick(R.id.vTouchView)
-    public void onScreenClick() {
-        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-        intent.putExtra("symbol", "AAPL");
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, windowCharts, "windowCharts");
-        startActivity(intent, options.toBundle());
     }
 
     @OnClick(R.id.ibWindowCloseButton)

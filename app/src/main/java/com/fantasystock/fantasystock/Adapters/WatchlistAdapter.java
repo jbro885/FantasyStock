@@ -44,7 +44,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int CHANGE_PERCENTAGE = 1;
     private final int CHANGE_PRICE = 2;
 
-    private interface viewHolderBinding {
+    public interface viewHolderBinding {
         void setItem(Object object, View view);
     }
 

@@ -40,9 +40,11 @@
         <activity android:name=".Activities.TransactionActivity" />
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.SearchActivity" />
-        <activity android:name=".Activities.TradeActivity"></activity>
-        <activity android:name=".Activities.PortfoliosActivity"></activity>
-        <activity android:name=".Activities.NewsActivity"></activity>
+        <activity android:name=".Activities.TradeActivity" />
+        <activity android:name=".Activities.PortfoliosActivity" />
+        <activity android:name=".Activities.NewsActivity" />
+        <activity android:name=".Activities.ChartsActivity" />
+        <activity android:name=".Activities.RankActivity"></activity>
     </application>
 
 </manifest>

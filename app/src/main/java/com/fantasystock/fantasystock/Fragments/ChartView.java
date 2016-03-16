@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
@@ -56,11 +57,13 @@ public class ChartView extends RecyclerView.ViewHolder {
     private final static String defaultPeriod = "1d";
     public boolean isDarkTheme;
     public Stock stock;
+    protected FragmentActivity fragmentActivity;
 
-    public ChartView(View itemView, Drawable fadeBlue) {
+    public ChartView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.fadeBlue = fadeBlue;
+        this.fragmentActivity = fragmentActivity;
         client = DataClient.getInstance();
         isDarkTheme = true;
         initChart();
@@ -74,6 +77,8 @@ public class ChartView extends RecyclerView.ViewHolder {
 
         // enable touch gestures
         lineChart.setTouchEnabled(true);
+//        lineChart.setOnChartGestureListener(this);
+//        lineChart.setOnChartValueSelectedListener(this);
 
         // enable scaling and dragging
         lineChart.setDragEnabled(true);
@@ -95,6 +100,11 @@ public class ChartView extends RecyclerView.ViewHolder {
 
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
+
+        PriceMarkView mv = new PriceMarkView(fragmentActivity.getApplicationContext(), R.layout.layout_price_mark_view);
+
+        // set the marker to the chart
+        lineChart.setMarkerView(mv);
     }
 
 

@@ -3,38 +3,15 @@ package com.fantasystock.fantasystock.Fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+
+import android.support.v4.app.FragmentActivity;
+
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Models.HistoricalData;
-import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,9 +35,10 @@ public class PeriodChartsView extends ChartView {
     private static final String PERIOD_1Y = "1y";
     private static final String PERIOD_ALL = "10y";
 
-    public PeriodChartsView(View itemView, Drawable fadeBlue) {
-        super(itemView, fadeBlue);
+    public PeriodChartsView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
+        super(itemView, fadeBlue, fragmentActivity);
         ButterKnife.bind(this, itemView);
+
     }
 
     @OnClick(R.id.tvPeriodALL)

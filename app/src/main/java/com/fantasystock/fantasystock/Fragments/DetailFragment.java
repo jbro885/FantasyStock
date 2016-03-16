@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -54,6 +55,7 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
     PeriodChartsView periodChartsView;
     public Drawable fadeBlue;
+    public FragmentActivity fragmentActivity;
 
     public static DetailFragment newInstance(String symbol) {
         DetailFragment detailFragment= new DetailFragment ();
@@ -76,7 +78,7 @@ public class DetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, parent, false);
         ButterKnife.bind(this, view);
-        periodChartsView = new PeriodChartsView(vChart, fadeBlue);
+        periodChartsView = new PeriodChartsView(vChart, fadeBlue, fragmentActivity);
         periodChartsView.isDarkTheme = false;
         return view;
     }

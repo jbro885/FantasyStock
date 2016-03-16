@@ -2,24 +2,23 @@ package com.fantasystock.fantasystock.Fragments;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.fantasystock.fantasystock.Adapters.WatchlistAdapter;
+import com.fantasystock.fantasystock.Adapters.WatchlistGridViewAdapter;
 import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
@@ -40,6 +39,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     private WatchlistAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
+    public Drawable fadeBlue;
+
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
     private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
@@ -55,6 +56,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     };
 
     @Bind(R.id.rvList) RecyclerView rvList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,9 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         mItemTouchHelper.attachToRecyclerView(rvList);
 
 
+
+
+
         // Get Watchlist
         refreshWatchlist();
 
@@ -103,6 +108,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 mAdapter.notifyDataSetChanged();
+
             }
         });
     }

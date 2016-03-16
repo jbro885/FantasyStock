@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvSymbol"
@@ -10,7 +10,7 @@
         android:padding="2dp"
         android:text="AAPL"
         android:textSize="16sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:fontFamily="@string/font_sans_serif_medium"
         />
     <TextView
@@ -42,14 +42,15 @@
         android:id="@+id/lcChart"
         android:transitionName="windowCharts"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="130dp"
         android:layout_below="@id/tvChanges"
         android:background="@color/transparent"/>
     <include layout="@layout/layout_loading_spinner"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/lcChart"
+
         />
 
 
