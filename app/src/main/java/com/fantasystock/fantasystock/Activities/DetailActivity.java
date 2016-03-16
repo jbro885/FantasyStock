@@ -47,10 +47,29 @@ public class DetailActivity extends AppCompatActivity {
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
         DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue, stocks);
         vpViewPager.setAdapter(detailsPagerAdapter);
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (stocks.size()>0) {
+                    DataCenter.getInstance().setLastViewedStock(stocks.get(position));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         setCurrentPageToStock(symbol);
 
     }
+
 
     private void setCurrentPageToStock(String symbol) {
 
@@ -88,5 +107,8 @@ public class DetailActivity extends AppCompatActivity {
         public int getCount() {
             return stocks.size();
         }
+
+
+
     }
 }
