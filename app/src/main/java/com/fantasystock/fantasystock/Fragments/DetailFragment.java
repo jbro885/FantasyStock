@@ -5,18 +5,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -48,19 +51,11 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvTotalReturn) TextView tvTotalReturn;
     @Bind(R.id.tvTodayReturn) TextView tvTodayReturn;
 
-    //Profiles
-    @Bind(R.id.tvMarketCap) TextView tvMarketCap;
-    @Bind(R.id.tvOpen) TextView tvOpen;
-    @Bind(R.id.tvHigh) TextView tvHigh;
-    @Bind(R.id.tvLow) TextView tvLow;
-    @Bind(R.id.tv52High) TextView tv52High;
-    @Bind(R.id.tv52Low) TextView tv52Low;
-    @Bind(R.id.tvPERatio) TextView tvPERatio;
-    @Bind(R.id.tvDivYield) TextView tvDivYield;
-    @Bind(R.id.tvVolume) TextView tvVolume;
-    @Bind(R.id.tvAvgVolume) TextView tvAvgVolume;
-    ChartsView chartsView;
+    @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
+    @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
+    PeriodChartsView periodChartsView;
     public Drawable fadeBlue;
+    public FragmentActivity fragmentActivity;
 
     public static DetailFragment newInstance(String symbol) {
         DetailFragment detailFragment= new DetailFragment ();
@@ -83,28 +78,26 @@ public class DetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, parent, false);
         ButterKnife.bind(this, view);
-        chartsView = new ChartsView(vChart, fadeBlue);
-        chartsView.isDarkTheme = false;
+        periodChartsView = new PeriodChartsView(vChart, fadeBlue, fragmentActivity);
+        periodChartsView.isDarkTheme = false;
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // News List
-        Fragment fragment = DetailNewsListFragment.newInstance(symbol);
-        Fragment commentsFragment = CommentsFragment.newInstance(symbol);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.flMainListHolder, fragment);
-        transaction.replace(R.id.flCommentsHolder, commentsFragment).commit();
+
+        InfoPagerAdapter detailsPagerAdapter = new InfoPagerAdapter(getChildFragmentManager(), symbol);
+        vpInfoViewPager.setAdapter(detailsPagerAdapter);
+        pgSlidingTab.setViewPager(vpInfoViewPager);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setStock();
-
     }
+
 
     @OnClick(R.id.btnBuy)
     public void onBuy(View view) {
@@ -125,7 +118,7 @@ public class DetailFragment extends Fragment{
 
     private void setStock() {
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-        chartsView.setStock(stock);
+        periodChartsView.setStock(stock);
 
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
@@ -134,38 +127,57 @@ public class DetailFragment extends Fragment{
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
-                    Utils.setHeight(llSharesInfo,0);
+                    Utils.setHeight(llSharesInfo, 0);
                 } else {
-                    Utils.setHeight(llSharesInfo,-1);
+                    Utils.setHeight(llSharesInfo, -1);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
-                    tvShares.setText(ownStock.share+"");
-                    tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share*100)/100 + "");
+                    tvShares.setText(ownStock.share + "");
+                    tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
                     tvEquityValue.setText(ownStock.share * stock.current_price + "");
                     tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
                     tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
-                    tvTotalReturnPercentage.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost)/ownStock.total_cost + "");
+                    tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost * 100) + "%");
+
                 }
             }
         });
-        DataClient.getInstance().getQuoteProfile(symbol, profileCallbackHandler());
+
 
     }
 
-    private CallBack profileCallbackHandler() {
-        return new CallBack(){
-            @Override
-            public void profileCallBack(Profile profile) {
-                tv52High.setText(profile.yr_high);
-                tv52Low.setText(profile.yr_low);
-                tvLow.setText(profile.low);
-                tvHigh.setText(profile.high);
-                tvPERatio.setText(profile.eps);
-                tvMarketCap.setText(profile.mkt_cap);
-                tvOpen.setText(profile.open);
-                tvDivYield.setText(profile.dividend_yld);
-                tvVolume.setText(Utils.numberConverter(Integer.parseInt(profile.vol)));
-                tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
+
+
+    private static class InfoPagerAdapter extends FragmentPagerAdapter {
+        private String symbol;
+        public InfoPagerAdapter(FragmentManager fm, String symbol) {
+            super(fm);
+            this.symbol = symbol;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return DetailNewsListFragment.newInstance(symbol);
             }
-        };
+            else if (position == 1 ) {
+                return ProfileFragment.newInstance(symbol);
+            }
+            return CommentsFragment.newInstance(symbol);
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return "NEWS";
+            } else if (position ==1) {
+                return "PROFILE";
+            }
+            return "COMMENTS";
+        }
     }
 }

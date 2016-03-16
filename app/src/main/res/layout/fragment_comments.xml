@@ -5,7 +5,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
         android:id="@+id/rvList">
 
     </android.support.v7.widget.RecyclerView>

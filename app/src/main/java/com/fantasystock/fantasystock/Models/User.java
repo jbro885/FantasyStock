@@ -27,12 +27,14 @@ public class User {
     private final static String USER_WATCH_LIST = "user_watch_list";
     private final static String USER_INVESTING_STOCKS = "user_investing_stocks";
     private final static String USER_AVAILABLE_FUND = "user_available_fund";
+    private final static String USER_TOTAL_VALUE = "user_total_value";
     private final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
 
     public String id;
     public String profileImageUrl;
     public String username;
     public double availableFund;
+    public double totalValue;
     public HashSet<String> watchlistSet;
     public ArrayList<String> watchlist;
 
@@ -61,6 +63,7 @@ public class User {
         if (investingStocks==null) investingStocks = new ArrayList<>();
         if (investingStocksMap==null) investingStocksMap = new HashMap<>();
         if (availableFund == 0) availableFund = 1000000;
+        if (totalValue == 0) totalValue = availableFund;
 
         for (int i=0;i<watchlist.size();++i) {
             String symbol = watchlist.get(i);
@@ -80,6 +83,7 @@ public class User {
             Gson gson = new Gson();
             user.put(USER_WATCH_LIST, gson.toJsonTree(watchlist).toString());
             user.put(USER_AVAILABLE_FUND, availableFund);
+            user.put(USER_TOTAL_VALUE, totalValue);
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
             if (callBack==null) {
                 user.saveInBackground();
@@ -88,7 +92,9 @@ public class User {
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    callBack.done();
+                    if (callBack!=null) {
+                        callBack.done();
+                    }
                 }
             });
         }

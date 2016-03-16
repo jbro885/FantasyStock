@@ -1,15 +1,19 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -43,31 +47,23 @@ import butterknife.OnClick;
 /**
  * Created by wilsonsu on 3/6/16.
  */
-public class ChartsView extends RecyclerView.ViewHolder {
+public class ChartView extends RecyclerView.ViewHolder {
     @Bind(R.id.lcChart) LineChart lineChart;
-    @Bind(R.id.tvPeriodOneDay) TextView tvPeriodOneDay;
-    @Bind(R.id.tvPeriodOneWeek) TextView tvPeriodOneWeek;
-    @Bind(R.id.tvPeriodOneMonth) TextView tvPeriodOneMonth;
-    @Bind(R.id.tvPeriodAnYear) TextView tvPeriodAnYear;
-    @Bind(R.id.tvPeriodHalfYear) TextView tvPeriodHalfYear;
-    @Bind(R.id.tvPeriodALL) TextView tvPeriodALL;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+
     public Drawable fadeBlue;
     private DataClient client;
     private LimitLine openLimitLine;
+    private final static String defaultPeriod = "1d";
     public boolean isDarkTheme;
     public Stock stock;
-    private static final String PERIOD_1D = "1d";
-    private static final String PERIOD_1W = "5d";
-    private static final String PERIOD_1M = "20d";
-    private static final String PERIOD_6M = "6m";
-    private static final String PERIOD_1Y = "1y";
-    private static final String PERIOD_ALL = "10y";
+    protected FragmentActivity fragmentActivity;
 
-    public ChartsView(View itemView, Drawable fadeBlue) {
+    public ChartView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.fadeBlue = fadeBlue;
+        this.fragmentActivity = fragmentActivity;
         client = DataClient.getInstance();
         isDarkTheme = true;
         initChart();
@@ -81,6 +77,8 @@ public class ChartsView extends RecyclerView.ViewHolder {
 
         // enable touch gestures
         lineChart.setTouchEnabled(true);
+//        lineChart.setOnChartGestureListener(this);
+//        lineChart.setOnChartValueSelectedListener(this);
 
         // enable scaling and dragging
         lineChart.setDragEnabled(true);
@@ -97,17 +95,23 @@ public class ChartsView extends RecyclerView.ViewHolder {
 
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawAxisLine(false);
+        lineChart.getAxisLeft().setLabelCount(4, false);
         lineChart.getAxisLeft().setTextColor(isDarkTheme ? Color.WHITE : Color.BLACK);
 
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(true);
+
+        PriceMarkView mv = new PriceMarkView(fragmentActivity.getApplicationContext(), R.layout.layout_price_mark_view);
+
+        // set the marker to the chart
+        lineChart.setMarkerView(mv);
     }
 
 
     public void setStock(Stock stock) {
         this.stock = stock;
         lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
-        onOneDayClick();
+        onRefreshPeriod(defaultPeriod);
     }
 
 
@@ -158,6 +162,7 @@ public class ChartsView extends RecyclerView.ViewHolder {
         lineChart.setData(lineData);
         lineChart.animateX(1500);
         lineChart.invalidate();
+        lineChart.getLegend().setEnabled(false);
     }
 
     private CallBack callBackHandler() {
@@ -171,20 +176,7 @@ public class ChartsView extends RecyclerView.ViewHolder {
         };
     }
 
-    @OnClick(R.id.tvPeriodALL)
-    public void onAllClick() {onPeriodClick(PERIOD_ALL, tvPeriodALL); }
-    @OnClick(R.id.tvPeriodAnYear)
-    public void onYearClick() {onPeriodClick(PERIOD_1Y, tvPeriodAnYear); }
-    @OnClick(R.id.tvPeriodHalfYear)
-    public void onHalfYearClick() {onPeriodClick(PERIOD_6M, tvPeriodHalfYear); }
-    @OnClick(R.id.tvPeriodOneMonth)
-    public void onOneMonthClick() {onPeriodClick(PERIOD_1M, tvPeriodOneMonth); }
-    @OnClick(R.id.tvPeriodOneDay)
-    public void onOneDayClick() {onPeriodClick(PERIOD_1D, tvPeriodOneDay); }
-    @OnClick(R.id.tvPeriodOneWeek)
-    public void onOneWeekClick() {onPeriodClick(PERIOD_1W, tvPeriodOneWeek); }
-
-    private void onPeriodClick(String period, TextView textView) {
+    protected void onRefreshPeriod(String period) {
         if (stock.symbol.equals("portfolios")) {
             DataCenter.getInstance().portfolios(period, callBackHandler());
         } else {
@@ -192,13 +184,5 @@ public class ChartsView extends RecyclerView.ViewHolder {
         }
 
 
-        int greyColor = Color.parseColor("#7788AA");
-        tvPeriodALL.setTextColor(greyColor);
-        tvPeriodAnYear.setTextColor(greyColor);
-        tvPeriodHalfYear.setTextColor(greyColor);
-        tvPeriodOneDay.setTextColor(greyColor);
-        tvPeriodOneWeek.setTextColor(greyColor);
-        tvPeriodOneMonth.setTextColor(greyColor);
-        textView.setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
     }
 }

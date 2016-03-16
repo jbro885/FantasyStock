@@ -1,24 +1,40 @@
 package com.fantasystock.fantasystock.Activities;
 
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Display;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Fragments.ChartsView;
+import com.fantasystock.fantasystock.Fragments.ChartView;
+import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
+import com.fantasystock.fantasystock.Fragments.WindowChartView;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -35,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     @Bind(R.id.fCharts) View chartView;
+    @Bind(R.id.fWindowChart) View fWindowChart;
+    @Bind(R.id.rlWindowChart) View windowCharts;
 
     @Bind(R.id.ivBackground) ImageView ivBackground;
     @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
@@ -46,9 +64,17 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvTotal) TextView tvTotal;
     @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
+    @Bind(R.id.vTouchView) View vTouchView;
+    @Bind(R.id.svScrollView) ScrollView scrollView;
+    @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
+
     // Title bar
     private ArrayList<Stock> stocks;
     private int indexesIndex;
+
+    private WindowChartView windowChartView;
+    private float windowWidth;
+    private Point startPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +83,73 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ChartsView chartsView = new ChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue));
-        chartsView.setStock(new Stock("portfolios"));
+        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
+        periodChartsView.setStock(new Stock("portfolios"));
+
+//        windowChartView.setStock(new Stock("AAPL"));
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        windowWidth = size.x;
+        windowChartView = new WindowChartView(fWindowChart, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
+        windowCharts.setAlpha(0.0f);
+        ibWindowCloseButton.setAlpha(0.0f);
+
+
+//        vTouchView.setOnTouchListener(new View.OnTouchListener() {
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    // Construct draggable shadow for view
+//                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//                    // Start the drag of the shadow
+//                    view.startDrag(null, shadowBuilder, view, 0);
+//                    Log.d("DEBUG", "start drag");
+//                    // Hide the actual view as shadow is being dragged
+//                    view.setVisibility(View.INVISIBLE);
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
+//
+//        scrollView.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                int eventAction = event.getAction();
+//                if (eventAction == DragEvent.ACTION_DRAG_STARTED) {
+//                    startPoint = new Point(Math.round(event.getX()), Math.round(event.getY()));
+//                } else if (eventAction == DragEvent.ACTION_DRAG_ENDED){
+//                    AnimatorSet set = new AnimatorSet();
+//                    set.playTogether(
+//
+//                            ObjectAnimator.ofFloat(windowCharts, "translationX", windowCharts.getTranslationX(), 0.0f).setDuration(300),
+//                            ObjectAnimator.ofFloat(windowCharts, "translationY", windowCharts.getTranslationY(), 0.0f).setDuration(300)
+//                    );
+//                    set.start();
+//                    vTouchView.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            vTouchView.setVisibility(View.VISIBLE);
+//                        }
+//                    });
+//                } else {
+//                    windowCharts.setTranslationX(event.getX() - startPoint.x);
+//                    windowCharts.setTranslationY(event.getY() - startPoint.y);
+//                }
+//                return true;
+//            }
+//        });
+
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                handleScrolling(scrollView.getScrollY());
+            }
+        });
+
+
 
 
         // Create dummy watchlist
@@ -66,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get list view
         watchlistFragment = new WatchlistFragment();
+        watchlistFragment.fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
         getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
         newsListFragment = new NewsListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
@@ -115,10 +207,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(change / total * 100) + "% )");
                     tvTotal.setText(Utils.moneyConverter(total));
+                    User.currentUser.totalValue = total;
+                    User.currentUser.updateUser(null);
                 }
             });
         }
-
     }
 
     private void getWatchlist() {
@@ -126,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        if (User.currentUser!=null) {
+        if (User.currentUser!=null && User.currentUser.username!=null) {
             startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
         } else {
             startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
@@ -143,13 +236,27 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REFRESH_WATCHLIST) {
             watchlistFragment.refreshWatchlist();
         }
+        String symbol = DataCenter.getInstance().getLastViewedStock();
+        if (symbol == null) return;
+        windowChartView.setStock(new Stock(symbol));
+        windowCharts.setAlpha(1.0f);
+        ibWindowCloseButton.setAlpha(1.0f);
     }
 
     private void handleScrolling(int verticalOffset) {
-        float alpha = Math.abs(verticalOffset)/3000.0f;
+        float alpha = Math.abs(verticalOffset)/1000.0f;
         if (alpha > 1) {
             alpha = 1;
         }
-        ivBackgroundBlurred.setAlpha(1 - alpha * 0.3f);
+//        ivBackgroundBlurred.setAlpha(0.6f + alpha * 0.4f);
+        ivBackgroundBlurred.setAlpha(alpha);
+    }
+
+    @OnClick(R.id.ibWindowCloseButton)
+    public void onCloseWindowButton() {
+        ObjectAnimator windowFadeOut = ObjectAnimator.ofFloat(windowCharts, "alpha", 0.0f).setDuration(300);
+        ObjectAnimator closeButtonFadeOute = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
+        windowFadeOut.start();
+        closeButtonFadeOute.start();
     }
 }

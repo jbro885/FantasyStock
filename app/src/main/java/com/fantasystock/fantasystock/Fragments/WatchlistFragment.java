@@ -1,19 +1,24 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.WatchlistAdapter;
+import com.fantasystock.fantasystock.Adapters.WatchlistGridViewAdapter;
 import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
@@ -34,6 +39,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     private WatchlistAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
+    public Drawable fadeBlue;
+
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
     private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
@@ -49,6 +56,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     };
 
     @Bind(R.id.rvList) RecyclerView rvList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,9 +76,20 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvList.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter){
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                View itemView= viewHolder.itemView;
+                scaleItem(itemView, false);
+                super.clearView(recyclerView, viewHolder);
+            }
+        };
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rvList);
+
+
+
+
 
         // Get Watchlist
         refreshWatchlist();
@@ -89,6 +108,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 mAdapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -111,6 +131,18 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+
+        View itemView= viewHolder.itemView;
+        scaleItem(itemView, true);
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    private void scaleItem(View itemView, boolean scaleUp) {
+        AnimatorSet set = new AnimatorSet();
+        float from = scaleUp?1.00f:1.03f;
+        float to = scaleUp?1.03f:1.00f;
+        set.playTogether(ObjectAnimator.ofFloat(itemView, "scaleX", from, to).setDuration(300),
+                        ObjectAnimator.ofFloat(itemView, "scaleY", from, to).setDuration(300) );
+        set.start();
     }
 }

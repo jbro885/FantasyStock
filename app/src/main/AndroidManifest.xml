@@ -47,6 +47,8 @@
             android:name=".PullToSubmitActivity"
             android:label="@string/title_activity_pull_to_submit"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".Activities.ChartsActivity" />
+        <activity android:name=".Activities.RankActivity"></activity>
     </application>
 
 </manifest>

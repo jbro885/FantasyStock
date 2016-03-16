@@ -1,70 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
+
+
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lcChart"
+        android:transitionName="windowCharts"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_below="@id/tvChanges"
         android:background="@color/transparent"/>
-    <LinearLayout
-        android:id="@+id/llPeriods"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal"
-        android:background="@color/transparent"
-        android:layout_below="@id/lcChart">
-        <TextView
-            android:id="@+id/tvPeriodOneDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="1d"/>
-        <TextView
-            android:id="@+id/tvPeriodOneWeek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="1w"/>
-        <TextView
-            android:id="@+id/tvPeriodOneMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="1m"/>
-        <TextView
-            android:id="@+id/tvPeriodHalfYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="6m"/>
-        <TextView
-            android:id="@+id/tvPeriodAnYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="1Y"/>
-        <TextView
-            android:id="@+id/tvPeriodALL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="ALL"/>
-    </LinearLayout>
     <include layout="@layout/layout_loading_spinner"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignBottom="@id/llPeriods"
+        android:layout_alignParentBottom="true"
         />
-
 
 
 </RelativeLayout>

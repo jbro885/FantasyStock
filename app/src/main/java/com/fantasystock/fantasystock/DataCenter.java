@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock;
 
+import android.graphics.drawable.Drawable;
 import android.telecom.Call;
 import android.util.Log;
 
@@ -28,13 +29,14 @@ import java.util.List;
  */
 public class DataCenter {
     private final static String USER_HISTORY = "user_history";
-
     private final static String TRANSACTION_SYMBOL = "transaction_symbol";
     private final static String TRANSACTION_SHARES = "transaction_shares";
     private final static String TRANSACTION_AVG_PRICE = "transaction_avg_price";
     public HashMap<String, Stock> stockMap; // these stocks have the updated price, but shares could be wrong
     private DataClient client;
     private User currentUser;
+    private String lastViewedStock;
+
 
 
     private static DataCenter mInstance;
@@ -87,6 +89,14 @@ public class DataCenter {
                 }
             }
         });
+    }
+
+    synchronized public String getLastViewedStock() {
+        return lastViewedStock;
+    }
+
+    synchronized public void setLastViewedStock(String lastViewedStock) {
+        this.lastViewedStock = lastViewedStock;
     }
 
     public void favoriteStock(Stock stock) {

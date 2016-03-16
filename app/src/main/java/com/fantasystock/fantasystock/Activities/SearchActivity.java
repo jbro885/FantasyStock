@@ -2,9 +2,9 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -23,6 +23,8 @@ import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,7 +88,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void stocksCallBack(ArrayList<Stock> responseStocks) {
                 stocks.clear();
-                stocks.addAll(responseStocks);
+                Set<String> seenStock = new HashSet<String>();
+                for (Stock s: responseStocks) {
+                    String key = s.symbol + "|" + s.market;
+                    if (seenStock.contains(key)) {
+                        continue;
+                    }
+                    seenStock.add(key);
+                    stocks.add(s);
+                }
                 adapter.notifyDataSetChanged();
             }
         });

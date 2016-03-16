@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -45,12 +46,31 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue, stocks);
+        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue, stocks, this);
         vpViewPager.setAdapter(detailsPagerAdapter);
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (stocks.size()>0) {
+                    DataCenter.getInstance().setLastViewedStock(stocks.get(position));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         setCurrentPageToStock(symbol);
 
     }
+
 
     private void setCurrentPageToStock(String symbol) {
 
@@ -64,10 +84,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
+        private FragmentActivity fragmentActivity;
         private ArrayList<String> stocks;
         private Drawable fadeBlue;
-        public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue, ArrayList<String> stocks) {
+        public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue, ArrayList<String> stocks, FragmentActivity fragmentActivity) {
             super(fm);
+            this.fragmentActivity = fragmentActivity;
             this.fadeBlue = fadeBlue;
             if (stocks == null) {
                 this.stocks = User.currentUser.watchlist;
@@ -81,6 +103,7 @@ public class DetailActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position));
             detailFragment.fadeBlue = fadeBlue;
+            detailFragment.fragmentActivity = fragmentActivity;
             return detailFragment;
         }
 
@@ -88,5 +111,8 @@ public class DetailActivity extends AppCompatActivity {
         public int getCount() {
             return stocks.size();
         }
+
+
+
     }
 }
