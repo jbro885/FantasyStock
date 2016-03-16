@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -235,7 +236,8 @@ public class DataClient {
                 final Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
                 Gson gson = new Gson();
                 ArrayList<Stock> stocks = gson.fromJson(matches.toString(), listType);
-                callBack.stocksCallBack(stocks);
+
+                callBack.stocksCallBack(dedupStocks(stocks));
             }
 
             @Override
@@ -244,6 +246,20 @@ public class DataClient {
                 callBack.onFail(errorResponse.toString());
             }
         };
+    }
+
+    private ArrayList<Stock> dedupStocks(ArrayList<Stock> stocks) {
+        int len = stocks.size();
+        ArrayList<Stock> deduplicatedStocks = new ArrayList<>();
+        HashSet<String> symbols = new HashSet<>();
+        for (int i=0;i<len;++i) {
+            Stock stock = stocks.get(i);
+            if (!symbols.contains(stock.symbol)) {
+                symbols.add(stock.symbol);
+                deduplicatedStocks.add(stock);
+            }
+        }
+        return deduplicatedStocks;
     }
 
     /**
