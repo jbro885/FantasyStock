@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
@@ -36,8 +37,22 @@ public class WindowChartView extends ChartView {
         if( stockData == null) {
             return;
         }
-        tvPrice.setText(stockData.current_price+"");
+        tvPrice.setText(stockData.current_price + "");
         tvChanges.setText(" (" + stockData.current_change_percentage + ")");
+        Float changePercentage = -100.0f;
+        try {
+            changePercentage = Float.parseFloat(stockData.current_change_percentage);
+        } catch (Exception e) {
+
+        }
+
+        if (changePercentage<0) {
+            tvChanges.setTextColor(Color.parseColor("#f0162f"));
+        } else {
+            tvChanges.setTextColor(Color.parseColor("#13CC52"));
+        }
+
+
     }
 
     @Override

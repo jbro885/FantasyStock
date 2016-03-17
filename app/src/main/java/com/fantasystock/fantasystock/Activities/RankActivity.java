@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,11 +26,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RankActivity extends AppCompatActivity {
-    @Bind(R.id.rvList)
-    RecyclerView rvList;
+    @Bind(R.id.rvList) RecyclerView rvList;
+    @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
     ArrayList<User> rank;
     UsersArrayAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,16 @@ public class RankActivity extends AppCompatActivity {
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(this));
 
-
+        prLoadingSpinner.setVisibility(View.VISIBLE);
+        User.userRank(new CallBack(){
+            @Override
+            public void usersCallBack(ArrayList<User> users) {
+                rank.clear();
+                rank.addAll(users);
+                adapter.notifyDataSetChanged();
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private static class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
@@ -83,11 +95,11 @@ public class RankActivity extends AppCompatActivity {
             ButterKnife.bind(this, itemView);
         }
         public void setUser(User user, int place) {
-            tvCommentTime.setText(place);
+            tvCommentTime.setText(""+place);
             if (user == null) {
                 return;
             }
-            tvComment.setText(user.availableFund+"");
+            tvComment.setText(user.totalValue+"");
             tvName.setText(user.username);
             if (user.profileImageUrl == null) {
                 ivUserProfile.setImageResource(R.drawable.ic_profile);

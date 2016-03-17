@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleScrolling(int verticalOffset) {
-        float alpha = Math.abs(verticalOffset)/1000.0f;
+        float alpha = Math.abs(verticalOffset)/2000.0f;
         if (alpha > 1) {
             alpha = 1;
         }

@@ -14,9 +14,12 @@ import com.parse.SaveCallback;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by chengfu_lin on 3/5/16.
@@ -53,6 +56,7 @@ public class User {
             final Type stockListType = new TypeToken<ArrayList<Stock>>() {}.getType();
             investingStocks = gson.fromJson(user.getString(USER_INVESTING_STOCKS), stockListType);
             availableFund = user.getDouble(USER_AVAILABLE_FUND);
+            totalValue = user.getDouble(USER_TOTAL_VALUE);
             username = user.getUsername();
             profileImageUrl = user.getString(USER_PROFILE_IMAGE_URL);
             id = user.getObjectId();
@@ -117,13 +121,40 @@ public class User {
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser object, ParseException e) {
+            if (e == null) {
+                callBack.done(object);
+            } else {
+                callBack.onFail(e.toString());
+            }
+            }
+        });
+    }
+
+    public static void userRank(final CallBack callBack) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> results, ParseException e) {
                 if (e == null) {
-                    callBack.done(object);
+                    ArrayList<User> users = new ArrayList<User>();
+                    int len = results.size();
+                    for (int i=0;i<len;++i) {
+                        User aUser = new User(results.get(i));
+                        users.add(aUser);
+                    }
+                    Collections.sort(users, new Comparator<User>(){
+                        public int compare(User u1, User u2){
+                            if(u1.totalValue == u2.totalValue)
+                                return 0;
+                            return u1.totalValue < u2.totalValue ? 1 : -1;
+                        }
+                    });
+                    callBack.usersCallBack(users);
                 } else {
                     callBack.onFail(e.toString());
                 }
             }
         });
+
     }
 
 

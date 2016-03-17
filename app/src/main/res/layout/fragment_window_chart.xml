@@ -22,7 +22,7 @@
         android:padding="2dp"
         android:text="100.00"
         android:textSize="14sp"
-        android:textColor="@color/colorPrimaryGreyDark"
+        android:textColor="@color/white"
         android:fontFamily="@string/font_sans_serif_regular"
         />
     <TextView

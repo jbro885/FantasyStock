@@ -234,6 +234,7 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
 
     @OnClick(R.id.ibRank)
     public void onRank() {
+        startActivity(new Intent(getApplicationContext(), RankActivity.class));
 
     }
 

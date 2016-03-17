@@ -13,7 +13,7 @@ how many shares user owns
 comments/reply on Specific Stock
 profiles of the stocks
 News about the stock
-* [ ] News
+* [x] News
 In general market news with related Stock, tapping on Stock, it will jump into stock detail
 * [x] Watchlist
 Stocks that user is following
@@ -22,7 +22,7 @@ search for stock/quotes and be able to favorite it
 * [x] Transaction Page
 User is able to buy/sell
 Tutorial telling what’s limited price/market price
-* [ ] History Page
+* [x] History Page
 List of All the transactions history 
 Portfolios charts and mark with all the transaction 
 
@@ -32,6 +32,7 @@ Portfolios charts and mark with all the transaction
 * [ ] favorite/follow other user and show who is following friends
 * [ ] create a League and invite other users to join
 * [x] multicharts for watchlists
+* [x] Ranking
 
 *Notes:*
 
@@ -46,6 +47,9 @@ https://wireframe.cc/Fs3kPw
 
 ![Video Walkthrough]
 <img src='rec201.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec301.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec302.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec303.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
