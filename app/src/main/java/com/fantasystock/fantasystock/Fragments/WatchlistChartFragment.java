@@ -1,5 +1,7 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import com.fantasystock.fantasystock.Adapters.WatchlistGridAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.GridItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -27,10 +31,10 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/17/16.
  */
-public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapter.OnStartDragListener*/{
+public class WatchlistChartFragment extends Fragment implements WatchlistGridAdapter.OnStartDragListener {
     private List<Object> items;
     private WatchlistGridAdapter mAdapter;
-    //private ItemTouchHelper mItemTouchHelper;
+    private ItemTouchHelper mItemTouchHelper;
 
     public Drawable fadeBlue;
 
@@ -68,11 +72,12 @@ public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapt
         ButterKnife.bind(this, view);
 
         mAdapter = new WatchlistGridAdapter(items, getActivity(), fadeBlue);
+        mAdapter.setOnStartDragListener(this);
         rvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvList.setAdapter(mAdapter);
 
-        /*
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(gridViewAdapter){
+
+        ItemTouchHelper.Callback callback = new GridItemTouchHelperCallback(mAdapter){
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 View itemView= viewHolder.itemView;
@@ -82,7 +87,7 @@ public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapt
         };
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rvList);
-        */
+
 
         // Get Watchlist
         refreshWatchlist();
@@ -122,7 +127,7 @@ public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapt
         items.addAll(User.currentUser.watchlist);
     }
 
-    /*
+
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         View itemView= viewHolder.itemView;
@@ -138,5 +143,5 @@ public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapt
                 ObjectAnimator.ofFloat(itemView, "scaleY", from, to).setDuration(300) );
         set.start();
     }
-    */
+
 }

@@ -4,20 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.ItemTouchHelperCallback;
+import com.fantasystock.fantasystock.ListItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -32,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/11/16.
  */
-public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperCallback.ItemTouchHelperAdapter {
+public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ListItemTouchHelperCallback.ItemTouchHelperAdapter {
     private List<Object> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
@@ -48,13 +44,16 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void setItem(Object object, View view);
     }
 
-    private final OnStartDragListener mDragStartListener;
+    private OnStartDragListener onStartDragListener;
 
-    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity, OnStartDragListener dragStartListener) {
+    public void setOnStartDragListener(OnStartDragListener onStartDragListener) {
+        this.onStartDragListener = onStartDragListener;
+    }
+
+    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity) {
         this.items = items;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
         this.fragmentActivity = fragmentActivity;
-        this.mDragStartListener = dragStartListener;
     }
 
 
@@ -151,7 +150,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    mDragStartListener.onStartDrag(holder);
+                    onStartDragListener.onStartDrag(holder);
                     return true;
                 }
             });
@@ -194,6 +193,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onItemClear() {
             itemView.setBackgroundColor(0);
         }
+
     }
 
     public interface ItemTouchHelperViewHolder {

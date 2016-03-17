@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REFRESH_WATCHLIST) {
             watchlistFragment.refreshWatchlist();
+            watchlistChartFragment.refreshWatchlist();
         }
         String symbol = DataCenter.getInstance().getLastViewedStock();
         if (symbol == null) return;

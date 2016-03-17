@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.fantasystock.fantasystock.Adapters.WatchlistAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.ItemTouchHelperCallback;
+import com.fantasystock.fantasystock.ListItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -70,11 +70,12 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new WatchlistAdapter(items, getActivity(), this);
+        mAdapter = new WatchlistAdapter(items, getActivity());
+        mAdapter.setOnStartDragListener(this);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvList.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter){
+        ItemTouchHelper.Callback callback = new ListItemTouchHelperCallback(mAdapter){
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 View itemView= viewHolder.itemView;
