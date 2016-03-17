@@ -1,23 +1,19 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fantasystock.fantasystock.Adapters.WatchlistAdapter;
+import com.fantasystock.fantasystock.Adapters.WatchlistGridAdapter;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.ItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -29,14 +25,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by chengfu_lin on 3/11/16.
+ * Created by chengfu_lin on 3/17/16.
  */
-public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnStartDragListener{
+public class WatchlistChartFragment extends Fragment /*implements WatchlistAdapter.OnStartDragListener*/{
     private List<Object> items;
-    private WatchlistAdapter mAdapter;
-    private ItemTouchHelper mItemTouchHelper;
+    private WatchlistGridAdapter mAdapter;
+    //private ItemTouchHelper mItemTouchHelper;
 
-    private Drawable fadeBlue;
+    public Drawable fadeBlue;
 
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
@@ -52,7 +48,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         }
     };
 
-    @Bind(R.id.rvList) RecyclerView rvList;
+    @Bind(R.id.rvList)
+    RecyclerView rvList;
 
 
     @Override
@@ -70,11 +67,12 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new WatchlistAdapter(items, getActivity(), this);
-        rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new WatchlistGridAdapter(items, getActivity(), fadeBlue);
+        rvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvList.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter){
+        /*
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(gridViewAdapter){
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 View itemView= viewHolder.itemView;
@@ -84,6 +82,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         };
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rvList);
+        */
 
         // Get Watchlist
         refreshWatchlist();
@@ -123,9 +122,9 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         items.addAll(User.currentUser.watchlist);
     }
 
+    /*
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-
         View itemView= viewHolder.itemView;
         scaleItem(itemView, true);
         mItemTouchHelper.startDrag(viewHolder);
@@ -136,7 +135,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         float from = scaleUp?1.00f:1.03f;
         float to = scaleUp?1.03f:1.00f;
         set.playTogether(ObjectAnimator.ofFloat(itemView, "scaleX", from, to).setDuration(300),
-                        ObjectAnimator.ofFloat(itemView, "scaleY", from, to).setDuration(300) );
+                ObjectAnimator.ofFloat(itemView, "scaleY", from, to).setDuration(300) );
         set.start();
     }
+    */
 }

@@ -3,13 +3,8 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +13,6 @@ import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.TransactionsFragment;
 import com.fantasystock.fantasystock.Models.Stock;
-import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Utils;
@@ -34,9 +28,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.parse.ParseUser;
 
-import java.lang.reflect.Array;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -220,11 +211,6 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
         startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), 0);
         ParseUser.logOut();
         User.currentUser = null;
-    }
-
-    @OnClick(R.id.ibLineChart)
-    public void onLineChart() {
-        startActivity(new Intent(getApplicationContext(), ChartsActivity.class));
     }
 
     @OnClick(R.id.ibPieChart)

@@ -1,25 +1,16 @@
 package com.fantasystock.fantasystock.Activities;
 
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,9 +21,9 @@ import android.widget.TextView;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Fragments.ChartView;
-import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
+import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
+import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Fragments.WindowChartView;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -50,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int REFRESH_WATCHLIST = 200;
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
+    private WatchlistChartFragment watchlistChartFragment;
+    private static int WATCHLIST_TYPE;
+    private static final int LIST_MODE = 0;
+    private static final int GRID_MODE = 1;
+
+    @Bind(R.id.tvTitleWatchlist) TextView tvTitleWatchlist;
+
     @Bind(R.id.fCharts) View chartView;
     @Bind(R.id.fWindowChart) View fWindowChart;
     @Bind(R.id.rlWindowChart) View windowCharts;
@@ -150,18 +148,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        // Create dummy watchlist
-        getWatchlist();
-
         // get list view
+        WATCHLIST_TYPE = LIST_MODE;
         watchlistFragment = new WatchlistFragment();
-        watchlistFragment.fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-        getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+        watchlistChartFragment = new WatchlistChartFragment();
+        setWatchlist();
+
+        // get news
         newsListFragment = new NewsListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
+        // get header stocks
         stocks = new ArrayList<>();
         stocks.add(new Stock(".DJI"));
         stocks.add(new Stock(".INX"));
@@ -214,9 +211,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getWatchlist() {
-
-    }
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
         if (User.currentUser!=null && User.currentUser.username!=null) {
@@ -258,5 +252,21 @@ public class MainActivity extends AppCompatActivity {
         ObjectAnimator closeButtonFadeOute = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
         windowFadeOut.start();
         closeButtonFadeOute.start();
+    }
+
+    @OnClick(R.id.tvTitleWatchlist)
+    public void onSwitchViewType() {
+        if(WATCHLIST_TYPE == LIST_MODE) WATCHLIST_TYPE = GRID_MODE;
+        else WATCHLIST_TYPE = LIST_MODE;
+        setWatchlist();
+    }
+
+    private void setWatchlist() {
+        if(WATCHLIST_TYPE == LIST_MODE) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
+        }
     }
 }
