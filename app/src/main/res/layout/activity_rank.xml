@@ -10,5 +10,11 @@
         android:layout_height="match_parent"
         android:padding="5dp"
         android:id="@+id/rvList"/>
+    <include layout="@layout/layout_loading_spinner"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        />
 
 </RelativeLayout>
