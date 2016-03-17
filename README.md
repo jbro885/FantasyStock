@@ -47,10 +47,6 @@ https://wireframe.cc/Fs3kPw
 
 ![Video Walkthrough]
 <img src='rec201.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec301.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec302.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec303.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec304.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
