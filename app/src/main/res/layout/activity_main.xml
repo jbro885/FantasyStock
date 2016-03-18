@@ -84,7 +84,7 @@
                         android:text="Watchlist"
                         android:textColor="@color/white"
                         android:id="@+id/tvTitleWatchlist"
-                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true" />
 
                 </RelativeLayout>

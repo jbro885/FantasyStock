@@ -51,7 +51,6 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
         String symbol = (String) items.get(position);
         final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
         ((GridChartViewHolder)holder).setStock(stock);
-
     }
 
     @Override
