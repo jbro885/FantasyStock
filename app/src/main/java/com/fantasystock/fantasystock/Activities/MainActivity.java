@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.vTouchView) View vTouchView;
     @Bind(R.id.svScrollView) ScrollView scrollView;
     @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
+    @Bind(R.id.ivWatchlistIcon) ImageView ivWatchlistIcon;
 
     // Title bar
     private ArrayList<Stock> stocks;
@@ -147,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 handleScrolling(scrollView.getScrollY());
             }
         });
-
 
         // get list view
         WATCHLIST_TYPE = LIST_MODE;
@@ -268,16 +268,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWatchlist() {
+
+        final boolean isList = (WATCHLIST_TYPE == LIST_MODE);
         Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
             @Override
             public void task() {
                 flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
-                if (WATCHLIST_TYPE == LIST_MODE) {
+                if (isList) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
                 }
             }
         });
+        Utils.fadeInAndOutAnimationGenerator(ivWatchlistIcon, new CallBack() {
+            @Override
+            public void task() {
+                ivWatchlistIcon.setImageResource(isList?R.drawable.ic_list:R.drawable.ic_line_chart);
+            }
+        });
+
     }
 }
