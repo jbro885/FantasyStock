@@ -1,16 +1,19 @@
 package com.fantasystock.fantasystock.Activities;
 
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     private WatchlistChartFragment watchlistChartFragment;
+    @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
     private static int WATCHLIST_TYPE;
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
@@ -267,11 +271,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWatchlist() {
-        if(WATCHLIST_TYPE == LIST_MODE) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
-        }
-        else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
-        }
+        Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
+            @Override
+            public void task() {
+                flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                if (WATCHLIST_TYPE == LIST_MODE) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
+                }
+            }
+        });
+
+
+
     }
 }
