@@ -50,7 +50,7 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         String symbol = (String) items.get(position);
         final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-        ((WindowChartView)holder).setStock(stock);
+        ((GridChartViewHolder)holder).setStock(stock);
     }
 
     @Override
