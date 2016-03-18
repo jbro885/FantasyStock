@@ -61,7 +61,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        convertView = inflater.inflate(R.layout.item_watchlist_main, parent, false);
+        convertView = inflater.inflate(R.layout.item_watchlist, parent, false);
         viewHolder = new ViewHolderStock(convertView, fragmentActivity);
         return viewHolder;
     }
@@ -87,6 +87,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.tvSymbol) TextView tvSymbol;
         @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvShare) TextView tvShare;
+        @Bind(R.id.tvEquityValue) TextView tvEquityValue;
         @Bind(R.id.btnStatus) Button btnStatus;
 
         public ViewHolderStock(View itemView, FragmentActivity fragmentActivity) {
@@ -101,20 +102,24 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return;
             }
 
-
             final String symbol = (String)object;
             final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
 
             tvSymbol.setText(stock.symbol);
             tvName.setText(stock.name);
             String shareStatus = "";
+            String valueStatus = "";
             if (User.currentUser.investingStocksMap.containsKey(stock.symbol)) {
                 int share = User.currentUser.investingStocksMap.get(stock.symbol).share;
-                if(share > 0)
+                if(share > 0) {
                     shareStatus = Integer.toString(share) + " Shares";
+                    float value = stock.current_price * (float) share;
+                    valueStatus = "$" + Float.toString(value);
+                }
             }
 
             tvShare.setText(shareStatus);
+            tvEquityValue.setText(valueStatus);
             // default is current price, click will be change percentage
             btnStatusDisplay(stock);
             btnStatus.setOnClickListener(new View.OnClickListener() {
