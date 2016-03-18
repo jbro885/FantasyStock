@@ -2,7 +2,6 @@ package com.fantasystock.fantasystock.Fragments;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -36,8 +35,6 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     private WatchlistAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
-    private Drawable fadeBlue;
-
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
     private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
@@ -59,7 +56,6 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         items = new ArrayList<>();
-        fadeBlue = getActivity().getDrawable(R.drawable.fade_blue);
         // Setup auto refresh
         handler.post(autoRefresh);
     }

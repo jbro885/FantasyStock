@@ -1,24 +1,11 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
@@ -26,23 +13,19 @@ import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by wilsonsu on 3/6/16.
@@ -51,7 +34,7 @@ public class ChartView extends RecyclerView.ViewHolder {
     @Bind(R.id.lcChart) LineChart lineChart;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
-    public Drawable fadeBlue;
+    private Drawable fadeBlue;
     private DataClient client;
     private LimitLine openLimitLine;
     private final static String defaultPeriod = "1d";
@@ -59,10 +42,10 @@ public class ChartView extends RecyclerView.ViewHolder {
     public Stock stock;
     protected FragmentActivity fragmentActivity;
 
-    public ChartView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
+    public ChartView(View itemView, FragmentActivity fragmentActivity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.fadeBlue = fadeBlue;
+        this.fadeBlue = fragmentActivity.getDrawable(R.drawable.fade_blue);
         this.fragmentActivity = fragmentActivity;
         client = DataClient.getInstance();
         isDarkTheme = true;
@@ -138,7 +121,7 @@ public class ChartView extends RecyclerView.ViewHolder {
 
             xVals.add("");
         }
-        int darkColor = Color.parseColor("#2cbcb6");
+        int darkColor = fragmentActivity.getResources().getColor(R.color.colorPrimaryGreyDark);
         LineDataSet lineDataSet= new LineDataSet(yVals, stock.symbol);
 
         lineDataSet.setColor(darkColor);

@@ -1,17 +1,11 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-
 import android.support.v4.app.FragmentActivity;
-
 import android.view.View;
-
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.R;
-
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,8 +29,8 @@ public class PeriodChartsView extends ChartView {
     private static final String PERIOD_1Y = "1y";
     private static final String PERIOD_ALL = "10y";
 
-    public PeriodChartsView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
-        super(itemView, fadeBlue, fragmentActivity);
+    public PeriodChartsView(View itemView, FragmentActivity fragmentActivity) {
+        super(itemView, fragmentActivity);
         ButterKnife.bind(this, itemView);
 
     }

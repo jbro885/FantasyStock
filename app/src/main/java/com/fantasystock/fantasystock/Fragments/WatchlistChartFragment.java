@@ -2,7 +2,6 @@ package com.fantasystock.fantasystock.Fragments;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -36,8 +35,6 @@ public class WatchlistChartFragment extends Fragment implements WatchlistGridAda
     private WatchlistGridAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
-    public Drawable fadeBlue;
-
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
     private final int REFRESH_INTERVAL_MILLION_SECOND = 60000 * REFRESH_INTERVAL_MIN;
@@ -60,7 +57,6 @@ public class WatchlistChartFragment extends Fragment implements WatchlistGridAda
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         items = new ArrayList<>();
-        fadeBlue = getActivity().getDrawable(R.drawable.fade_blue);
         // Setup auto refresh
         handler.post(autoRefresh);
     }
@@ -71,7 +67,7 @@ public class WatchlistChartFragment extends Fragment implements WatchlistGridAda
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new WatchlistGridAdapter(items, getActivity(), fadeBlue);
+        mAdapter = new WatchlistGridAdapter(items, getActivity());
         mAdapter.setOnStartDragListener(this);
         rvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvList.setAdapter(mAdapter);

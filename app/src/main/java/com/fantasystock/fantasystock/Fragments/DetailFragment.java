@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.Fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,7 +53,6 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
     @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
     PeriodChartsView periodChartsView;
-    public Drawable fadeBlue;
     public FragmentActivity fragmentActivity;
 
     public static DetailFragment newInstance(String symbol) {
@@ -78,7 +76,7 @@ public class DetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, parent, false);
         ButterKnife.bind(this, view);
-        periodChartsView = new PeriodChartsView(vChart, fadeBlue, fragmentActivity);
+        periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
         periodChartsView.isDarkTheme = false;
         return view;
     }
@@ -144,7 +142,6 @@ public class DetailFragment extends Fragment{
 
 
     }
-
 
 
     private static class InfoPagerAdapter extends FragmentPagerAdapter {

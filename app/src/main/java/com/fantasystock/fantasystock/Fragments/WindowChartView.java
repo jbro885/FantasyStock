@@ -2,7 +2,6 @@ package com.fantasystock.fantasystock.Fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -23,8 +22,8 @@ public class WindowChartView extends ChartView {
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.tvChanges) TextView tvChanges;
 
-    public WindowChartView(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
-        super(itemView, fadeBlue, fragmentActivity);
+    public WindowChartView(View itemView, FragmentActivity fragmentActivity) {
+        super(itemView, fragmentActivity);
     }
 
     @Override
