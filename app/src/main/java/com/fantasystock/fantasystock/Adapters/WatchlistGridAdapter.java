@@ -42,7 +42,7 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
     public WindowChartView onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View convertView = inflater.inflate(R.layout.fragment_window_chart, parent, false);
-        WindowChartView viewHolder = new WindowChartView(convertView, fadeBlue, fragmentActivity);
+        GridChartViewHolder viewHolder = new GridChartViewHolder(convertView, fadeBlue, fragmentActivity);
         return viewHolder;
     }
 
@@ -63,8 +63,7 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    public class GridChartViewHolder extends WindowChartView
-            implements ItemTouchHelperViewHolder {
+    public class GridChartViewHolder extends WindowChartView implements ItemTouchHelperViewHolder {
 
         public GridChartViewHolder(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
             super(itemView, fadeBlue, fragmentActivity);
@@ -78,6 +77,19 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void onItemClear() {
             itemView.setBackgroundColor(0);
+        }
+
+        @Override
+        public void setStock(Stock stock) {
+            super.setStock(stock);
+            final RecyclerView.ViewHolder holder = this;
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onStartDragListener.onStartDrag(holder);
+                    return true;
+                }
+            });
         }
     }
 
