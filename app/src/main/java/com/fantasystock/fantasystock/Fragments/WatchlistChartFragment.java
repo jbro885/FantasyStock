@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.WatchlistGridAdapter;
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.GridItemTouchHelperCallback;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataClient;
+import com.fantasystock.fantasystock.Helpers.GridItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;

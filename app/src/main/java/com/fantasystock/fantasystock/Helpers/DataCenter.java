@@ -1,8 +1,4 @@
-package com.fantasystock.fantasystock;
-
-import android.graphics.drawable.Drawable;
-import android.telecom.Call;
-import android.util.Log;
+package com.fantasystock.fantasystock.Helpers;
 
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
@@ -10,7 +6,6 @@ import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.Models.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -18,7 +13,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

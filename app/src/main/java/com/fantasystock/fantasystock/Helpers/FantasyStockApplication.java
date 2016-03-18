@@ -1,8 +1,9 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Helpers;
 
 import android.content.res.Resources;
 
 import com.activeandroid.app.Application;
+import com.fantasystock.fantasystock.R;
 import com.parse.Parse;
 
 /**

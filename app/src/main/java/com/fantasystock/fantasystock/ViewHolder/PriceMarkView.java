@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock.Fragments;
+package com.fantasystock.fantasystock.ViewHolder;
 
 import android.content.Context;
 import android.widget.TextView;

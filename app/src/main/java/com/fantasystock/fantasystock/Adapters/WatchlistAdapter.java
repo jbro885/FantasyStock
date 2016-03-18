@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.DetailActivity;
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.ListItemTouchHelperCallback;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.ListItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
 
 import java.util.Collections;
 import java.util.List;

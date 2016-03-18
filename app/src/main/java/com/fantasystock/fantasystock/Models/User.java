@@ -1,8 +1,6 @@
 package com.fantasystock.fantasystock.Models;
 
-import android.telecom.Call;
-
-import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.parse.FindCallback;
@@ -16,7 +14,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

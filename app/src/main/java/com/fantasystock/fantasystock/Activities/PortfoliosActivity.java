@@ -9,13 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Fragments.TransactionsFragment;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;

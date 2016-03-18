@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.fantasystock.fantasystock.CallBack;
+import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

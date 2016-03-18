@@ -18,18 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
-import com.fantasystock.fantasystock.Fragments.PeriodChartsView;
+import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
-import com.fantasystock.fantasystock.Fragments.WindowChartView;
+import com.fantasystock.fantasystock.ViewHolder.WindowChartView;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
 
 import java.util.ArrayList;
 

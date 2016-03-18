@@ -1,16 +1,16 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Helpers;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 /**
- * Created by chengfu_lin on 3/11/16.
+ * Created by chengfu_lin on 3/17/16.
  */
-public class ListItemTouchHelperCallback extends ItemTouchHelper.Callback {
+public class GridItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
 
-    public ListItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public GridItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
     }
 
@@ -28,7 +28,7 @@ public class ListItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
         int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
         return makeMovementFlags(dragFlags, swipeFlags);
     }

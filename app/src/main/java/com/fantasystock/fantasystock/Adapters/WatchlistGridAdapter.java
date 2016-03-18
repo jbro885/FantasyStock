@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.Fragments.WindowChartView;
-import com.fantasystock.fantasystock.GridItemTouchHelperCallback;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.ViewHolder.WindowChartView;
+import com.fantasystock.fantasystock.Helpers.GridItemTouchHelperCallback;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;

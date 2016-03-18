@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock.Fragments;
+package com.fantasystock.fantasystock.ViewHolder;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -7,9 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;

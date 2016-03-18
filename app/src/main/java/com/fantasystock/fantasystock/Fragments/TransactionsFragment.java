@@ -11,13 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.DataClient;
-import com.fantasystock.fantasystock.Models.Stock;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

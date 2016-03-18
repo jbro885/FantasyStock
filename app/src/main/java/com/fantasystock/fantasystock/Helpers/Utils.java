@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Helpers;
 
 import android.text.format.DateUtils;
 import android.view.View;
@@ -6,22 +6,16 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import com.fantasystock.fantasystock.Models.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.parse.ParseException;
-import com.parse.ParseObject;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by wilsonsu on 3/6/16.

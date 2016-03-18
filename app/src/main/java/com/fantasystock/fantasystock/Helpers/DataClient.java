@@ -1,27 +1,17 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Helpers;
 
-import android.telecom.Call;
 import android.util.Log;
 
-import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Meta;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
-import com.fantasystock.fantasystock.Models.Transaction;
-import com.fantasystock.fantasystock.Models.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +20,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 

@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Helpers;
 
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.HistoricalData;
@@ -9,7 +9,6 @@ import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.Models.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by wilsonsu on 3/5/16.

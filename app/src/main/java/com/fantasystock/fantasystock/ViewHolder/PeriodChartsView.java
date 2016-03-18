@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock.Fragments;
+package com.fantasystock.fantasystock.ViewHolder;
 
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
@@ -39,7 +39,7 @@ public class PeriodChartsView extends ChartView {
     @Override
     public void setStock(Stock stock) {
         this.stock = stock;
-        lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
+        lineChart.getAxisLeft().setTextColor(isDarkTheme ? Color.WHITE : Color.BLACK);
         onOneDayClick();
     }
 

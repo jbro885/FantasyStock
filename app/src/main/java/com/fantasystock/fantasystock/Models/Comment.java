@@ -1,9 +1,7 @@
 package com.fantasystock.fantasystock.Models;
 
-import android.telecom.Call;
-
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
