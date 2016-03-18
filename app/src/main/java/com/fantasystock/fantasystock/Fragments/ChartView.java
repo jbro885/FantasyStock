@@ -165,7 +165,5 @@ public class ChartView extends RecyclerView.ViewHolder {
         } else {
             client.getHistoricalPrices(stock.symbol, period, callBackHandler());
         }
-
-
     }
 }

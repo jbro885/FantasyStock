@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataClient;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -30,15 +29,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by wilsonsu on 3/13/16.
+ * Created by wilsonsu on 3/18/16.
  */
-public class CommentsFragment extends Fragment{
-    private ArrayList<Comment> comments;
-    private CommentsArrayAdapter adapter;
-    private String symbol;
+public class CommentsFragment extends Fragment {
+    protected ArrayList<Comment> comments;
+    protected CommentsArrayAdapter adapter;
+    protected String symbol;
     @Bind(R.id.rvList) RecyclerView rvList;
-    @Bind(R.id.etCommentText) EditText etCommentText;
-    @Bind(R.id.btnSend) Button btnSend;
 
     public static CommentsFragment newInstance(String symbol) {
         CommentsFragment fragment = new CommentsFragment();
@@ -59,7 +56,7 @@ public class CommentsFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_comments, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -83,21 +80,8 @@ public class CommentsFragment extends Fragment{
             }
         });
     }
-    @OnClick(R.id.btnSend)
-    public void onSend() {
 
-        Comment.addComment(etCommentText.getText().toString(), symbol, new CallBack() {
-            @Override
-            public void commentCallBack(Comment comment) {
-                comments.add(comment);
-                adapter.notifyDataSetChanged();
-                etCommentText.setText("");
-            }
-        });
-
-    }
-
-    private static class CommentsArrayAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
+    protected static class CommentsArrayAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
         private ArrayList<Comment> comments;
 
         public CommentsArrayAdapter(ArrayList<Comment> comments) {
@@ -143,11 +127,11 @@ public class CommentsFragment extends Fragment{
                     }
                     ParseUser parseUser = (ParseUser) object;
                     User user = new User(parseUser);
-                    if (user == null ) {
+                    if (user == null) {
                         return;
                     }
                     tvName.setText(user.username);
-                    if (user.profileImageUrl == null ) {
+                    if (user.profileImageUrl == null) {
                         ivUserProfile.setImageResource(R.drawable.ic_profile);
                     }
                     ivUserProfile.setImageResource(0);

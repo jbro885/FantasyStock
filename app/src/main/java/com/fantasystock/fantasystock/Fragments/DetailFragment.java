@@ -19,6 +19,7 @@ import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.CallBack;
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -50,8 +51,21 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvTotalReturn) TextView tvTotalReturn;
     @Bind(R.id.tvTodayReturn) TextView tvTodayReturn;
 
-    @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
-    @Bind(R.id.vpInfoViewPager) ViewPager vpInfoViewPager;
+    //Profiles
+    @Bind(R.id.tvMarketCap) TextView tvMarketCap;
+    @Bind(R.id.tvOpen) TextView tvOpen;
+    @Bind(R.id.tvHigh) TextView tvHigh;
+    @Bind(R.id.tvLow) TextView tvLow;
+    @Bind(R.id.tv52High) TextView tv52High;
+    @Bind(R.id.tv52Low) TextView tv52Low;
+    @Bind(R.id.tvPERatio) TextView tvPERatio;
+    @Bind(R.id.tvDivYield) TextView tvDivYield;
+    @Bind(R.id.tvVolume) TextView tvVolume;
+    @Bind(R.id.tvAvgVolume) TextView tvAvgVolume;
+
+    private CommentsFragment commentsFragment;
+    private NewsListFragment newsListFragment;
+
     PeriodChartsView periodChartsView;
     public FragmentActivity fragmentActivity;
 
@@ -78,16 +92,13 @@ public class DetailFragment extends Fragment{
         ButterKnife.bind(this, view);
         periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
         periodChartsView.isDarkTheme = false;
+        commentsFragment = CommentsFragment.newInstance(symbol);
+        newsListFragment = new NewsListFragment();
+
+        getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
+
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-
-        InfoPagerAdapter detailsPagerAdapter = new InfoPagerAdapter(getChildFragmentManager(), symbol);
-        vpInfoViewPager.setAdapter(detailsPagerAdapter);
-        pgSlidingTab.setViewPager(vpInfoViewPager);
     }
 
     @Override
@@ -118,6 +129,7 @@ public class DetailFragment extends Fragment{
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);
         periodChartsView.setStock(stock);
 
+
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(Stock stock) {
@@ -135,46 +147,40 @@ public class DetailFragment extends Fragment{
                     tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
                     tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
                     tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost * 100) + "%");
-
                 }
             }
         });
-
-
+        DataClient.getInstance().getQuoteProfile(symbol, profileCallbackHandler());
+        commentsFragment.setSymbol(symbol);
     }
 
 
-    private static class InfoPagerAdapter extends FragmentPagerAdapter {
-        private String symbol;
-        public InfoPagerAdapter(FragmentManager fm, String symbol) {
-            super(fm);
-            this.symbol = symbol;
-        }
+    private CallBack profileCallbackHandler() {
+        return new CallBack(){
+            @Override
+            public void profileCallBack(Profile profile) {
+                tv52High.setText(profile.yr_high);
 
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                return DetailNewsListFragment.newInstance(symbol);
-            }
-            else if (position == 1 ) {
-                return ProfileFragment.newInstance(symbol);
-            }
-            return CommentsFragment.newInstance(symbol);
-        }
+                tv52Low.setText(profile.yr_low);
+                tvLow.setText(profile.low);
+                tvHigh.setText(profile.high);
+                tvPERatio.setText(profile.eps);
+                tvMarketCap.setText(profile.mkt_cap);
+                tvOpen.setText(profile.open);
+                tvDivYield.setText(profile.dividend_yld);
 
-        @Override
-        public int getCount() {
-            return 3;
-        }
+                try {
+                    tvVolume.setText(Utils.numberConverter(Integer.parseInt(profile.vol)));
+                } catch (NumberFormatException e ) {
+                    tvVolume.setText("N/A");
+                }
+                try {
+                    tvAvgVolume.setText(Utils.numberConverter(Integer.parseInt(profile.ave_vol)));
+                } catch (NumberFormatException e ) {
+                    tvAvgVolume.setText("N/A");
+                }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return "NEWS";
-            } else if (position ==1) {
-                return "PROFILE";
             }
-            return "COMMENTS";
-        }
+        };
     }
 }
