@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import cz.msebera.android.httpclient.Header;
@@ -52,6 +53,7 @@ import cz.msebera.android.httpclient.Header;
  * */
 
 public class DataClient {
+    private static HashMap<String, HistoricalData> historicalCache;
 
     private static final int STATUS_CODE = 200;
     private static String googleQuoteURL = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
@@ -71,6 +73,7 @@ public class DataClient {
 
     public DataClient() {
         this.client = new AsyncHttpClient();
+        historicalCache = new HashMap<>();
     }
 
     /**
@@ -171,10 +174,15 @@ public class DataClient {
     public void getHistoricalPrices(String quote, String period, CallBack callback) {
         RequestParams params = new RequestParams("q", quote);
         params.put("p", period);
-        client.get(ted7726QuoteHistoricalURL, params, historicalPricesHandler(callback));
+        String cacheKey = "historicalCahce" + quote + period;
+        if (historicalCache.containsKey(cacheKey)) {
+            callback.historicalCallBack(historicalCache.get(cacheKey));
+            return;
+        }
+        client.get(ted7726QuoteHistoricalURL, params, historicalPricesHandler(callback, cacheKey));
     }
 
-    private JsonHttpResponseHandler historicalPricesHandler(final CallBack callback) {
+    private JsonHttpResponseHandler historicalPricesHandler(final CallBack callback, final String cacheKey) {
         return new JsonHttpResponseHandler() {
 
             @Override
@@ -183,6 +191,7 @@ public class DataClient {
                 if (meta!=null) {
                     Gson gson = new Gson();
                     HistoricalData data = gson.fromJson(meta.data, HistoricalData.class);
+                    historicalCache.put(cacheKey, data);
                     callback.historicalCallBack(data);
                 }
             }
