@@ -112,6 +112,7 @@ public class WatchlistChartFragment extends Fragment implements WatchlistGridAda
     }
 
     public void refreshWatchlist() {
+        if (mAdapter==null) return;
         mAdapter.clear();
         DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
             @Override
