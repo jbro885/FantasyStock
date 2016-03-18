@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock.Fragments;
+package com.fantasystock.fantasystock.ViewHolder;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.DetailActivity;
-import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 

@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.NewsListAdapter;
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
 

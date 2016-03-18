@@ -16,13 +16,14 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.fantasystock.fantasystock.Activities.TradeActivity;
-import com.fantasystock.fantasystock.CallBack;
-import com.fantasystock.fantasystock.DataCenter;
-import com.fantasystock.fantasystock.DataClient;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Utils;
+import com.fantasystock.fantasystock.Helpers.Utils;
+import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

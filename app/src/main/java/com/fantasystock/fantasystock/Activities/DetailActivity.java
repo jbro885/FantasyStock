@@ -12,7 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fantasystock.fantasystock.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
