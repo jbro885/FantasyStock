@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.Adapters;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import java.util.List;
  */
 public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements GridItemTouchHelperCallback.ItemTouchHelperAdapter{
     private FragmentActivity fragmentActivity;
-    private Drawable fadeBlue;
     private List<Object> items;
 
     private OnStartDragListener onStartDragListener;
@@ -32,9 +30,8 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.onStartDragListener = onStartDragListener;
     }
 
-    public WatchlistGridAdapter(List<Object> items, FragmentActivity fragmentActivity, Drawable fadeBlue) {
+    public WatchlistGridAdapter(List<Object> items, FragmentActivity fragmentActivity) {
         this.fragmentActivity = fragmentActivity;
-        this.fadeBlue = fadeBlue;
         this.items = items;
     }
 
@@ -42,7 +39,7 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
     public WindowChartView onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View convertView = inflater.inflate(R.layout.fragment_window_chart, parent, false);
-        GridChartViewHolder viewHolder = new GridChartViewHolder(convertView, fadeBlue, fragmentActivity);
+        GridChartViewHolder viewHolder = new GridChartViewHolder(convertView, fragmentActivity);
         return viewHolder;
     }
 
@@ -65,8 +62,8 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class GridChartViewHolder extends WindowChartView implements ItemTouchHelperViewHolder {
 
-        public GridChartViewHolder(View itemView, Drawable fadeBlue, FragmentActivity fragmentActivity) {
-            super(itemView, fadeBlue, fragmentActivity);
+        public GridChartViewHolder(View itemView, FragmentActivity fragmentActivity) {
+            super(itemView, fragmentActivity);
         }
 
         @Override

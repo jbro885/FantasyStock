@@ -1,14 +1,11 @@
 package com.fantasystock.fantasystock.Activities;
 
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
+        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, this);
         periodChartsView.setStock(new Stock("portfolios"));
 
 //        windowChartView.setStock(new Stock("AAPL"));
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         windowWidth = size.x;
-        windowChartView = new WindowChartView(fWindowChart, ContextCompat.getDrawable(this, R.drawable.fade_blue), this);
+        windowChartView = new WindowChartView(fWindowChart, this);
         windowCharts.setAlpha(0.0f);
         ibWindowCloseButton.setAlpha(0.0f);
 

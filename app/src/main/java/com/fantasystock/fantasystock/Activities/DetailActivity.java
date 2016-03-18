@@ -4,7 +4,6 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -12,11 +11,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 
 import com.fantasystock.fantasystock.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
-import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
@@ -46,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), fadeBlue, stocks, this);
+        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this);
         vpViewPager.setAdapter(detailsPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -86,11 +83,9 @@ public class DetailActivity extends AppCompatActivity {
     private static class DetailsPagerAdapter extends FragmentPagerAdapter {
         private FragmentActivity fragmentActivity;
         private ArrayList<String> stocks;
-        private Drawable fadeBlue;
-        public DetailsPagerAdapter(FragmentManager fm, Drawable fadeBlue, ArrayList<String> stocks, FragmentActivity fragmentActivity) {
+        public DetailsPagerAdapter(FragmentManager fm, ArrayList<String> stocks, FragmentActivity fragmentActivity) {
             super(fm);
             this.fragmentActivity = fragmentActivity;
-            this.fadeBlue = fadeBlue;
             if (stocks == null) {
                 this.stocks = User.currentUser.watchlist;
             } else {
@@ -102,7 +97,6 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position));
-            detailFragment.fadeBlue = fadeBlue;
             detailFragment.fragmentActivity = fragmentActivity;
             return detailFragment;
         }
