@@ -10,6 +10,7 @@ import android.view.View;
 
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
 
@@ -39,6 +40,13 @@ public class PeriodChartsView extends ChartView {
         super(itemView, fadeBlue, fragmentActivity);
         ButterKnife.bind(this, itemView);
 
+    }
+
+    @Override
+    public void setStock(Stock stock) {
+        this.stock = stock;
+        lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
+        onOneDayClick();
     }
 
     @OnClick(R.id.tvPeriodALL)
