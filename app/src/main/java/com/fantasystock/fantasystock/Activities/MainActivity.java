@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Activities;
 
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -77,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private int indexesIndex;
 
     private WindowChartView windowChartView;
-    private float windowWidth;
-    private float chartWidth;
     private Point startPoint;
 
     @Override
@@ -95,11 +95,9 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        windowWidth = size.x;
         windowChartView = new WindowChartView(fWindowChart, this);
         windowCharts.setAlpha(0.0f);
         ibWindowCloseButton.setAlpha(0.0f);
-
 
         vTouchView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -118,48 +116,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final MainActivity mainActivity = this;
-
         scrollView.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {
                 int eventAction = event.getAction();
                 if (eventAction == DragEvent.ACTION_DRAG_STARTED) {
                     startPoint = new Point(Math.round(event.getX()), Math.round(event.getY()));
-                    chartWidth = windowCharts.getWidth();
                 } else if (eventAction == DragEvent.ACTION_DRAG_ENDED){
-//                    float scale = (windowWidth - event.getX())/(windowWidth - startPoint.x);
-//                    if (scale>1.5f) {
-//                        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-//                        intent.putExtra("symbol", DataCenter.getInstance().getLastViewedStock());
-//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity, windowCharts, "windowCharts");
-//                        startActivity(intent, options.toBundle());
-//                    } else {
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(
-                                ObjectAnimator.ofFloat(windowCharts, "translationX", windowCharts.getTranslationX(), 0.0f).setDuration(300),
-                                ObjectAnimator.ofFloat(windowCharts, "translationY", windowCharts.getTranslationY(), 0.0f).setDuration(300),
-                                ObjectAnimator.ofFloat(windowCharts, "scaleX", windowCharts.getScaleX(), 1.0f).setDuration(300),
-                                ObjectAnimator.ofFloat(windowCharts, "scaleY", windowCharts.getScaleY(), 1.0f).setDuration(300)
-                        );
-                        set.start();
-
-//                    }
-
-
                     vTouchView.post(new Runnable() {
                         @Override
                         public void run() {
                             vTouchView.setVisibility(View.VISIBLE);
                         }
                     });
+                    AnimatorSet set = new AnimatorSet();
+                    set.playTogether(
+                            ObjectAnimator.ofFloat(windowCharts, "translationX", windowCharts.getTranslationX(), 0.0f).setDuration(300),
+                            ObjectAnimator.ofFloat(windowCharts, "translationY", windowCharts.getTranslationY(), 0.0f).setDuration(300),
+                            ObjectAnimator.ofFloat(ibWindowCloseButton, "translationX", windowCharts.getTranslationX(), 0.0f).setDuration(300),
+                            ObjectAnimator.ofFloat(ibWindowCloseButton, "translationY", windowCharts.getTranslationY(), 0.0f).setDuration(300)
+                    );
+                    set.start();
                 } else {
-
-                    float scale = (windowWidth - event.getX())/(windowWidth - startPoint.x);
-                    windowCharts.setTranslationX((1-scale)*windowCharts.getWidth()/2);
-                    windowCharts.setTranslationY((1-scale)*windowCharts.getHeight()/2);
-                    windowCharts.setScaleX(scale);
-                    windowCharts.setScaleY(scale);
+                    windowCharts.setTranslationX(event.getX() - startPoint.x);
+                    windowCharts.setTranslationY(event.getY() - startPoint.y);
+                    ibWindowCloseButton.setTranslationX(event.getX() - startPoint.x);
+                    ibWindowCloseButton.setTranslationY(event.getY() - startPoint.y);
                 }
                 return true;
             }
@@ -307,9 +289,26 @@ public class MainActivity extends AppCompatActivity {
         Utils.fadeInAndOutAnimationGenerator(ivWatchlistIcon, new CallBack() {
             @Override
             public void task() {
-                ivWatchlistIcon.setImageResource(isList?R.drawable.ic_list:R.drawable.ic_line_chart);
+                ivWatchlistIcon.setImageResource(isList ? R.drawable.ic_list : R.drawable.ic_line_chart);
             }
         });
 
+    }
+
+    private ObjectAnimator animateToX(final View view, final float toX) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "x", view.getX(), toX).setDuration(300);
+        animator.addListener(new Animator.AnimatorListener() {
+             @Override
+             public void onAnimationStart(Animator animation) {}
+             @Override
+             public void onAnimationEnd(Animator animation) {
+                 view.setX(toX);
+             }
+             @Override
+             public void onAnimationCancel(Animator animation) {}
+             @Override
+             public void onAnimationRepeat(Animator animation) {}
+         });
+        return animator;
     }
 }

@@ -32,6 +32,7 @@ public class CommentsFragment extends Fragment {
     protected ArrayList<Comment> comments;
     protected CommentsArrayAdapter adapter;
     protected String symbol;
+    private boolean isDestory;
     @Bind(R.id.rvList) RecyclerView rvList;
 
     public static CommentsFragment newInstance(String symbol) {
@@ -48,6 +49,7 @@ public class CommentsFragment extends Fragment {
         symbol = getArguments().getString("symbol");
         comments = new ArrayList<>();
         adapter = new CommentsArrayAdapter(comments);
+        isDestory = false;
     }
 
     @Nullable
@@ -68,14 +70,25 @@ public class CommentsFragment extends Fragment {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+
         Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
+                if (isDestory) {
+                    return;
+                }
                 comments.clear();
                 comments.addAll(returnComments);
                 adapter.notifyDataSetChanged();
+
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isDestory = true;
     }
 
     protected static class CommentsArrayAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
