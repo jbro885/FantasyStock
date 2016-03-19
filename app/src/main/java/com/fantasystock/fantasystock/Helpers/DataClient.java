@@ -318,15 +318,16 @@ public class DataClient {
 
     private final String YAHOO_NEWS_ALL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0";
     private final String YAHOO_NEWS_ID_URL = "http://finance.mobile.yahoo.com/dp/newsitems?device_os=2&region=US&lang=en-US&uuids=";
-    private final String YAHOO_NEWS_SYMBOL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=";
+    private final String YAHOO_NEWS_SYMBOL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&category=TICKER%3A";
 
 
     public void getLatestNews(String symbol, CallBack callback) {
         RequestParams params = new RequestParams();
         if (symbol!=null) {
-            params.put("q", symbol);
+            client.get(YAHOO_NEWS_SYMBOL_URL + symbol, params, latestNewsHandler(callback));
+        } else {
+            client.get(YAHOO_NEWS_ALL_URL, params, latestNewsHandler(callback));
         }
-        client.get(YAHOO_NEWS_ALL_URL, params, latestNewsHandler(callback));
     }
 
     public void getPreviousNewsById(ArrayList<String> newsId, CallBack callback) {
@@ -340,7 +341,7 @@ public class DataClient {
     }
 
     public void getLatestNewsBySymbol(String symbol, CallBack callback) {
-        //Log.d("SY_DEBUG", YAHOO_NEWS_SYMBOL_URL + symbol);
+        Log.d("zhuqi", YAHOO_NEWS_SYMBOL_URL + symbol);
         client.get(YAHOO_NEWS_SYMBOL_URL + symbol, new RequestParams(), latestNewsHandler(callback));
     }
 

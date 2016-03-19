@@ -5,25 +5,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Profile;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 
 import butterknife.Bind;
@@ -94,7 +90,7 @@ public class DetailFragment extends Fragment{
         periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
         periodChartsView.isDarkTheme = false;
         commentsFragment = CommentsFragment.newInstance(symbol);
-        newsListFragment = new NewsListFragment();
+        newsListFragment = NewsListFragment.newInstance(symbol);
 
         getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
         getChildFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
