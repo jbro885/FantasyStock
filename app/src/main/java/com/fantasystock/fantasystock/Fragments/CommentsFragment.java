@@ -134,7 +134,9 @@ public class CommentsFragment extends Fragment {
                     ivUserProfile.setImageResource(0);
                     Context context = ivUserProfile.getContext();
                     String url = user.profileImageUrl;
-                    Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
+                    if (context!=null) {
+                        Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
+                    }
                 }
             });
 

@@ -321,9 +321,12 @@ public class DataClient {
     private final String YAHOO_NEWS_SYMBOL_URL = "https://finance.mobile.yahoo.com/v1/newsfeed?cpi=1&lang=en-US&region=US&show_ads=0&q=";
 
 
-    public void getLatestNews(CallBack callback) {
-        //Log.d("AL_DEBUG", YAHOO_NEWS_ALL_URL);
-        client.get(YAHOO_NEWS_ALL_URL, new RequestParams(), latestNewsHandler(callback));
+    public void getLatestNews(String symbol, CallBack callback) {
+        RequestParams params = new RequestParams();
+        if (symbol!=null) {
+            params.put("q", symbol);
+        }
+        client.get(YAHOO_NEWS_ALL_URL, params, latestNewsHandler(callback));
     }
 
     public void getPreviousNewsById(ArrayList<String> newsId, CallBack callback) {

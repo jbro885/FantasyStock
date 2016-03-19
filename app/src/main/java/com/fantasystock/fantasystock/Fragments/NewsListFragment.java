@@ -32,12 +32,25 @@ public class NewsListFragment extends Fragment {
     private int indicator;
     private NewsListAdapter newsListAdapter;
     private Handler handler = new Handler();
+    private String symbol;
 
     @Bind(R.id.rvList) RecyclerView rvList;
+
+    public static NewsListFragment newInstance(String symbol) {
+        NewsListFragment fragment = new NewsListFragment();
+        Bundle args = new Bundle();
+        args.putString("symbol", symbol);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments()!=null) {
+            symbol = getArguments().getString("symbol");
+        }
+
         news = new ArrayList<>();
         previousNews = new ArrayList<>();
         indicator = 0;
@@ -91,8 +104,13 @@ public class NewsListFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+
+    }
+
     public void getLatestNews() {
-        DataClient.getInstance().getLatestNews(new CallBack() {
+        DataClient.getInstance().getLatestNews(symbol, new CallBack() {
             @Override
             public void latestNewsCallBack(ArrayList<News> latestNews, ArrayList<String> previousNewsId) {
                 news = latestNews;
