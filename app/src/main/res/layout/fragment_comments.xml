@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.RecyclerView
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llAddComment"
         android:id="@+id/rvList">
 
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
-        android:orientation="horizontal"
+
+        android:id="@+id/llAddComment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/etCommentText"
             android:layout_width="0dp"
@@ -28,4 +32,4 @@
             />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -3,9 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     tools:context="com.fantasystock.fantasystock.Activities.CommentActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/fade_trasparent"/>
+
     <FrameLayout
+        android:layout_marginTop="26dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/flComments"/>
