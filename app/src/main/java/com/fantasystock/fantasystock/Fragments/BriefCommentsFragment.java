@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.CommentActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
@@ -27,6 +28,7 @@ import butterknife.OnClick;
 public class BriefCommentsFragment extends CommentsFragment{
     @Bind(R.id.btnLeaveComment) Button btnLeaveComment;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+    @Bind(R.id.tvLoading) TextView tvLoading;
 
     public static BriefCommentsFragment newInstance(String symbol) {
         BriefCommentsFragment fragment = new BriefCommentsFragment();
@@ -51,13 +53,21 @@ public class BriefCommentsFragment extends CommentsFragment{
     public void setSymbol(String symbol) {
         this.symbol = symbol;
         prLoadingSpinner.setVisibility(View.VISIBLE);
+        tvLoading.setText("Loading....");
         Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
+
+
                 comments.clear();
 
                 int len = Math.min(returnComments.size(), 5);
+                if (len==0) {
+                    tvLoading.setText("No one has commented on this stock yet...");
+                    return;
+                }
+                tvLoading.setText("");
                 for (int i = 0; i < len; ++i) {
                     comments.add(returnComments.get(i));
                 }
