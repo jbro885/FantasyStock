@@ -30,6 +30,7 @@ public class DataCenter {
     private DataClient client;
     private User currentUser;
     private String lastViewedStock;
+    public float screenHeight;
 
 
 

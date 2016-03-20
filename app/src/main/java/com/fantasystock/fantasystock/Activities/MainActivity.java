@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        DataCenter.getInstance().screenHeight = size.y;
         windowChartView = new WindowChartView(fWindowChart, this);
         windowCharts.setAlpha(0.0f);
         ibWindowCloseButton.setAlpha(0.0f);

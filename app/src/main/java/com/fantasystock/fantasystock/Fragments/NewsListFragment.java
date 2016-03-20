@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.fantasystock.fantasystock.Adapters.NewsListAdapter;
 import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
@@ -62,6 +63,7 @@ public class NewsListFragment extends Fragment {
         rvList.setLayoutManager(linearLayoutManager);
         newsListAdapter = new NewsListAdapter(news, rvList, getActivity());
         rvList.setAdapter(newsListAdapter);
+        rvList.getLayoutParams().height = Math.round(DataCenter.getInstance().screenHeight);
         newsListAdapter.setOnLoadMoreListener(new NewsListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
