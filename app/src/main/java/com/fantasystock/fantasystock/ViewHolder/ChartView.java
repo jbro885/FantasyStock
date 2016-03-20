@@ -34,7 +34,6 @@ public class ChartView extends RecyclerView.ViewHolder {
     @Bind(R.id.lcChart) LineChart lineChart;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
-    private Drawable fadeBlue;
     private DataClient client;
     private LimitLine openLimitLine;
     private final static String defaultPeriod = "1d";
@@ -45,7 +44,6 @@ public class ChartView extends RecyclerView.ViewHolder {
     public ChartView(View itemView, FragmentActivity fragmentActivity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.fadeBlue = fragmentActivity.getDrawable(R.drawable.fade_blue);
         this.fragmentActivity = fragmentActivity;
         client = DataClient.getInstance();
         isDarkTheme = true;
@@ -121,7 +119,25 @@ public class ChartView extends RecyclerView.ViewHolder {
 
             xVals.add("");
         }
-        int darkColor = fragmentActivity.getResources().getColor(R.color.colorPrimaryGreyDark);
+
+        Float currentChange = 0.0f;
+        try {
+            currentChange = Float.parseFloat(stock.current_change);
+        } catch (Exception e) {
+
+        }
+
+        int darkColor;
+        Drawable fadeColor;
+        if(currentChange < 0.0f) {
+            darkColor = fragmentActivity.getResources().getColor(R.color.red);
+            fadeColor = fragmentActivity.getDrawable(R.drawable.fade_red);
+        }
+        else {
+            darkColor = fragmentActivity.getResources().getColor(R.color.colorPrimaryGreyDark);
+            fadeColor = fragmentActivity.getDrawable(R.drawable.fade_blue);
+        }
+
         LineDataSet lineDataSet= new LineDataSet(yVals, stock.symbol);
 
         lineDataSet.setColor(darkColor);
@@ -131,11 +147,7 @@ public class ChartView extends RecyclerView.ViewHolder {
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawCubic(true);
         lineDataSet.setValueTextSize(9f);
-
-        if (fadeBlue!=null) {
-            lineDataSet.setFillDrawable(fadeBlue);
-        }
-
+        lineDataSet.setFillDrawable(fadeColor);
         lineDataSet.setDrawFilled(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(lineDataSet); // add the datasets
