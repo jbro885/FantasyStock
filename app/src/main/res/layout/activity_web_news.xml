@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.fantasystock.fantasystock.WebNewsActivity">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lcChart"
-        android:transitionName="windowCharts"
+    <WebView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/tvChanges"
-        android:background="@color/transparent"/>
+        android:layout_height="match_parent"
+        android:id="@+id/wvArticle" ></WebView>
+
     <include layout="@layout/layout_loading_spinner"
         android:layout_height="match_parent"
         android:layout_width="match_parent"

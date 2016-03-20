@@ -20,6 +20,7 @@ import com.fantasystock.fantasystock.Activities.NewsActivity;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.WebNewsActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -173,14 +174,21 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), NewsActivity.class);
-                    String newsString = new Gson().toJson(news);
-                    intent.putExtra("newsString", newsString);
+                    if(news.content != null ) {
+                        Intent intent = new Intent(v.getContext(), NewsActivity.class);
+                        String newsString = new Gson().toJson(news);
+                        intent.putExtra("newsString", newsString);
 
-                    Pair<View, String> p1 = Pair.create((View) tvTitle, "newsTitle");
-                    Pair<View, String> p2 = Pair.create((View) ivImage, "newsImage");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, p1, p2);
-                    fragmentActivity.startActivity(intent, options.toBundle());
+                        Pair<View, String> p1 = Pair.create((View) tvTitle, "newsTitle");
+                        Pair<View, String> p2 = Pair.create((View) ivImage, "newsImage");
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, p1, p2);
+                        fragmentActivity.startActivity(intent, options.toBundle());
+                    }
+                    else {
+                        Intent intent = new Intent(v.getContext(), WebNewsActivity.class);
+                        intent.putExtra("url", news.link);
+                        fragmentActivity.startActivity(intent);
+                    }
                 }
             });
         }

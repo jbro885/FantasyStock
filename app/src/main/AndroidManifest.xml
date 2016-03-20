@@ -44,7 +44,8 @@
         <activity android:name=".Activities.PortfoliosActivity" />
         <activity android:name=".Activities.NewsActivity" />
         <activity android:name=".Activities.RankActivity" />
-        <activity android:name=".Activities.CommentActivity"></activity>
+        <activity android:name=".Activities.CommentActivity" />
+        <activity android:name=".WebNewsActivity"></activity>
     </application>
 
 </manifest>
