@@ -1,4 +1,4 @@
-package com.fantasystock.fantasystock;
+package com.fantasystock.fantasystock.Activities;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
+
+import com.fantasystock.fantasystock.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

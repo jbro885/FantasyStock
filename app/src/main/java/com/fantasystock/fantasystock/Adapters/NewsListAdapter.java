@@ -20,7 +20,7 @@ import com.fantasystock.fantasystock.Activities.NewsActivity;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.WebNewsActivity;
+import com.fantasystock.fantasystock.Activities.WebNewsActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
