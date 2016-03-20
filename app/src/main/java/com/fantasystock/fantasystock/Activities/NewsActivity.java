@@ -39,9 +39,12 @@ public class NewsActivity extends AppCompatActivity {
         news = new Gson().fromJson(newsString, News.class);
 
         ButterKnife.bind(this);
-
-
-        String str = Html.fromHtml(news.content).toString();
+        String str;
+        if (news.content!=null) {
+            str = Html.fromHtml(news.content).toString();
+        } else {
+            str = news.summary;
+        }
 
         tvTitle.setText(news.title);
         tvContent.setText(str);
