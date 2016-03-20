@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by chengfu_lin on 3/5/16.
  */
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Object> items;
+    private List<News> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
 
@@ -52,7 +52,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void setItem(Object object, View view);
     }
 
-    public NewsListAdapter(List<Object> items, RecyclerView recyclerView, FragmentActivity fragmentActivity) {
+    public NewsListAdapter(List<News> items, RecyclerView recyclerView, FragmentActivity fragmentActivity) {
         this.items = items;
         this.fragmentActivity = fragmentActivity;
 
@@ -69,7 +69,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                     if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                         // End has been reached
-                        // Do something
                         if (onLoadMoreListener != null) {
                             onLoadMoreListener.onLoadMore();
                         }
