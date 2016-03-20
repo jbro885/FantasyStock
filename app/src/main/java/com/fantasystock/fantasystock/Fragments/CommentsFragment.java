@@ -32,7 +32,6 @@ public class CommentsFragment extends Fragment {
     protected ArrayList<Comment> comments;
     protected CommentsArrayAdapter adapter;
     protected String symbol;
-    private boolean isDestory;
     @Bind(R.id.rvList) RecyclerView rvList;
 
     public static CommentsFragment newInstance(String symbol) {
@@ -49,7 +48,6 @@ public class CommentsFragment extends Fragment {
         symbol = getArguments().getString("symbol");
         comments = new ArrayList<>();
         adapter = new CommentsArrayAdapter(comments);
-        isDestory = false;
     }
 
     @Nullable
@@ -74,9 +72,6 @@ public class CommentsFragment extends Fragment {
         Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
-                if (isDestory) {
-                    return;
-                }
                 comments.clear();
                 comments.addAll(returnComments);
                 adapter.notifyDataSetChanged();
@@ -85,11 +80,6 @@ public class CommentsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isDestory = true;
-    }
 
     protected static class CommentsArrayAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
         private ArrayList<Comment> comments;
@@ -143,6 +133,7 @@ public class CommentsFragment extends Fragment {
                     tvName.setText(user.username);
                     if (user.profileImageUrl == null) {
                         ivUserProfile.setImageResource(R.drawable.ic_profile);
+                        return;
                     }
                     ivUserProfile.setImageResource(0);
                     Context context = ivUserProfile.getContext();

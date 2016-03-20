@@ -341,7 +341,7 @@ public class DataClient {
     }
 
     public void getLatestNewsBySymbol(String symbol, CallBack callback) {
-        Log.d("zhuqi", YAHOO_NEWS_SYMBOL_URL + symbol);
+//        Log.d("zhuqi", YAHOO_NEWS_SYMBOL_URL + symbol);
         client.get(YAHOO_NEWS_SYMBOL_URL + symbol, new RequestParams(), latestNewsHandler(callback));
     }
 
@@ -349,7 +349,7 @@ public class DataClient {
         return new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Gson gson = new Gson();
+                Gson gson = Utils.gsonCreatorForNewsDateFormater();
                 ArrayList<News> latestNews = null;
                 ArrayList<String> previousNewsId = new ArrayList<>();
 
@@ -381,7 +381,7 @@ public class DataClient {
         return new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Gson gson = new Gson();
+                Gson gson = Utils.gsonCreatorForNewsDateFormater();
                 ArrayList<News> previousNews = null;
                 try {
                     //Log.d("PR_DEBUG", response.toString());

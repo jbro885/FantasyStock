@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         PeriodChartsView periodChartsView = new PeriodChartsView(chartView, this);
         periodChartsView.setStock(new Stock("portfolios"));
 
-//        windowChartView.setStock(new Stock("AAPL"));
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -99,23 +98,19 @@ public class MainActivity extends AppCompatActivity {
         windowCharts.setAlpha(0.0f);
         ibWindowCloseButton.setAlpha(0.0f);
 
-        vTouchView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    // Construct draggable shadow for view
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                    // Start the drag of the shadow
-                    view.startDrag(null, shadowBuilder, view, 0);
-                    // Hide the actual view as shadow is being dragged
-                    view.setVisibility(View.INVISIBLE);
-                    return true;
-                } else {
-                    return false;
-                }
+        vTouchView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // Construct draggable shadow for view
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                // Start the drag of the shadow
+                view.startDrag(null, shadowBuilder, view, 0);
+                // Hide the actual view as shadow is being dragged
+                view.setVisibility(View.INVISIBLE);
+                return true;
             }
-        });
 
+        });
         scrollView.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {

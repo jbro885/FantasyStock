@@ -35,6 +35,14 @@ public class CommentsFullPageFragment extends CommentsFragment{
     @Bind(R.id.etCommentText) EditText etCommentText;
     @Bind(R.id.btnSend) Button btnSend;
 
+    public static CommentsFullPageFragment newInstance(String symbol) {
+        CommentsFullPageFragment fragment = new CommentsFullPageFragment();
+        Bundle args = new Bundle();
+        args.putString("symbol", symbol);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
 import com.google.gson.Gson;
@@ -44,7 +45,7 @@ public class NewsActivity extends AppCompatActivity {
 
         tvTitle.setText(news.title);
         tvContent.setText(str);
-        tvPublished.setText(news.published);
+        tvPublished.setText(Utils.converTimetoRelativeTime(news.published));
         tvPublisher.setText(news.publisher);
         if(news.images != null) {
             Glide.with(getApplicationContext())

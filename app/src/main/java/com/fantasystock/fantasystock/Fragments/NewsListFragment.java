@@ -113,8 +113,10 @@ public class NewsListFragment extends Fragment {
         DataClient.getInstance().getLatestNews(symbol, new CallBack() {
             @Override
             public void latestNewsCallBack(ArrayList<News> latestNews, ArrayList<String> previousNewsId) {
-                news = latestNews;
-                previousNews = previousNewsId;
+                news.clear();
+                news.addAll(latestNews);
+                previousNews.clear();
+                previousNews.addAll(previousNewsId);
                 organizeData();
                 newsListAdapter.notifyDataSetChanged();
             }
@@ -133,7 +135,6 @@ public class NewsListFragment extends Fragment {
                 news.addAll(previousNews);
                 organizeData();
                 newsListAdapter.notifyDataSetChanged();
-                //Log.d("DEBUG_PRE", Integer.toString(news.size()));
             }
         });
     }

@@ -43,7 +43,8 @@
         <activity android:name=".Activities.TradeActivity" />
         <activity android:name=".Activities.PortfoliosActivity" />
         <activity android:name=".Activities.NewsActivity" />
-        <activity android:name=".Activities.RankActivity"></activity>
+        <activity android:name=".Activities.RankActivity" />
+        <activity android:name=".Activities.CommentActivity"></activity>
     </application>
 
 </manifest>

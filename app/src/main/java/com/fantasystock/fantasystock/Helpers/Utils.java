@@ -27,8 +27,8 @@ public class Utils {
 
     public static String converTimetoRelativeTime(Date time) {
         String relativeDate = DateUtils.getRelativeTimeSpanString(time.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_TIME).toString();
-        relativeDate.replaceFirst("hour", "h");
-        relativeDate.replaceFirst("minute", "min");
+        relativeDate.replace("hour", "h");
+        relativeDate.replace("minute", "min");
         return relativeDate;
     }
     public static Calendar convertDateToCalendar(Date date) {
@@ -129,7 +129,6 @@ public class Utils {
 
     }
 
-
     public static Gson gsonForParseQuery() {
         return new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
                 public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -138,6 +137,12 @@ public class Utils {
             }).create();
 
 
+    }
+
+    public static Gson gsonCreatorForNewsDateFormater() {
+        // Mon Feb 15 17:31:31 +0000 2016
+//        return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzzzz yyyy").create();
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ssz").create();
     }
 
 }

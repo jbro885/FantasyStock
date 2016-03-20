@@ -89,7 +89,7 @@ public class DetailFragment extends Fragment{
         ButterKnife.bind(this, view);
         periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
         periodChartsView.isDarkTheme = false;
-        commentsFragment = CommentsFragment.newInstance(symbol);
+        commentsFragment = BriefCommentsFragment.newInstance(symbol);
         newsListFragment = NewsListFragment.newInstance(symbol);
 
         getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
@@ -124,6 +124,9 @@ public class DetailFragment extends Fragment{
 
     private void setStock() {
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);
+        if (stock==null) {
+            stock = new Stock(symbol);
+        }
         periodChartsView.setStock(stock);
 
 
