@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     private WatchlistChartFragment watchlistChartFragment;
+    private PeriodChartsView periodChartsView;
     @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
     private static int WATCHLIST_TYPE;
     private static final int LIST_MODE = 0;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        PeriodChartsView periodChartsView = new PeriodChartsView(chartView, this);
+        periodChartsView = new PeriodChartsView(chartView, this);
         periodChartsView.setStock(new Stock("portfolios"));
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -242,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         windowChartView.setStock(new Stock(symbol));
         windowCharts.setAlpha(1.0f);
         ibWindowCloseButton.setAlpha(1.0f);
+        periodChartsView.setStock(new Stock("portfolios"));
     }
 
     private void handleScrolling(int verticalOffset) {

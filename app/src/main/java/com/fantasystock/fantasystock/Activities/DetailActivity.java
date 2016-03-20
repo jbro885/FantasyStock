@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
@@ -30,6 +31,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         String symbol = intent.getStringExtra("symbol");
