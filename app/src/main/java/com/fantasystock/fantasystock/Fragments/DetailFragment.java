@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.TradeActivity;
@@ -37,7 +41,16 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvName) TextView tvName;
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.fDetailCharts) View vChart;
+    @Bind(R.id.svScrollView) ScrollView scrollView;
 
+    //Menu
+    @Bind(R.id.rlDetailMenu) RelativeLayout rlDetailMenu;
+    @Bind(R.id.tvMenuName) TextView tvMenuName;
+    @Bind(R.id.tvMenuPrice) TextView tvMenuPrice;
+    @Bind(R.id.tvMenuSymbol) TextView tvMenuSymbol;
+    @Bind(R.id.llMenuInfo) LinearLayout llMenuInfo;
+
+    private float tvMenuNameStartPoint;
 
     @Bind(R.id.llSharesInfo) LinearLayout llSharesInfo;
     //Shares Info
@@ -92,6 +105,17 @@ public class DetailFragment extends Fragment{
         commentsFragment = BriefCommentsFragment.newInstance(symbol);
         newsListFragment = NewsListFragment.newInstance(symbol);
 
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                handleScrolling(scrollView.getScrollY());
+            }
+        });
+        rlDetailMenu.setAlpha(0.0f);
+        tvMenuNameStartPoint = tvMenuName.getY();
+        tvMenuName.setTranslationY(tvName.getY() - tvMenuName.getY());
+        llMenuInfo.setTranslationY(tvName.getY() - tvMenuName.getY());
+
         getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
         getChildFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
@@ -136,6 +160,10 @@ public class DetailFragment extends Fragment{
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
+
+                tvMenuName.setText(stock.name);
+                tvMenuPrice.setText(stock.current_price + "");
+                tvMenuSymbol.setText(stock.symbol);
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo, 0);
                 } else {
@@ -182,5 +210,19 @@ public class DetailFragment extends Fragment{
 
             }
         };
+    }
+
+    private void handleScrolling(int yOffset) {
+        float alpha = Math.abs(yOffset)/300.0f;
+        if (alpha > 1) {
+            alpha = 1;
+        }
+        rlDetailMenu.setAlpha(alpha);
+        
+        float translateY = Math.max(tvName.getY()-tvMenuNameStartPoint-yOffset,0.0f);
+
+        tvMenuName.setTranslationY(translateY);
+        llMenuInfo.setTranslationY(translateY);
+
     }
 }
