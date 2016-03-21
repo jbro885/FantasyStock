@@ -122,7 +122,7 @@ public class ChartView extends RecyclerView.ViewHolder {
 
         Float currentChange = 0.0f;
         try {
-            currentChange = Float.parseFloat(stock.current_change);
+            currentChange = prices.get(len-1).close - prices.get(0).open;
         } catch (Exception e) {
 
         }
