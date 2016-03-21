@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                    //flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 1);
                     ivWatchlistIconChart.setAlpha((float) 0.5);
@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                    //flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 0.5);
                     ivWatchlistIconChart.setAlpha((float) 1);
