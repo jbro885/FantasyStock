@@ -203,7 +203,14 @@ public class MainActivity extends AppCompatActivity {
                         total += investingStock.share * stock.current_price;
                         change += investingStock.share * Float.parseFloat(stock.current_change);
                     }
-                    tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(change / total * 100) + "% )");
+                    double percentage = change*100/total;
+                    tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(percentage) + "% )");
+                    if(change < 0) {
+                        tvChanges.setTextColor(Color.RED);
+                    }
+                    else {
+                        tvChanges.setTextColor(Color.GREEN);
+                    }
                     tvTotal.setText(Utils.moneyConverter(total));
                     User.currentUser.totalValue = total;
                     User.currentUser.updateUser(null);
