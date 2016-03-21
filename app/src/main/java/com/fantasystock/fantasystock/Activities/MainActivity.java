@@ -8,12 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -24,18 +21,18 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Fragments.NewsListFragment;
+import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
+import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
-import com.fantasystock.fantasystock.Fragments.NewsListFragment;
-import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
-import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
-import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
-import com.fantasystock.fantasystock.ViewHolder.WindowChartView;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Helpers.Utils;
+import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
+import com.fantasystock.fantasystock.ViewHolder.WindowChartView;
 
 import java.util.ArrayList;
 
@@ -55,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int GRID_MODE = 1;
 
     @Bind(R.id.tvTitleWatchlist) TextView tvTitleWatchlist;
+    @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
+    @Bind(R.id.ivWatchlistIconChart) ImageView ivWatchlistIconChart;
 
     @Bind(R.id.fCharts) View chartView;
     @Bind(R.id.fWindowChart) View fWindowChart;
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.vTouchView) View vTouchView;
     @Bind(R.id.svScrollView) ScrollView scrollView;
     @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
-    @Bind(R.id.ivWatchlistIcon) ImageView ivWatchlistIcon;
 
     // Title bar
     private ArrayList<Stock> stocks;
@@ -263,34 +261,61 @@ public class MainActivity extends AppCompatActivity {
         closeButtonFadeOute.start();
     }
 
-    @OnClick(R.id.tvTitleWatchlist)
-    public void onSwitchViewType() {
-        if(WATCHLIST_TYPE == LIST_MODE) WATCHLIST_TYPE = GRID_MODE;
-        else WATCHLIST_TYPE = LIST_MODE;
-        setWatchlist();
+    @OnClick(R.id.ivWatchlistIconList)
+    public void onSetViewTypeList() {
+        if(WATCHLIST_TYPE == GRID_MODE) {
+            WATCHLIST_TYPE = LIST_MODE;
+            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
+                @Override
+                public void task() {
+                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+                    ivWatchlistIconList.setAlpha((float) 1);
+                    ivWatchlistIconChart.setAlpha((float) 0.5);
+                }
+            });
+        }
+    }
+
+    @OnClick(R.id.ivWatchlistIconChart)
+    public void onSetViewTypeChart() {
+        if(WATCHLIST_TYPE == LIST_MODE) {
+            WATCHLIST_TYPE = GRID_MODE;
+            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
+                @Override
+                public void task() {
+                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
+                    ivWatchlistIconList.setAlpha((float) 0.5);
+                    ivWatchlistIconChart.setAlpha((float) 1);
+                }
+            });
+        }
     }
 
     private void setWatchlist() {
-
-        final boolean isList = (WATCHLIST_TYPE == LIST_MODE);
-        Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
-            @Override
-            public void task() {
-                flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
-                if (isList) {
+        if(WATCHLIST_TYPE == LIST_MODE) {
+            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
+                @Override
+                public void task() {
+                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
-                } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
+                    ivWatchlistIconList.setAlpha((float) 1);
+                    ivWatchlistIconChart.setAlpha((float) 0.5);
                 }
-            }
-        });
-        Utils.fadeInAndOutAnimationGenerator(ivWatchlistIcon, new CallBack() {
-            @Override
-            public void task() {
-                ivWatchlistIcon.setImageResource(isList ? R.drawable.ic_list : R.drawable.ic_line_chart);
-            }
-        });
-
+            });
+        }
+        else {
+            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
+                @Override
+                public void task() {
+                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
+                    ivWatchlistIconList.setAlpha((float) 0.5);
+                    ivWatchlistIconChart.setAlpha((float) 1);
+                }
+            });
+        }
     }
 
     private ObjectAnimator animateToX(final View view, final float toX) {
