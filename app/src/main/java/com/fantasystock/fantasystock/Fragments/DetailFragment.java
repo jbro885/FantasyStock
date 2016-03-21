@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -136,6 +137,12 @@ public class DetailFragment extends Fragment{
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
+                if(Float.parseFloat(stock.current_change) < 0 ) {
+                    tvPrice.setTextColor(Color.RED);
+                }
+                else {
+                    tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                }
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo, 0);
                 } else {

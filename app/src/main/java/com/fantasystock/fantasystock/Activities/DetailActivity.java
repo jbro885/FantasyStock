@@ -2,23 +2,20 @@ package com.fantasystock.fantasystock.Activities;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Fragments.DetailFragment;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -50,9 +47,6 @@ public class DetailActivity extends AppCompatActivity {
             stocks.addAll(symbols);
         }
 
-
-
-        Drawable fadeBlue = ContextCompat.getDrawable(this, R.drawable.fade_blue);
         DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this);
         vpViewPager.setAdapter(detailsPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
