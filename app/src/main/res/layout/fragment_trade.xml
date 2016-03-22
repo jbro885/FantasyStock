@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="400dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/llTradingWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/tvSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:textSize="14sp"
+                android:text="Shares of"
+                />
+            <EditText
+                android:id="@+id/etShares"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:fontFamily="@string/font_sans_serif_thin"
+                android:textSize="30sp"
+                android:inputType="numberDecimal"
+                android:ems="3"
+                android:backgroundTint="#e0e0e0"
+
+                android:text="888"
+                android:gravity="right"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/tvMarketPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:textSize="14sp"
+                android:text="Market Price"
+                />
+            <TextView
+                android:id="@+id/tvUnitPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_sans_serif_thin"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:text="$88.88"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/tvEstimatedCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:fontFamily="@string/font_sans_serif_light"
+                android:textSize="14sp"
+                android:text="Estimated Cost" />
+            <TextView
+                android:id="@+id/tvTotalCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_sans_serif_thin"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:text="$888.88"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvAvailableFund"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="5dp"
+            android:fontFamily="@string/font_sans_serif_light"
+            android:textColor="@color/darkBlue"
+            android:textSize="14sp"
+            android:text="$12345 available" />
+        <TextView
+            android:id="@+id/tvWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:fontFamily="@string/font_sans_serif_light"
+            android:textColor="@color/red"
+            android:textSize="16sp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BUY/SELL"
+            android:id="@+id/btnTrade"
+            android:layout_below="@+id/tvEstimatedCost"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="27dp"/>
+
+
+
+    </LinearLayout>
+    <include layout="@layout/layout_loading_spinner"
+        android:id="@+id/prLoadingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/llTradingWrapper"
+        />
+</RelativeLayout>
