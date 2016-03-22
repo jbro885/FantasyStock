@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Helpers.Utils;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -138,7 +138,10 @@ public class CommentsFragment extends Fragment {
                     ivUserProfile.setImageResource(0);
                     Context context = ivUserProfile.getContext();
                     String url = user.profileImageUrl;
-                    if (context!=null) {
+                    if (url.startsWith("avatar_")) {
+                        int resourceId = context.getResources().getIdentifier(url, "drawable",  context.getPackageName());
+                        ivUserProfile.setImageResource(resourceId);
+                    } else if (context!=null) {
                         Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
                     }
                 }

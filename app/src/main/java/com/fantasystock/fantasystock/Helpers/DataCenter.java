@@ -22,6 +22,7 @@ import java.util.List;
  * Created by wilsonsu on 3/7/16.
  */
 public class DataCenter {
+    public static final int REFRESH_WATCHLIST = 200;
     private final static String USER_HISTORY = "user_history";
     private final static String TRANSACTION_SYMBOL = "transaction_symbol";
     private final static String TRANSACTION_SHARES = "transaction_shares";
