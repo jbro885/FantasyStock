@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.Activities;
 
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -46,36 +45,47 @@ public class MainActivity extends AppCompatActivity {
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
 
+    private static int PROFOLIOS_TYPE;
+    private static final int CHART_MODE = 0;
+    private static final int PIE_MODE   = 1;
+
     private ChartPeriodFragment chartPeriodFragment;
     private ChartPieFragment chartPieFragment;
     private WatchlistFragment watchlistFragment;
     private WatchlistChartFragment watchlistChartFragment;
     private NewsListFragment newsListFragment;
 
-    @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
-    @Bind(R.id.flPeriodChart) FrameLayout flPeriodChart;
+    // Profolios section
+    @Bind(R.id.tvTotal) TextView tvTotal;
+    @Bind(R.id.tvChanges) TextView tvChanges;
+    @Bind(R.id.ivProfolioIconChart) ImageView ivProfolioIconChart;
+    @Bind(R.id.ivProfolioIconPie) ImageView ivProfolioIconPie;
+    @Bind(R.id.flPortfolioChart) FrameLayout flPortfolioChart;
 
+    // Watchlist section
     @Bind(R.id.tvTitleWatchlist) TextView tvTitleWatchlist;
     @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
-    @Bind(R.id.ivWatchlistIconChart) ImageView ivWatchlistIconChart;
+    @Bind(R.id.ivWatchlistIconGrid) ImageView ivWatchlistIconGrid;
+    @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
 
-
+    // Floating chart window
     @Bind(R.id.fWindowChart) View fWindowChart;
     @Bind(R.id.rlWindowChart) View windowCharts;
+    @Bind(R.id.vTouchView) View vTouchView;
+    @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
 
+    // Background
     @Bind(R.id.ivBackground) ImageView ivBackground;
     @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
     @Bind(R.id.rlDim) RelativeLayout rlDim;
-    // Indexs
+    @Bind(R.id.svScrollView) ScrollView scrollView;
+
+    // toolbar section
     @Bind(R.id.tvIndexName) TextView tvIndexName;
     @Bind(R.id.tvIndexPrice) TextView tvIndexPrice;
     @Bind(R.id.tvIndexPriceChange) TextView tvIndexPriceChange;
-    @Bind(R.id.tvTotal) TextView tvTotal;
-    @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
-    @Bind(R.id.vTouchView) View vTouchView;
-    @Bind(R.id.svScrollView) ScrollView scrollView;
-    @Bind(R.id.ibWindowCloseButton) ImageButton ibWindowCloseButton;
+
 
     // Title bar
     private ArrayList<Stock> stocks;
@@ -92,10 +102,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Set portfolio Section
+        PROFOLIOS_TYPE = CHART_MODE;
         chartPeriodFragment = new ChartPeriodFragment();
         chartPieFragment = new ChartPieFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.flPeriodChart, chartPieFragment).commit();
+        setProfoliosChart();
 
+        // Set floating window section
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -155,17 +168,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // get list view
+        // Set Watchlist Section
         WATCHLIST_TYPE = LIST_MODE;
         watchlistFragment = new WatchlistFragment();
         watchlistChartFragment = new WatchlistChartFragment();
         setWatchlist();
 
-        // get news
+        // Set News Section
         newsListFragment = new NewsListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
-        // get header stocks
+        // Set Toolbar header Section
         stocks = new ArrayList<>();
         stocks.add(new Stock(".DJI"));
         stocks.add(new Stock(".INX"));
@@ -276,32 +289,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.ivWatchlistIconList)
-    public void onSetViewTypeList() {
+    public void onSetWatchlistViewTypeList() {
         if(WATCHLIST_TYPE == GRID_MODE) {
             WATCHLIST_TYPE = LIST_MODE;
-            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
-                @Override
-                public void task() {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
-                    ivWatchlistIconList.setAlpha((float) 1);
-                    ivWatchlistIconChart.setAlpha((float) 0.5);
-                }
-            });
+            setWatchlist();
         }
     }
 
-    @OnClick(R.id.ivWatchlistIconChart)
-    public void onSetViewTypeChart() {
+    @OnClick(R.id.ivWatchlistIconGrid)
+    public void onSetWatchlistViewTypeGrid() {
         if(WATCHLIST_TYPE == LIST_MODE) {
             WATCHLIST_TYPE = GRID_MODE;
-            Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
-                @Override
-                public void task() {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
-                    ivWatchlistIconList.setAlpha((float) 0.5);
-                    ivWatchlistIconChart.setAlpha((float) 1);
-                }
-            });
+            setWatchlist();
         }
     }
 
@@ -312,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 1);
-                    ivWatchlistIconChart.setAlpha((float) 0.5);
+                    ivWatchlistIconGrid.setAlpha((float) 0.5);
                 }
             });
         }
@@ -322,26 +321,48 @@ public class MainActivity extends AppCompatActivity {
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 0.5);
-                    ivWatchlistIconChart.setAlpha((float) 1);
+                    ivWatchlistIconGrid.setAlpha((float) 1);
                 }
             });
         }
     }
 
-    private ObjectAnimator animateToX(final View view, final float toX) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "x", view.getX(), toX).setDuration(300);
-        animator.addListener(new Animator.AnimatorListener() {
-             @Override
-             public void onAnimationStart(Animator animation) {}
-             @Override
-             public void onAnimationEnd(Animator animation) {
-                 view.setX(toX);
-             }
-             @Override
-             public void onAnimationCancel(Animator animation) {}
-             @Override
-             public void onAnimationRepeat(Animator animation) {}
-         });
-        return animator;
+    @OnClick(R.id.ivProfolioIconChart)
+    public void onSetProfolioViewTypeChart() {
+        if(PROFOLIOS_TYPE == PIE_MODE) {
+            PROFOLIOS_TYPE = CHART_MODE;
+            setProfoliosChart();
+        }
+    }
+
+    @OnClick(R.id.ivProfolioIconPie)
+    public void onSetProfolioViewTypePie() {
+        if(PROFOLIOS_TYPE == CHART_MODE) {
+            PROFOLIOS_TYPE = PIE_MODE;
+            setProfoliosChart();
+        }
+    }
+
+    private void setProfoliosChart() {
+        if(PROFOLIOS_TYPE == CHART_MODE) {
+            Utils.fadeInAndOutAnimationGenerator(flPortfolioChart, new CallBack() {
+                @Override
+                public void task() {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPeriodFragment).commit();
+                    ivProfolioIconChart.setAlpha((float) 1);
+                    ivProfolioIconPie.setAlpha((float) 0.5);
+                }
+            });
+        }
+        else {
+            Utils.fadeInAndOutAnimationGenerator(flPortfolioChart, new CallBack() {
+                @Override
+                public void task() {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPieFragment).commit();
+                    ivProfolioIconChart.setAlpha((float) 0.5);
+                    ivProfolioIconPie.setAlpha((float) 1);
+                }
+            });
+        }
     }
 }
