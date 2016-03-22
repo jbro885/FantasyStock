@@ -137,6 +137,7 @@ public class SearchActivity extends AppCompatActivity {
         FragmentActivity fragmentActivity;
         @Bind(R.id.tvQuoteSymbol) TextView tvQuoteSymbol;
         @Bind(R.id.tvQuoteName) TextView tvQuoteName;
+        @Bind(R.id.ibCircle) ImageButton ibCircle;
         @Bind(R.id.ibFavorite) ImageButton ibFavorite;
         @Bind(R.id.tvQuoteMarket) TextView tvQuoteMarket;
         private boolean isFavorited;
@@ -180,10 +181,14 @@ public class SearchActivity extends AppCompatActivity {
         }
         private void reloadFavorite() {
             isFavorited = DataCenter.getInstance().isFavoritedStock(stock);
-            ibFavorite.setImageResource(
-                    isFavorited ? R.drawable.ic_star : R.drawable.ic_unstar
-            );
-
+            if(isFavorited) {
+                ibCircle.setAlpha((float)1.0);
+                ibFavorite.setImageResource(R.drawable.ic_check);
+            }
+            else {
+                ibCircle.setAlpha((float)0.0);
+                ibFavorite.setImageResource(R.drawable.ic_add);
+            }
         }
     }
 }

@@ -7,6 +7,5 @@
         android:id="@+id/lcPortfolios"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_below="@id/ivUserProfile"
         android:background="@color/transparent"/>
 </LinearLayout>

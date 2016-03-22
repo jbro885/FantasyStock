@@ -40,6 +40,16 @@
         android:fontFamily="@string/font_sans_serif_medium"
         android:text="NASDAQ"/>
     <ImageButton
+        android:id="@+id/ibCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/tvQuoteName"
+        android:src="@drawable/ic_circle"
+        android:background="@color/transparent" />
+    <ImageButton
         android:id="@+id/ibFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +57,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/tvQuoteName"
-        android:src="@drawable/ic_unstar"
-        android:background="@color/transparent"
-        />
+        android:src="@drawable/ic_add"
+        android:background="@color/transparent" />
 </RelativeLayout>
