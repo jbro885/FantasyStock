@@ -18,8 +18,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
-import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Helpers.Utils;
+import com.fantasystock.fantasystock.Models.User;
+import com.fantasystock.fantasystock.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -48,6 +49,14 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Parse User
+        if(User.currentUser != null) {
+            Toast.makeText(this, User.currentUser.username, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         // Initial facebook sdk
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -141,6 +150,8 @@ public class SignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
             if (user != null) {
                 DataCenter.getInstance().setUser(user);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
                 finish();
 
             } else {
