@@ -12,7 +12,9 @@
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:fontFamily="@string/font_sans_serif_light"
+        android:gravity="center_vertical"
         android:padding="3dp"
+        android:drawableLeft="@drawable/ic_folder"
         />
     <View
         android:layout_width="match_parent"

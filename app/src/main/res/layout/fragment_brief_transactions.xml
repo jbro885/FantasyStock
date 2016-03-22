@@ -9,9 +9,12 @@
         android:text="History"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
+        android:gravity="center_vertical"
         android:layout_marginTop="20dp"
         android:fontFamily="@string/font_sans_serif_light"
-        android:padding="3dp" />
+        android:padding="3dp"
+
+        android:drawableLeft="@drawable/ic_history"/>
     <View
         android:id="@+id/vLine"
         android:layout_width="match_parent"

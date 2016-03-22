@@ -54,6 +54,16 @@
                 android:fontFamily="@string/font_sans_serif_regular"
                 android:gravity="center_horizontal"
                 />
+            <TextView
+                android:id="@+id/tvChanges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+1.0(+1.0%)"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryGreyDark"
+                android:fontFamily="@string/font_sans_serif_regular"
+                android:gravity="center_horizontal"
+                />
 
             <include layout="@layout/fragment_period_chart"
                 android:id="@+id/fDetailCharts"
@@ -98,9 +108,11 @@
                 android:text="Statistics"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
+                android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@string/font_sans_serif_light"
                 android:padding="3dp"
+                android:drawableLeft="@drawable/ic_statistics"
                 />
             <View
                 android:layout_width="match_parent"
@@ -126,9 +138,11 @@
                 android:text="Comments"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
+                android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@string/font_sans_serif_light"
                 android:padding="3dp"
+                android:drawableLeft="@drawable/ic_comments"
                 />
             <View
                 android:layout_width="match_parent"
@@ -147,9 +161,11 @@
                 android:text="News"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
+                android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@string/font_sans_serif_light"
                 android:padding="3dp"
+                android:drawableLeft="@drawable/ic_news"
                 />
             <View
                 android:layout_width="match_parent"
