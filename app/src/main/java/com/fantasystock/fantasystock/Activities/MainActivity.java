@@ -22,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Fragments.ChartPeriodFragment;
+import com.fantasystock.fantasystock.Fragments.ChartPieFragment;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
@@ -41,17 +42,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REFRESH_WATCHLIST = 200;
-
-    private ChartPeriodFragment chartPeriodFragment;
-    private NewsListFragment newsListFragment;
-    private WatchlistFragment watchlistFragment;
-    private WatchlistChartFragment watchlistChartFragment;
-    @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
-    @Bind(R.id.flPeriodChart) FrameLayout flPeriodChart;
     private static int WATCHLIST_TYPE;
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
+    private static final int REFRESH_WATCHLIST = 200;
+
+    private ChartPeriodFragment chartPeriodFragment;
+    private ChartPieFragment chartPieFragment;
+    private WatchlistFragment watchlistFragment;
+    private WatchlistChartFragment watchlistChartFragment;
+    private NewsListFragment newsListFragment;
+
+    @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
+    @Bind(R.id.flPeriodChart) FrameLayout flPeriodChart;
 
     @Bind(R.id.tvTitleWatchlist) TextView tvTitleWatchlist;
     @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
@@ -91,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         chartPeriodFragment = new ChartPeriodFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.flPeriodChart, chartPeriodFragment).commit();
+        chartPieFragment = new ChartPieFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flPeriodChart, chartPieFragment).commit();
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
