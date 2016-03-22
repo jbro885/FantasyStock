@@ -98,6 +98,7 @@ public class ChartView extends RecyclerView.ViewHolder {
 
     private void setData(HistoricalData data) {
         ArrayList<Entry> yVals = new ArrayList<>();
+        ArrayList<Entry> yValsTradingPoint = new ArrayList<>();
         ArrayList<String> xVals = new ArrayList<>();
         List<HistoricalData.SeriesEntity> prices = data.series;
         if (prices==null) {
@@ -118,6 +119,9 @@ public class ChartView extends RecyclerView.ViewHolder {
             yVals.add(new Entry(series.close, i));
 
             xVals.add("");
+            if (i%50==0) {
+                yValsTradingPoint.add(new Entry(series.close, i));
+            }
         }
 
         Float currentChange = 0.0f;
@@ -138,6 +142,7 @@ public class ChartView extends RecyclerView.ViewHolder {
             fadeColor = fragmentActivity.getDrawable(R.drawable.fade_blue);
         }
 
+
         LineDataSet lineDataSet= new LineDataSet(yVals, stock.symbol);
 
         lineDataSet.setColor(darkColor);
@@ -149,8 +154,15 @@ public class ChartView extends RecyclerView.ViewHolder {
         lineDataSet.setValueTextSize(9f);
         lineDataSet.setFillDrawable(fadeColor);
         lineDataSet.setDrawFilled(true);
+
+        LineDataSet lineDataSet2= new LineDataSet(yValsTradingPoint, stock.symbol);
+
+        lineDataSet2.setColor(darkColor, 0);
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+//        dataSets.add(lineDataSet2);
         dataSets.add(lineDataSet); // add the datasets
+
 
         // create a data object with the datasets
         LineData lineData = new LineData(xVals, dataSets);
