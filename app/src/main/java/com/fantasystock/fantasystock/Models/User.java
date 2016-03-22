@@ -85,6 +85,10 @@ public class User {
         }
     }
 
+    public static boolean isLogin() {
+        return ParseUser.getCurrentUser()!=null;
+    }
+
     public void updateUser(final CallBack callBack) {
         Log.d("zhuqi", "updateUser");
         if (user!=null) {
