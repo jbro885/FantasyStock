@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="History"
@@ -10,29 +11,37 @@
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:fontFamily="@string/font_sans_serif_light"
-        android:padding="3dp"
-        />
+        android:padding="3dp" />
     <View
+        android:id="@+id/vLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/tvTitle"
         android:padding="5dp"
         android:background="#88057499"/>
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tvLoading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rvList"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vLine"
+        android:textAlignment="center"
+        android:padding="20dp"
+        android:text="Loading..."
+        />
 
-        <include layout="@layout/layout_loading_spinner"
-            android:id="@+id/prLoadingSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignBottom="@+id/rvList"
-            />
-    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vLine"
+        android:background="@color/white"
+        android:minHeight="40dp"
+        android:id="@+id/rvList"/>
 
-
-</LinearLayout>
+    <include layout="@layout/layout_loading_spinner"
+        android:id="@+id/prLoadingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/rvList"
+        android:layout_alignBottom="@+id/tvLoading"
+        />
+</RelativeLayout>

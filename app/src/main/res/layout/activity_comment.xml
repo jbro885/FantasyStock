@@ -3,14 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.fantasystock.fantasystock.Activities.CommentActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="26dp"
         android:background="@drawable/fade_trasparent"/>
+    <TextView
+        android:id="@+id/tvMenuTitle"
+        android:text="AAPL"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/fade_menu"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comments"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/tvMenuTitle"
+        />
 
     <FrameLayout
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="72dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/flComments"/>
