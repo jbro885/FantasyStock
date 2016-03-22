@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.Utils;
@@ -21,6 +23,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chengfu_lin on 3/21/16.
  */
-public class ChartPieFragment extends Fragment {
+public class ChartPieFragment extends Fragment implements OnChartValueSelectedListener {
     @Bind(R.id.lcPortfolios) PieChart pieChart;
     private ArrayList<Stock> investingStocks;
     private User user;
@@ -107,7 +111,7 @@ public class ChartPieFragment extends Fragment {
         // pieChart.setDrawUnitsInChart(true);
 
         // add a selection listener
-        //pieChart.setOnChartValueSelectedListener(this);
+        pieChart.setOnChartValueSelectedListener(this);
 
         setUser(getUser());
 
@@ -192,5 +196,18 @@ public class ChartPieFragment extends Fragment {
 
         pieChart.invalidate();
 
+    }
+
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+        String symbol = investingStocks.get(e.getXIndex()).symbol;
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("symbol", symbol);
+        getActivity().startActivityForResult(intent, DataCenter.REFRESH_WATCHLIST);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        // Do nothing
     }
 }

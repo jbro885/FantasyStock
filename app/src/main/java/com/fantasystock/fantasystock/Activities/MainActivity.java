@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private static int WATCHLIST_TYPE;
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
-    private static final int REFRESH_WATCHLIST = 200;
 
     private ChartPeriodFragment chartPeriodFragment;
     private ChartPieFragment chartPieFragment;
@@ -229,20 +228,20 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
         if (User.currentUser!=null && User.currentUser.username!=null) {
-            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), REFRESH_WATCHLIST);
+            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), DataCenter.REFRESH_WATCHLIST);
         } else {
-            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), REFRESH_WATCHLIST);
+            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), DataCenter.REFRESH_WATCHLIST);
         }
     }
 
     @OnClick(R.id.ibSearch)
     public void onSearchClick() {
-        startActivityForResult(new Intent(getApplicationContext(), SearchActivity.class), REFRESH_WATCHLIST);
+        startActivityForResult(new Intent(getApplicationContext(), SearchActivity.class), DataCenter.REFRESH_WATCHLIST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REFRESH_WATCHLIST) {
+        if (requestCode == DataCenter.REFRESH_WATCHLIST) {
             if(WATCHLIST_TYPE == LIST_MODE) {
                 watchlistFragment.refreshWatchlist();
             }
