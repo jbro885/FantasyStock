@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Comment;
@@ -109,7 +108,7 @@ public class CommentsFragment extends Fragment {
     public static class CommentsViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.ivUserProfile) ImageView ivUserProfile;
         @Bind(R.id.tvName) TextView tvName;
-        @Bind(R.id.tvCommentTime) TextView tvCommentTime;
+        @Bind(R.id.tvRank) TextView tvCommentTime;
         @Bind(R.id.tvComment) TextView tvComment;
 
         public CommentsViewHolder(View itemView) {
