@@ -77,6 +77,7 @@ public class ChartPieFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        setupPieChart();
     }
 
     private void setupPieChart() {
