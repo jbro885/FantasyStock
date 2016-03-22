@@ -68,7 +68,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/flPortfolioChart"
+                android:layout_above="@+id/flPortfolioChart"
                 android:layout_alignLeft="@+id/flPortfolioChart">
 
                 <ImageView

@@ -176,7 +176,10 @@ public class DetailFragment extends Fragment{
                     tvPrice.setTextColor(Color.RED);
                 }
                 else {
-                    tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                    // check if the fragment is attached to activity to prevent from crash: http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+                    if (isAdded()) {
+                        tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                    }
                 }
 
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
