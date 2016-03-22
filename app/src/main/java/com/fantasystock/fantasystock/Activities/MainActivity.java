@@ -240,11 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        if (User.currentUser!=null && User.currentUser.username!=null) {
-            startActivityForResult(new Intent(getApplicationContext(), PortfoliosActivity.class), DataCenter.REFRESH_WATCHLIST);
-        } else {
-            startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), DataCenter.REFRESH_WATCHLIST);
-        }
+        startActivity(new Intent(getApplicationContext(), RankActivity.class));
     }
 
     @OnClick(R.id.ibSearch)
