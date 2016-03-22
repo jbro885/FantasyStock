@@ -1,11 +1,13 @@
 package com.fantasystock.fantasystock.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +20,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
-import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.Helpers.Utils;
+import com.fantasystock.fantasystock.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -36,6 +38,7 @@ import butterknife.OnClick;
 
 public class SignupActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
+    private String profileImageUrl;
 
     @Bind(R.id.login_button) LoginButton loginButton;
     @Bind(R.id.btnSignIn) Button signInButton;
@@ -44,6 +47,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.etPassword) EditText etPassword;
     @Bind(R.id.tvWarning) TextView tvWarning;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+    @Bind(R.id.ibAvatar) ImageButton ibAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,18 +118,18 @@ public class SignupActivity extends AppCompatActivity {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
-            if (e == null) {
-                DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
-                finish();
+                if (e == null) {
+                    DataCenter.getInstance().signUpUser(ParseUser.getCurrentUser(), profileImageUrl);
+                    finish();
 
-                // Hooray! Let them use the app now.
-            } else {
-                tvWarning.setText("Fail to sign up");
-                Utils.fadeIneAnimation(tvWarning);
-                // Sign up didn't succeed. Look at the ParseException
-                // to figure out what went wrong
-            }
-            prLoadingSpinner.setVisibility(View.INVISIBLE);
+                    // Hooray! Let them use the app now.
+                } else {
+                    tvWarning.setText("Fail to sign up");
+                    Utils.fadeIneAnimation(tvWarning);
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -139,15 +143,14 @@ public class SignupActivity extends AppCompatActivity {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
-            if (user != null) {
-                DataCenter.getInstance().setUser(user);
-                finish();
-
-            } else {
-                tvWarning.setText("Fail to sign in");
-                Utils.fadeIneAnimation(tvWarning);
-            }
-            prLoadingSpinner.setVisibility(View.INVISIBLE);
+                if (user != null) {
+                    DataCenter.getInstance().setUser(user);
+                    finish();
+                } else {
+                    tvWarning.setText("Fail to sign in");
+                    Utils.fadeIneAnimation(tvWarning);
+                }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -162,5 +165,14 @@ public class SignupActivity extends AppCompatActivity {
         Utils.fadeIneAnimation(tvWarning);
 
         return false;
+    }
+
+    @OnClick(R.id.ibAvatar)
+    public void onClickAvatar() {
+        int rand = (int) (Math.random() * 30);
+        profileImageUrl = "avatar_" + rand;
+        Context context = ibAvatar.getContext();
+        int resourceId = context.getResources().getIdentifier(profileImageUrl, "drawable",  context.getPackageName());
+        ibAvatar.setImageResource(resourceId);
     }
 }

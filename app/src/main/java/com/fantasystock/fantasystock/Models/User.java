@@ -31,7 +31,7 @@ public class User {
     private final static String USER_INVESTING_STOCKS = "user_investing_stocks";
     private final static String USER_AVAILABLE_FUND = "user_available_fund";
     private final static String USER_TOTAL_VALUE = "user_total_value";
-    private final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
+    public final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
 
     public String id;
     public String profileImageUrl;
