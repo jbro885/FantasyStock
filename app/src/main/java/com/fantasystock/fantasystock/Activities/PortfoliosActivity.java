@@ -111,9 +111,7 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
             tvName.setText(user.username);
         }
         if (user.profileImageUrl!=null) {
-            Context context = ivUserProfile.getContext();
-            String url = user.profileImageUrl;
-            Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
+            Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
         }
 
         investingStocks = user.investingStocks;
@@ -223,9 +221,4 @@ public class PortfoliosActivity extends AppCompatActivity implements OnChartValu
         startActivity(new Intent(getApplicationContext(), RankActivity.class));
 
     }
-
-
-
-
-
 }

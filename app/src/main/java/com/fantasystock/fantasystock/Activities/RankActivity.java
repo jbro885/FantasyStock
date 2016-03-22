@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
@@ -102,10 +103,7 @@ public class RankActivity extends AppCompatActivity {
                 ivUserProfile.setImageResource(R.drawable.ic_profile);
             }
             ivUserProfile.setImageResource(0);
-            Context context = ivUserProfile.getContext();
-            String url = user.profileImageUrl;
-            Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
-
+            Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
         }
     }
 

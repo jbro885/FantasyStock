@@ -136,14 +136,7 @@ public class CommentsFragment extends Fragment {
                         return;
                     }
                     ivUserProfile.setImageResource(0);
-                    Context context = ivUserProfile.getContext();
-                    String url = user.profileImageUrl;
-                    if (url.startsWith("avatar_")) {
-                        int resourceId = context.getResources().getIdentifier(url, "drawable",  context.getPackageName());
-                        ivUserProfile.setImageResource(resourceId);
-                    } else if (context!=null) {
-                        Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
-                    }
+                    Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
                 }
             });
 
