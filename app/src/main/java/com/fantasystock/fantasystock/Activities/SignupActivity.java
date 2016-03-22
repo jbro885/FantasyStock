@@ -1,11 +1,14 @@
 package com.fantasystock.fantasystock.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import butterknife.OnClick;
 
 public class SignupActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
+    private String profileImageUrl;
 
     @Bind(R.id.login_button) LoginButton loginButton;
     @Bind(R.id.btnSignIn) Button signInButton;
@@ -45,6 +49,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.etPassword) EditText etPassword;
     @Bind(R.id.tvWarning) TextView tvWarning;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+    @Bind(R.id.ibAvatar) ImageButton ibAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Login failed, please try again", Toast.LENGTH_LONG).show();
             }
         });
+        this.onClickAvatar();
     }
 
     @Override
@@ -118,23 +124,25 @@ public class SignupActivity extends AppCompatActivity {
         user.setUsername(etEmail.getText().toString());
         user.setPassword(etPassword.getText().toString());
         user.setEmail(etEmail.getText().toString());
+        user.put(User.USER_PROFILE_IMAGE_URL, profileImageUrl);
 
         // other fields can be set just like with ParseObject
         prLoadingSpinner.setVisibility(View.VISIBLE);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
-            if (e == null) {
-                DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
-                finish();
+                if (e == null) {
+                    DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
+                    // DataCenter.getInstance().signUpUser(ParseUser.getCurrentUser(), profileImageUrl);
+                    finish();
 
-                // Hooray! Let them use the app now.
-            } else {
-                tvWarning.setText("Fail to sign up");
-                Utils.fadeIneAnimation(tvWarning);
-                // Sign up didn't succeed. Look at the ParseException
-                // to figure out what went wrong
-            }
-            prLoadingSpinner.setVisibility(View.INVISIBLE);
+                    // Hooray! Let them use the app now.
+                } else {
+                    tvWarning.setText("Fail to sign up");
+                    Utils.fadeIneAnimation(tvWarning);
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -148,17 +156,17 @@ public class SignupActivity extends AppCompatActivity {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
-            if (user != null) {
-                DataCenter.getInstance().setUser(user);
-                Intent intent = new Intent(getApplication(), MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (user != null) {
+                    DataCenter.getInstance().setUser(user);
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
 
-            } else {
-                tvWarning.setText("Fail to sign in");
-                Utils.fadeIneAnimation(tvWarning);
-            }
-            prLoadingSpinner.setVisibility(View.INVISIBLE);
+                } else {
+                    tvWarning.setText("Fail to sign in");
+                    Utils.fadeIneAnimation(tvWarning);
+                }
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -173,5 +181,19 @@ public class SignupActivity extends AppCompatActivity {
         Utils.fadeIneAnimation(tvWarning);
 
         return false;
+    }
+
+    @OnClick(R.id.ibAvatar)
+    public void onClickAvatar() {
+        String newProfileImageUrl = this.profileImageUrl;
+        // Make sure it changes to a different avatar
+        while (TextUtils.isEmpty(newProfileImageUrl) || newProfileImageUrl.equals(this.profileImageUrl)) {
+            int rand = (int) (Math.random() * 30);
+            newProfileImageUrl = "avatar_" + rand;
+        }
+        this.profileImageUrl = newProfileImageUrl;
+        Context context = ibAvatar.getContext();
+        int resourceId = context.getResources().getIdentifier(profileImageUrl, "drawable",  context.getPackageName());
+        ibAvatar.setImageResource(resourceId);
     }
 }
