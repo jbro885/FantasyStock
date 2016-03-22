@@ -1,5 +1,8 @@
 package com.fantasystock.fantasystock.Models;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +69,11 @@ public class User {
         if (availableFund == 0) availableFund = 1000000;
         if (totalValue == 0) totalValue = availableFund;
 
+        // Assign a random avatar if not exists
+        if (TextUtils.isEmpty(profileImageUrl)) {
+            this.profileImageUrl = "avatar_" + (int) (Math.random() * 30);
+        }
+
         for (int i=0;i<watchlist.size();++i) {
             String symbol = watchlist.get(i);
             watchlistSet.add(symbol);
@@ -75,17 +83,17 @@ public class User {
             Stock stock = investingStocks.get(i);
             investingStocksMap.put(stock.symbol, stock);
         }
-
-
     }
 
     public void updateUser(final CallBack callBack) {
+        Log.d("zhuqi", "updateUser");
         if (user!=null) {
             Gson gson = new Gson();
             user.put(USER_WATCH_LIST, gson.toJsonTree(watchlist).toString());
             user.put(USER_AVAILABLE_FUND, availableFund);
             user.put(USER_TOTAL_VALUE, totalValue);
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
+            user.put(USER_PROFILE_IMAGE_URL, profileImageUrl);
             if (callBack==null) {
                 user.saveInBackground();
                 return;
