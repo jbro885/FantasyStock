@@ -1,8 +1,10 @@
 package com.fantasystock.fantasystock.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,7 +63,7 @@ public class TradeActivity extends AppCompatActivity {
           @Override
           public void stockCallBack(Stock returnStock) {
               tvUnitPrice.setText(formatter.format(returnStock.current_price));
-              if (stock==null) {
+              if (stock == null) {
                   stock = returnStock;
               } else {
                   stock.current_price = returnStock.current_price;
@@ -72,6 +74,8 @@ public class TradeActivity extends AppCompatActivity {
       });
     etShares.setText("");
     etShares.requestFocus();
+    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.showSoftInput(etShares, InputMethodManager.SHOW_IMPLICIT);
     // TODO: input method is not default out :(
   }
 

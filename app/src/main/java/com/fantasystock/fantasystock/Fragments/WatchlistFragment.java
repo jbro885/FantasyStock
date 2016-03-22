@@ -106,13 +106,17 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     public void refreshWatchlist() {
         mAdapter.clear();
-        DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
-            @Override
-            public void stocksCallBack(ArrayList<Stock> returnedSocks) {
-                organizeData();
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        if (User.currentUser != null) {
+            DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
+                @Override
+                public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                    organizeData();
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private void organizeData() {

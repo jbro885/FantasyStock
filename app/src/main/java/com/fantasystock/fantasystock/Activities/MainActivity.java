@@ -248,6 +248,12 @@ public class MainActivity extends AppCompatActivity {
         windowChartView.setStock(new Stock(symbol));
         windowCharts.setAlpha(1.0f);
         ibWindowCloseButton.setAlpha(1.0f);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         periodChartsView.setStock(new Stock("portfolios"));
     }
 
@@ -263,9 +269,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.ibWindowCloseButton)
     public void onCloseWindowButton() {
         ObjectAnimator windowFadeOut = ObjectAnimator.ofFloat(windowCharts, "alpha", 0.0f).setDuration(300);
-        ObjectAnimator closeButtonFadeOute = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
+        ObjectAnimator closeButtonFadeOut = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
         windowFadeOut.start();
-        closeButtonFadeOute.start();
+        closeButtonFadeOut.start();
     }
 
     @OnClick(R.id.ivWatchlistIconList)
