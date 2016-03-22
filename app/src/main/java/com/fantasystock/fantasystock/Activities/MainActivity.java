@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Fragments.ChartPeriodFragment;
 import com.fantasystock.fantasystock.Fragments.NewsListFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistChartFragment;
 import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
@@ -31,7 +32,6 @@ import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 import com.fantasystock.fantasystock.ViewHolder.WindowChartView;
 
 import java.util.ArrayList;
@@ -42,11 +42,13 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REFRESH_WATCHLIST = 200;
+
+    private ChartPeriodFragment chartPeriodFragment;
     private NewsListFragment newsListFragment;
     private WatchlistFragment watchlistFragment;
     private WatchlistChartFragment watchlistChartFragment;
-    private PeriodChartsView periodChartsView;
     @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
+    @Bind(R.id.flPeriodChart) FrameLayout flPeriodChart;
     private static int WATCHLIST_TYPE;
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
     @Bind(R.id.ivWatchlistIconChart) ImageView ivWatchlistIconChart;
 
-    @Bind(R.id.fCharts) View chartView;
+
     @Bind(R.id.fWindowChart) View fWindowChart;
     @Bind(R.id.rlWindowChart) View windowCharts;
 
@@ -87,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        periodChartsView = new PeriodChartsView(chartView, this);
-        periodChartsView.setStock(new Stock("portfolios"));
+
+        chartPeriodFragment = new ChartPeriodFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flPeriodChart, chartPeriodFragment).commit();
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -251,12 +254,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        periodChartsView.setStock(new Stock("portfolios"));
-    }
-
     private void handleScrolling(int verticalOffset) {
         float alpha = Math.abs(verticalOffset)/2000.0f;
         if (alpha > 1) {
@@ -281,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 1);
                     ivWatchlistIconChart.setAlpha((float) 0.5);
@@ -297,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 0.5);
                     ivWatchlistIconChart.setAlpha((float) 1);
@@ -311,7 +306,6 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    //flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 1);
                     ivWatchlistIconChart.setAlpha((float) 0.5);
@@ -322,7 +316,6 @@ public class MainActivity extends AppCompatActivity {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {
-                    //flWatchListHolder.setMinimumHeight(flWatchListHolder.getHeight());
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
                     ivWatchlistIconList.setAlpha((float) 0.5);
                     ivWatchlistIconChart.setAlpha((float) 1);
