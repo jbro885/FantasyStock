@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -74,8 +75,11 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvVolume) TextView tvVolume;
     @Bind(R.id.tvAvgVolume) TextView tvAvgVolume;
 
+    @Bind(R.id.flTransactions)FrameLayout flTransactions;
+
     private CommentsFragment commentsFragment;
     private NewsListFragment newsListFragment;
+    private BriefTransactionsFragment transactionsFragment;
 
     PeriodChartsView periodChartsView;
     public FragmentActivity fragmentActivity;
@@ -117,8 +121,11 @@ public class DetailFragment extends Fragment{
         tvMenuName.setTranslationY(tvName.getY() - tvMenuName.getY());
         llMenuInfo.setTranslationY(tvName.getY() - tvMenuName.getY());
 
+
+        transactionsFragment = BriefTransactionsFragment.newInstance(symbol);
         getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
         getChildFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flTransactions, transactionsFragment).commit();
 
         return view;
     }
@@ -169,13 +176,18 @@ public class DetailFragment extends Fragment{
                     tvPrice.setTextColor(Color.RED);
                 }
                 else {
-                    tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                    // check if the fragment is attached to activity to prevent from crash: http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+                    if (isAdded()) {
+                        tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                    }
                 }
 
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo, 0);
+                    Utils.setHeight(flTransactions, 0);
                 } else {
                     Utils.setHeight(llSharesInfo, -1);
+                    Utils.setHeight(flTransactions, -1);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share + "");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");

@@ -1,11 +1,15 @@
 package com.fantasystock.fantasystock.Helpers;
 
+import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.fantasystock.fantasystock.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -144,6 +148,18 @@ public class Utils {
         // Mon Feb 15 17:31:31 +0000 2016
 //        return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzzzz yyyy").create();
         return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ssz").create();
+    }
+
+    public static void setupProfileImage(ImageView view, String url) {
+        Context context = view.getContext();
+        if (url.startsWith("avatar_")) {
+            int resourceId = context.getResources().getIdentifier(url, "drawable",  context.getPackageName());
+            view.setImageResource(resourceId);
+        } else if (context!=null) {
+            Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(view);
+        }
+
+
     }
 
 }

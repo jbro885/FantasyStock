@@ -28,8 +28,8 @@ import butterknife.ButterKnife;
  * Created by wilsonsu on 3/13/16.
  */
 public class TransactionsFragment extends Fragment{
-    private ArrayList<Transaction> transactions;
-    private TransactionsArrayAdapter adapter;
+    protected ArrayList<Transaction> transactions;
+    protected TransactionsArrayAdapter adapter;
     @Bind(R.id.rvList) RecyclerView rvList;
 
     @Override
@@ -49,11 +49,6 @@ public class TransactionsFragment extends Fragment{
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
     public void queryTransactions(String symbol) {
         DataCenter.getInstance().getTransactions(symbol, new CallBack() {
             @Override
@@ -65,7 +60,7 @@ public class TransactionsFragment extends Fragment{
         });
     }
 
-    private static class TransactionsArrayAdapter extends RecyclerView.Adapter<TransactionsViewHolder> {
+    protected static class TransactionsArrayAdapter extends RecyclerView.Adapter<TransactionsViewHolder> {
         private ArrayList<Transaction> transactions;
 
         public TransactionsArrayAdapter(ArrayList<Transaction> transactions) {
