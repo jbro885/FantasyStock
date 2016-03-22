@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,9 +39,7 @@ public class RankActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         rank = new ArrayList<>();
-
         adapter = new UsersArrayAdapter(rank);
-
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -87,15 +86,14 @@ public class RankActivity extends AppCompatActivity {
         @Bind(R.id.tvRank) TextView tvRank;
         @Bind(R.id.tvPortfolio) TextView tvPortfolio;
         @Bind(R.id.ibChampion) ImageButton ibChampion;
+        @Bind(R.id.rlItem) RelativeLayout rlItem;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
         public void setUser(User user, int place) {
-            if (user == null) {
-                return;
-            }
+            if (user == null) return;
 
             tvName.setText(user.username);
             tvRank.setText(Integer.toString(place));
@@ -108,12 +106,16 @@ public class RankActivity extends AppCompatActivity {
                 ivUserProfile.setImageResource(0);
                 Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
             }
-
+            // Mark the first place
             if(place == 1) {
                 ibChampion.setAlpha((float) 1.0);
             }
             else {
                 ibChampion.setAlpha((float) 0.0);
+            }
+            // Mark current user
+            if(user.username.equals(User.currentUser.username)) {
+                rlItem.setBackgroundColor(Color.parseColor("#FFB7DAD9"));
             }
         }
     }
