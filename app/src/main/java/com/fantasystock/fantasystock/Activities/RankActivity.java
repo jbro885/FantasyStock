@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +19,13 @@ import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RankActivity extends AppCompatActivity {
     @Bind(R.id.rvList) RecyclerView rvList;
@@ -119,5 +122,13 @@ public class RankActivity extends AppCompatActivity {
             }
         }
     }
+
+    @OnClick({R.id.ibSignout, R.id.tvSignout})
+    public void onSignOutClick() {
+        startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), 0);
+        ParseUser.logOut();
+        User.currentUser = null;
+    }
+
 
 }
