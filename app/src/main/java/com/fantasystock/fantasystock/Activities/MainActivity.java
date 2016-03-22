@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         ObjectAnimator closeButtonFadeOut = ObjectAnimator.ofFloat(ibWindowCloseButton, "alpha", 0.0f).setDuration(300);
         windowFadeOut.start();
         closeButtonFadeOut.start();
+        DataCenter.getInstance().setLastViewedStock(null);
     }
 
     @OnClick(R.id.ivWatchlistIconList)
