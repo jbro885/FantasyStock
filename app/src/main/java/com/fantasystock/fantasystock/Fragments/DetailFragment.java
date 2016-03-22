@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
@@ -35,7 +37,7 @@ import butterknife.OnClick;
 /**
  * Created by wilsonsu on 3/8/16.
  */
-public class DetailFragment extends Fragment{
+public class DetailFragment extends Fragment implements TradeFragment.TradeFragmentListener {
     private String symbol;
 
     @Bind(R.id.tvSymbol)
@@ -44,6 +46,9 @@ public class DetailFragment extends Fragment{
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.fDetailCharts) View vChart;
     @Bind(R.id.svScrollView) ScrollView scrollView;
+
+    @Bind(R.id.btnSell) Button btnSell;
+    @Bind(R.id.btnBuy) Button btnBuy;
 
     //Menu
     @Bind(R.id.rlDetailMenu) RelativeLayout rlDetailMenu;
@@ -139,19 +144,22 @@ public class DetailFragment extends Fragment{
 
     @OnClick(R.id.btnBuy)
     public void onBuy(View view) {
-        onTrade("buy");
+        onTrade(true);
     }
 
     @OnClick(R.id.btnSell)
     public void onSell(View view) {
-        onTrade("sell");
+        onTrade(false);
     }
 
-    private void onTrade(String buySell) {
-        Intent intent = new Intent(getContext(), TradeActivity.class);
-        intent.putExtra("symbol", symbol);
-        intent.putExtra("buySell", buySell);
-        startActivity(intent);
+    private void onTrade(boolean isBuy) {
+        TradeFragment tradeFragment = TradeFragment.newInstance(symbol, isBuy);
+        tradeFragment.setTargetFragment(DetailFragment.this, 200);
+        tradeFragment.show(getChildFragmentManager(), "200");
+    }
+    @Override
+    public void onFinishTrading() {
+        setStock();
     }
 
     private void setStock() {
@@ -185,9 +193,13 @@ public class DetailFragment extends Fragment{
                 if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
                     Utils.setHeight(llSharesInfo, 0);
                     Utils.setHeight(flTransactions, 0);
+                    btnSell.setVisibility(View.INVISIBLE);
+                    Utils.setWidth(btnBuy, true);
                 } else {
                     Utils.setHeight(llSharesInfo, -1);
                     Utils.setHeight(flTransactions, -1);
+                    btnBuy.setWidth(0);
+                    btnSell.setVisibility(View.VISIBLE);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share + "");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
@@ -245,4 +257,6 @@ public class DetailFragment extends Fragment{
         llMenuInfo.setTranslationY(translateY);
 
     }
+
+
 }

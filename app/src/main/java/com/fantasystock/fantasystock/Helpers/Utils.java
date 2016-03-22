@@ -131,7 +131,12 @@ public class Utils {
         }
 
         view.setLayoutParams(params);
+    }
 
+    public static void setWidth(View view, boolean isMachtParent) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = isMachtParent?ViewGroup.LayoutParams.MATCH_PARENT:ViewGroup.LayoutParams.WRAP_CONTENT;
+        view.setLayoutParams(params);
     }
 
     public static Gson gsonForParseQuery() {
