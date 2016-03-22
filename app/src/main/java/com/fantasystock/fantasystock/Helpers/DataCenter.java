@@ -129,18 +129,6 @@ public class DataCenter {
         return stocks;
     }
 
-    public void signUpUser(ParseUser parseUser, String profileImageUrl) {
-        User.currentUser = new User(parseUser);
-        currentUser = User.currentUser;
-        currentUser.profileImageUrl = profileImageUrl;
-        if (stockMap==null) stockMap = new HashMap<>();
-        for (int i=0;i<currentUser.investingStocks.size();++i) {
-            Stock stock = currentUser.investingStocks.get(i);
-            stockMap.put(stock.symbol, stock);
-        }
-        currentUser.updateUser(null);
-    }
-
     public void setUser(ParseUser parseUser) {
         User.currentUser = new User(parseUser);
         currentUser = User.currentUser;
