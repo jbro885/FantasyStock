@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -147,6 +148,7 @@ public class SearchActivity extends AppCompatActivity {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.fragmentActivity = fragmentActivity;
+            ibCircle.setColorFilter(Color.parseColor("#44b449")); // White Tint
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
