@@ -181,7 +181,7 @@ public class SearchActivity extends AppCompatActivity {
         private void reloadFavorite() {
             isFavorited = DataCenter.getInstance().isFavoritedStock(stock);
             ibFavorite.setImageResource(
-                    isFavorited ? R.drawable.ic_star : R.drawable.ic_unstar
+                    isFavorited ? R.drawable.ic_check : R.drawable.ic_add
             );
 
         }

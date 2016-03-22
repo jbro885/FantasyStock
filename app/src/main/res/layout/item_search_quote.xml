@@ -47,7 +47,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/tvQuoteName"
-        android:src="@drawable/ic_unstar"
+        android:src="@drawable/ic_add"
         android:background="@color/transparent"
         />
 </RelativeLayout>
