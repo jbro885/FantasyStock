@@ -1,6 +1,6 @@
 # Fantasy Stock
 
-**Fantasy Stock** is a Android app platform for people to trade with fake Money on real Stock with real stock price, user will be able to learn and try it out how the Stock Market goes and user will be able to compete/comments/discuss with other user 
+**Fantasy Stock** is a financial game in which players manage fantasy stocks in real market to compete against each other. Players would receive a virtual funds (1,000,000 dollars) in the beginning of the game and use it to invest companies. At any time, user can see their current earnings and world ranking. We also provides a interface that users can discuss a certain company with each other.
 
 ## User Stories
 
