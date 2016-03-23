@@ -83,7 +83,10 @@ public class TradeFragment extends DialogFragment {
         symbol = getArguments().getString("symbol");
         isBuy = getArguments().getBoolean("isbuy");
         dataCenter = DataCenter.getInstance();
-        stock = DataCenter.getInstance().stockMap.get(symbol);
+        stock = User.currentUser.investingStocksMap.get(symbol);
+        if(stock == null) {
+            stock = DataCenter.getInstance().stockMap.get(symbol);
+        }
 
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);

@@ -192,9 +192,12 @@ public class DataCenter {
             double close = currentUser.availableFund;
             double open = currentUser.availableFund;
             for (int j=0;j<len; ++j) {
-                int share = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase()).share;
-                close += datas.get(j).series.get(i).close * share;
-                open += datas.get(j).series.get(i).open * share;
+                Stock s = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase());
+                if(s != null) {
+                    int share = s.share;
+                    close += datas.get(j).series.get(i).close * share;
+                    open += datas.get(j).series.get(i).open * share;
+                }
             }
             HistoricalData.SeriesEntity seriesEntity = new HistoricalData.SeriesEntity();
             seriesEntity.close = (float)close;
