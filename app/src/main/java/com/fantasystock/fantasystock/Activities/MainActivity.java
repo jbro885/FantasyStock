@@ -28,6 +28,7 @@ import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
+import com.fantasystock.fantasystock.Helpers.FSScrollView;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.ivBackground) ImageView ivBackground;
     @Bind(R.id.ivBackgroundBlurred) ImageView ivBackgroundBlurred;
     @Bind(R.id.rlDim) RelativeLayout rlDim;
-    @Bind(R.id.svScrollView) ScrollView scrollView;
+    @Bind(R.id.svScrollView) FSScrollView scrollView;
 
     // toolbar section
     @Bind(R.id.tvIndexName) TextView tvIndexName;
