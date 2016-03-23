@@ -219,8 +219,10 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < len; ++i) {
                         Stock stock = stocks.get(i);
                         Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
-                        total += investingStock.share * stock.current_price;
-                        change += investingStock.share * Float.parseFloat(stock.current_change);
+                        if (investingStock!=null) {
+                            total += investingStock.share * stock.current_price;
+                            change += investingStock.share * Float.parseFloat(stock.current_change);
+                        }
                     }
                     double percentage = change*100/total;
                     tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(percentage) + "% )");

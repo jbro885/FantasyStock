@@ -153,7 +153,9 @@ public class ChartPieFragment extends Fragment implements OnChartValueSelectedLi
         for (int i=0;i<len;++i) {
             Stock stock = stocks.get(i);
             Stock investingStock = user.investingStocksMap.get(stock.symbol);
-            total += investingStock.share * stock.current_price;
+            if (investingStock!=null) {
+                total += investingStock.share * stock.current_price;
+            }
         }
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();

@@ -79,21 +79,28 @@ public class TradeFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Fetch data
+        symbol = getArguments().getString("symbol");
+        isBuy = getArguments().getBoolean("isbuy");
+        dataCenter = DataCenter.getInstance();
+
+        stock = User.currentUser.investingStocksMap.get(symbol);
+        if(stock == null) {
+            stock = DataCenter.getInstance().stockMap.get(symbol);
+        }
+
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         getDialog().getWindow().setLayout(400, 500);
 
-        symbol = getArguments().getString("symbol");
-        isBuy = getArguments().getBoolean("isbuy");
         tvSymbol.setText("Shares of " + symbol);
 
         tvEstimatedCost.setText("Estimated "+(isBuy?"Cost":"Gain"));
 
         btnTrade.setText(isBuy?"Buy":"Sell");
 
-        dataCenter = DataCenter.getInstance();
-        stock = User.currentUser.investingStocksMap.get(symbol);
         formatter = new DecimalFormat("$###,##0.00");
+
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(Stock returnStock) {
@@ -127,6 +134,7 @@ public class TradeFragment extends DialogFragment {
         } else {
             tvAvailableFund.setText(stock.share + " shares available");
         }
+
         tvTotalCost.setText(formatter.format(numShares * stock.current_price));
     }
 

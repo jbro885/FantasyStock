@@ -144,6 +144,10 @@ public class DataCenter {
     }
 
     private void updateStock(Stock stock, CallBack callBack) {
+        if (stock==null) {
+            callBack.onFail("transaction is failed");
+            return;
+        }
         if (stock.share > 0) {
             if (!currentUser.investingStocksMap.containsKey(stock.symbol)) {
                 currentUser.investingStocks.add(stock);
@@ -192,9 +196,12 @@ public class DataCenter {
             double close = currentUser.availableFund;
             double open = currentUser.availableFund;
             for (int j=0;j<len; ++j) {
-                int share = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase()).share;
-                close += datas.get(j).series.get(i).close * share;
-                open += datas.get(j).series.get(i).open * share;
+                Stock investingStock = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase());
+                if (investingStock!=null) {
+                    int share = investingStock.share;
+                    close += datas.get(j).series.get(i).close * share;
+                    open += datas.get(j).series.get(i).open * share;
+                }
             }
             HistoricalData.SeriesEntity seriesEntity = new HistoricalData.SeriesEntity();
             seriesEntity.close = (float)close;

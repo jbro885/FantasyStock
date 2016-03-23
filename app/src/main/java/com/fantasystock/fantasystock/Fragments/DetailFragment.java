@@ -205,12 +205,14 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                     Utils.setWidth(btnSell, false);
                     Utils.setWidth(btnBuy, false);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
-                    tvShares.setText(ownStock.share + "");
-                    tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
-                    tvEquityValue.setText(ownStock.share * stock.current_price + "");
-                    tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
-                    tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
-                    tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost * 100) + "%");
+                    if (ownStock!=null) {
+                        tvShares.setText(ownStock.share + "");
+                        tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
+                        tvEquityValue.setText(ownStock.share * stock.current_price + "");
+                        tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
+                        tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
+                        tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost * 100) + "%");
+                    }
                 }
             }
         });
