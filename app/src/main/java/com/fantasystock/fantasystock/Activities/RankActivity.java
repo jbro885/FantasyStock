@@ -40,6 +40,7 @@ public class RankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rank);
         ButterKnife.bind(this);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         rank = new ArrayList<>();
         adapter = new UsersArrayAdapter(rank);
@@ -123,7 +124,7 @@ public class RankActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.ibSignout, R.id.tvSignout})
+    @OnClick(R.id.tvSignout)
     public void onSignOutClick() {
         startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), 0);
         ParseUser.logOut();

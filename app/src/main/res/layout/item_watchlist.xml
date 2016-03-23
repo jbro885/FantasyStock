@@ -16,6 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/btnStatus"
             android:background="@color/transparent">
             <TextView
                 android:id="@+id/tvSymbol"
@@ -66,13 +69,13 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnStatus"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="103.01"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@string/font_sans_serif_regular"
-            android:id="@+id/btnStatus"
             android:background="@drawable/btn_stock_status_background"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

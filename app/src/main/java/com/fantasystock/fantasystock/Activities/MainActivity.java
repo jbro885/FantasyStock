@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
     @Bind(R.id.ivWatchlistIconGrid) ImageView ivWatchlistIconGrid;
     @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
+    @Bind(R.id.vWatchListHolder) RelativeLayout vWatchListHolder;
 
     // Floating chart window
     @Bind(R.id.fWindowChart) View fWindowChart;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 int eventAction = event.getAction();
                 if (eventAction == DragEvent.ACTION_DRAG_STARTED) {
                     startPoint = new Point(Math.round(event.getX()), Math.round(event.getY()));
-                } else if (eventAction == DragEvent.ACTION_DRAG_ENDED){
+                } else if (eventAction == DragEvent.ACTION_DRAG_ENDED) {
                     vTouchView.post(new Runnable() {
                         @Override
                         public void run() {
@@ -303,6 +304,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWatchlist() {
+        vWatchListHolder.setMinimumHeight(vWatchListHolder.getHeight());
+        CallBack completionCallBack = new CallBack(){
+            @Override
+            public void task() {
+                vWatchListHolder.setMinimumHeight(0);
+            }
+        };
         if(WATCHLIST_TYPE == LIST_MODE) {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
@@ -311,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                     ivWatchlistIconList.setAlpha((float) 1);
                     ivWatchlistIconGrid.setAlpha((float) 0.5);
                 }
-            });
+            }, completionCallBack);
         }
         else {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
@@ -321,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     ivWatchlistIconList.setAlpha((float) 0.5);
                     ivWatchlistIconGrid.setAlpha((float) 1);
                 }
-            });
+            }, completionCallBack);
         }
     }
 

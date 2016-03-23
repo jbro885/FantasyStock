@@ -13,7 +13,7 @@
         android:id="@+id/tvMenuTitle"
         android:text="AAPL"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="72dp"

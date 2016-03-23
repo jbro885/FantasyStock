@@ -140,19 +140,27 @@
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+            <RelativeLayout
+                android:id="@+id/vWatchListHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cvTitleWatchlist"
+                android:minHeight="30dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/flWatchListHolder"
-                android:layout_below="@id/cvTitleWatchlist">
+                android:id="@+id/flWatchListHolder">
             </FrameLayout>
+            </RelativeLayout>
+
+
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvTitleNews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/flWatchListHolder"
+                android:layout_below="@+id/vWatchListHolder"
                 android:elevation="600dp"
                 card_view:cardCornerRadius="4dp"
                 card_view:cardUseCompatPadding="true"
@@ -167,7 +175,12 @@
                         android:layout_height="wrap_content"
                         android:text="News"
                         android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:gravity="center"
                         android:id="@+id/tvTitleNews"
+                        android:drawableLeft="@drawable/ic_news_white"
+                        android:drawablePadding="3dp"
+                        android:padding="3dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true" />
 

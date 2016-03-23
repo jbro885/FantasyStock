@@ -165,18 +165,20 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
             stock = new Stock(symbol);
         }
         periodChartsView.setStock(stock);
+        tvSymbol.setText(stock.symbol);
+        tvName.setText(stock.name);
+        tvMenuSymbol.setText(stock.symbol);
+        tvMenuName.setText(stock.name);
 
 
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(Stock stock) {
-                tvSymbol.setText(stock.symbol);
-                tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
                 tvChanges.setText(stock.current_change + "(" + stock.current_change_percentage + "%)");
-                tvMenuName.setText(stock.name);
+
                 tvMenuPrice.setText(stock.current_price + "");
-                tvMenuSymbol.setText(stock.symbol);
+
 
                 if(Float.parseFloat(stock.current_change) < 0 ) {
                     tvPrice.setTextColor(Color.RED);

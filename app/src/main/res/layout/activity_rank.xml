@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
         android:id="@+id/rlheader"
         android:background="@drawable/fade_menu">
 
@@ -18,6 +18,7 @@
             android:layout_height="48dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:src="@drawable/ic_rank2"
             android:padding="2dp"
             android:minHeight="30dp"
@@ -39,32 +40,24 @@
             android:textColor="#ffffff"
             android:fontFamily="@string/font_sans_serif_light" />
 
-        <LinearLayout
-            android:id="@+id/chartToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
 
             <TextView
                 android:id="@+id/tvSignout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivRankIcon"
+                android:layout_alignTop="@+id/ivRankIcon"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+
                 android:padding="5dp"
                 android:text="Sign Out"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
+                android:drawableRight="@drawable/ic_logout"
                 android:fontFamily="@string/font_sans_serif_regular"/>
-            <ImageButton
-                android:id="@+id/ibSignout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_logout"
-                android:background="@color/transparent"/>
-        </LinearLayout>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
