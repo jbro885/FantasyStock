@@ -30,13 +30,15 @@ public class NewsListFragment extends Fragment {
     private int lastNewsId;
     private NewsListAdapter newsListAdapter;
     private String symbol;
+    public boolean isDarkTheme;
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
-    public static NewsListFragment newInstance(String symbol) {
+    public static NewsListFragment newInstance(String symbol, boolean isDarkTheme) {
         NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putString("symbol", symbol);
+        args.putBoolean("isDarkTheme", isDarkTheme);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +48,7 @@ public class NewsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments()!=null) {
             symbol = getArguments().getString("symbol");
+            isDarkTheme = getArguments().getBoolean("isDarkTheme");
         }
 
         news = new ArrayList<>();
@@ -61,7 +64,7 @@ public class NewsListFragment extends Fragment {
         ButterKnife.bind(this, view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvList.setLayoutManager(linearLayoutManager);
-        newsListAdapter = new NewsListAdapter(news, rvList, getActivity());
+        newsListAdapter = new NewsListAdapter(news, rvList, getActivity(), isDarkTheme);
         rvList.setAdapter(newsListAdapter);
         rvList.getLayoutParams().height = Math.round(DataCenter.getInstance().screenHeight);
         newsListAdapter.setOnLoadMoreListener(new NewsListAdapter.OnLoadMoreListener() {

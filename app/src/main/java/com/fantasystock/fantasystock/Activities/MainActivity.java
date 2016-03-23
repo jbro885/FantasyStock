@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         setWatchlist();
 
         // Set News Section
-        newsListFragment = new NewsListFragment();
+        newsListFragment = NewsListFragment.newInstance(null, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
         // Set Toolbar header Section

@@ -44,14 +44,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
+    private boolean isDarkTheme;
 
     private interface viewHolderBinding {
         void setItem(Object object, View view);
     }
 
-    public NewsListAdapter(List<News> items, RecyclerView recyclerView, FragmentActivity fragmentActivity) {
+    public NewsListAdapter(List<News> items, RecyclerView recyclerView, FragmentActivity fragmentActivity, boolean isDarkTheme) {
         this.items = items;
         this.fragmentActivity = fragmentActivity;
+        this.isDarkTheme = isDarkTheme;
 
         // Set up scrolling listener
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
@@ -88,7 +90,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NEWS:
             default:
-                convertView = inflater.inflate(R.layout.item_news, parent, false);
+                convertView = inflater.inflate((isDarkTheme?R.layout.item_news_dark:R.layout.item_news), parent, false);
                 viewHolder = new ViewHolderNews(convertView);
                 break;
         }

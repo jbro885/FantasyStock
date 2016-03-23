@@ -111,7 +111,7 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
         periodChartsView.isDarkTheme = false;
         commentsFragment = BriefCommentsFragment.newInstance(symbol);
-        newsListFragment = NewsListFragment.newInstance(symbol);
+        newsListFragment = NewsListFragment.newInstance(symbol, false);
 
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -129,7 +129,6 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         getChildFragmentManager().beginTransaction().replace(R.id.flComments, commentsFragment).commit();
         getChildFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
         getChildFragmentManager().beginTransaction().replace(R.id.flTransactions, transactionsFragment).commit();
-
         return view;
     }
 
