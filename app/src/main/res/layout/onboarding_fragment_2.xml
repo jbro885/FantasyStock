@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/onboard2">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000"/>
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:padding="5dp"
 
-</LinearLayout>
+        android:text="Trading"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:fontFamily="@string/font_sans_serif_thin"
+        />
+    <TextView
+        android:id="@+id/tvSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tvTitle"
+        android:padding="5dp"
+        android:text="We give you fake cash to invest in real companies under real market conditions. "
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@string/font_sans_serif_light"
+        />
+
+
+
+    <TextView
+        android:id="@+id/tvStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="60dp"
+        android:background="#66000000"
+        android:textColor="@color/white"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="50dp"
+        android:paddingLeft="50dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@string/font_sans_serif_light"
+        android:text="Next"
+        android:textSize="20sp"/>
+
+
+</RelativeLayout>

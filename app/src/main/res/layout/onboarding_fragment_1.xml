@@ -15,28 +15,47 @@
         android:background="@drawable/onboard1_blurred"
         />
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:layout_marginTop="200dp"
         android:gravity="center"
         android:fontFamily="@string/font_sans_serif_thin"
         android:text="Fantasy Stock"
-        android:paddingBottom="60dp"
         android:textSize="40sp"/>
+    <TextView
+        android:id="@+id/tvSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@+id/tvTitle"
+        android:layout_centerHorizontal="true"
+
+
+        android:gravity="center"
+        android:padding="10dp"
+        android:fontFamily="@string/font_sans_serif_light"
+        android:drawableLeft="@drawable/ic_trade"
+        android:text="Play our market game"
+        android:textSize="22sp"/>
 
 
     <TextView
         android:id="@+id/tvStart"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#33000000"
-        android:textColor="@color/white"
-        android:padding="5dp"
-        android:gravity="center"
+        android:layout_marginLeft="30dp"
         android:layout_marginBottom="60dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
+        android:background="#66000000"
+        android:textColor="@color/white"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="50dp"
+        android:paddingLeft="50dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:fontFamily="@string/font_sans_serif_light"
         android:text="Get Started"
         android:textSize="20sp"/>
