@@ -9,6 +9,8 @@ import android.widget.ScrollView;
  * Created by wilsonsu on 3/23/16.
  */
 public class FSScrollView extends ScrollView {
+    private float startX;
+    private float startY;
     public FSScrollView(Context context) {
         super(context);
     }
@@ -23,8 +25,16 @@ public class FSScrollView extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            startX = ev.getX();
+            startY = ev.getY();
+        }
         if (ev.getAction() == MotionEvent.ACTION_MOVE) {
-            return (getScrollY() + getHeight()) < getChildAt(0).getHeight();
+            float diffX = Math.abs(ev.getX() - startX);
+            float diffY = Math.abs(ev.getY() - startY);
+            if (diffY>diffX) {
+                return (getScrollY() + getHeight()) < getChildAt(0).getHeight();
+            }
         }
         return super.onInterceptTouchEvent(ev);
     }
