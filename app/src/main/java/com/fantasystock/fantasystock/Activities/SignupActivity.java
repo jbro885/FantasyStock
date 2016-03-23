@@ -57,7 +57,7 @@ public class SignupActivity extends AppCompatActivity {
         // Parse User
         DataCenter.getInstance(); // to get and setup current user
         if(User.isLogin()) {
-            Toast.makeText(this, User.currentUser.username, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, User.currentUser.username, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
