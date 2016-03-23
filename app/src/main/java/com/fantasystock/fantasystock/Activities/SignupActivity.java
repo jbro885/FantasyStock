@@ -1,6 +1,5 @@
 package com.fantasystock.fantasystock.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +23,10 @@ import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -70,6 +71,24 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         prLoadingSpinner.setVisibility(View.INVISIBLE);
+        etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) return;
+                String email = etEmail.getText().toString();
+                if (TextUtils.isEmpty(email)) return;
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("username", email);
+                query.getFirstInBackground(new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser pu, ParseException e) {
+                        if (pu == null) return;
+                        User u = new User(pu);
+                        Utils.setupProfileImage(ibAvatar, u.profileImageUrl);
+                    }
+                });
+            }
+        });
 
         // Initial facebook callback manager
         callbackManager = CallbackManager.Factory.create();
@@ -193,8 +212,7 @@ public class SignupActivity extends AppCompatActivity {
             newProfileImageUrl = "avatar_" + rand;
         }
         this.profileImageUrl = newProfileImageUrl;
-        Context context = ibAvatar.getContext();
-        int resourceId = context.getResources().getIdentifier(profileImageUrl, "drawable",  context.getPackageName());
-        ibAvatar.setImageResource(resourceId);
+        Utils.setupProfileImage(ibAvatar, profileImageUrl);
     }
+
 }

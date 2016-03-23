@@ -163,8 +163,5 @@ public class Utils {
         } else if (context!=null) {
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(view);
         }
-
-
     }
-
 }
