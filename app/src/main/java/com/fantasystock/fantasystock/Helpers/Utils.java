@@ -58,7 +58,55 @@ public class Utils {
         return Double.toString(Math.round(n * 100)/100);
     }
 
+    public static void breathAnimationGenerator(final View view) {
+        breathAnimationGenerator(view, true, 3000, 1000, 3000, 10000);
+    }
 
+    public static void breathAnimationGenerator(final View view, boolean startBreathIn,
+                                                final int breathIn, final int holdBreath,
+                                                final int breathOut, final int rest) {
+        final AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
+        final AlphaAnimation animation2 = new AlphaAnimation(1.0f, 0.0f);
+        animation1.setDuration(breathIn);
+        animation2.setDuration(breathOut);
+        animation1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animation2.setStartOffset(holdBreath);
+                view.startAnimation(animation2);
+            }
+        });
+
+        //animation2 AnimationListener
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animation1.setStartOffset(rest);
+                view.startAnimation(animation1);
+            }
+        });
+        if (startBreathIn) {
+            view.startAnimation(animation1);
+        } else {
+            view.startAnimation(animation2);
+        }
+    }
 
     public static void repeatAnimationGenerator(final View view, final CallBack callBack) {
         final AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);

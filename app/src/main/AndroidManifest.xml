@@ -40,7 +40,6 @@
         <activity android:name=".Activities.DetailActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.SearchActivity" />
-        <activity android:name=".Activities.TradeActivity" />
         <activity android:name=".Activities.NewsActivity" />
         <activity android:name=".Activities.RankActivity" />
         <activity android:name=".Activities.CommentActivity" />

@@ -202,7 +202,6 @@ public class DataCenter {
                     close += datas.get(j).series.get(i).close * share;
                     open += datas.get(j).series.get(i).open * share;
                 }
-
             }
             HistoricalData.SeriesEntity seriesEntity = new HistoricalData.SeriesEntity();
             seriesEntity.close = (float)close;

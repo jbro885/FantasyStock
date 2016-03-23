@@ -51,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.tvWarning) TextView tvWarning;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.ibAvatar) ImageButton ibAvatar;
+    @Bind(R.id.tvHint) TextView tvHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
         this.onClickAvatar();
+        Utils.breathAnimationGenerator(tvHint);
     }
 
     @Override
