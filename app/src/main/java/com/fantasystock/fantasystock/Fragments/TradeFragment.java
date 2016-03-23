@@ -83,9 +83,6 @@ public class TradeFragment extends DialogFragment {
         symbol = getArguments().getString("symbol");
         isBuy = getArguments().getBoolean("isbuy");
         dataCenter = DataCenter.getInstance();
-        stock = DataCenter.getInstance().stockMap.get(symbol);
-
-
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         getDialog().getWindow().setLayout(400, 500);
@@ -97,6 +94,7 @@ public class TradeFragment extends DialogFragment {
         btnTrade.setText(isBuy?"Buy":"Sell");
 
         formatter = new DecimalFormat("$###,##0.00");
+        stock = DataCenter.getInstance().stockMap.get(symbol);
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(Stock returnStock) {

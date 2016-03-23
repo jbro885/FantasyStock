@@ -110,11 +110,14 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             String shareStatus = "";
             String valueStatus = "";
             if (User.currentUser.investingStocksMap.containsKey(stock.symbol)) {
-                int share = User.currentUser.investingStocksMap.get(stock.symbol).share;
-                if(share > 0) {
-                    shareStatus = Integer.toString(share) + " Shares";
-                    float value = stock.current_price * (float) share;
-                    valueStatus = "$" + Float.toString(value);
+                Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
+                if (investingStock!=null) {
+                    int share = investingStock.share;
+                    if(share > 0) {
+                        shareStatus = Integer.toString(share) + " Shares";
+                        float value = stock.current_price * (float) share;
+                        valueStatus = "$" + Float.toString(value);
+                    }
                 }
             }
 
