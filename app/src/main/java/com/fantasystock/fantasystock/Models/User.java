@@ -80,7 +80,9 @@ public class User {
 
         for (int i=0;i<investingStocks.size();++i) {
             Stock stock = investingStocks.get(i);
-            investingStocksMap.put(stock.symbol, stock);
+            if (stock!=null && stock.share>0) {
+                investingStocksMap.put(stock.symbol, stock);
+            }
         }
     }
 
