@@ -38,6 +38,7 @@
         android:layout_below="@+id/vLine"
         android:background="@color/white"
         android:minHeight="40dp"
+        android:padding="5dp"
         android:id="@+id/rvList"/>
 
     <include layout="@layout/layout_loading_spinner"

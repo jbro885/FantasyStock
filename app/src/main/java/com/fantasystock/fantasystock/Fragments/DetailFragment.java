@@ -44,6 +44,7 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
     TextView tvSymbol;
     @Bind(R.id.tvName) TextView tvName;
     @Bind(R.id.tvPrice) TextView tvPrice;
+    @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.fDetailCharts) View vChart;
     @Bind(R.id.svScrollView) ScrollView scrollView;
 
@@ -176,17 +177,20 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
+                tvChanges.setText(stock.current_change + "(" + stock.current_change_percentage + "%)");
                 tvMenuName.setText(stock.name);
                 tvMenuPrice.setText(stock.current_price + "");
                 tvMenuSymbol.setText(stock.symbol);
 
                 if(Float.parseFloat(stock.current_change) < 0 ) {
                     tvPrice.setTextColor(Color.RED);
+                    tvChanges.setTextColor(Color.RED);
                 }
                 else {
                     // check if the fragment is attached to activity to prevent from crash: http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
                     if (isAdded()) {
                         tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                        tvChanges.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
                     }
                 }
 

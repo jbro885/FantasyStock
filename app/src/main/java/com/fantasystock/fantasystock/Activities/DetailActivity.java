@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         String symbol = intent.getStringExtra("symbol");
