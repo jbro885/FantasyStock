@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
     private ArrayList<String> stocks;
+    private DetailsPagerAdapter detailsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class DetailActivity extends AppCompatActivity {
             stocks.addAll(symbols);
         }
 
-        DetailsPagerAdapter detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this);
+        detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this);
         vpViewPager.setAdapter(detailsPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -75,6 +76,11 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        detailsPagerAdapter.notifyDataSetChanged();
+    }
 
     private void setCurrentPageToStock(String symbol) {
         int len = stocks.size();

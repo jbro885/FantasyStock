@@ -54,7 +54,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvHigh"
@@ -63,7 +62,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvLow"
@@ -72,7 +70,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tv52High"
@@ -81,7 +78,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tv52Low"
@@ -90,7 +86,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
     </LinearLayout>
     <LinearLayout
@@ -146,7 +141,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvAvgVolume"
@@ -155,7 +149,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvMarketCap"
@@ -164,7 +157,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvPERatio"
@@ -173,7 +165,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
         <TextView
             android:id="@+id/tvDivYield"
@@ -182,7 +173,6 @@
             android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
-            android:text="100.00"
             />
     </LinearLayout>
 </LinearLayout>

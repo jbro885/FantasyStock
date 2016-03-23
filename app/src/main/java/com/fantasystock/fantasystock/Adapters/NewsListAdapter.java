@@ -201,7 +201,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 relativeStocks.add(news.entities.get(i).term.replace("TICKER:",""));
             }
             intent.putStringArrayListExtra("symbols",relativeStocks);
-            fragmentActivity.startActivity(intent);
+            fragmentActivity.startActivityForResult(intent, 200);
         }
     }
 

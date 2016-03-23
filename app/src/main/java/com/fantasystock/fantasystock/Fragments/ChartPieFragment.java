@@ -162,8 +162,10 @@ public class ChartPieFragment extends Fragment implements OnChartValueSelectedLi
         for (int i=0;i<len; ++i) {
             Stock stock = stocks.get(i);
             Stock investingStock = user.investingStocksMap.get(stock.symbol);
-            yVals1.add(new Entry((float) ((investingStock.share * stock.current_price)/total), i));
-            xVals.add(stock.symbol);
+            if (investingStock!=null) {
+                yVals1.add(new Entry((float) ((investingStock.share * stock.current_price) / total), i));
+                xVals.add(stock.symbol);
+            }
         }
 
         PieDataSet dataSet = new PieDataSet(yVals1, "");
