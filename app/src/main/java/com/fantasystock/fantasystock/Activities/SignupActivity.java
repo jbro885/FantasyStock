@@ -3,7 +3,11 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,6 +92,39 @@ public class SignupActivity extends AppCompatActivity {
                         Utils.setupProfileImage(ibAvatar, u.profileImageUrl);
                     }
                 });
+            }
+        });
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String newStr = s.toString();
+                if (newStr.length() > 0 && newStr.charAt(newStr.length() - 1) == '\n') {
+                    newStr = newStr.trim();
+                    SignupActivity.this.etPassword.setText(newStr);
+                    SignupActivity.this.etPassword.setSelection(newStr.length());
+                    SignupActivity.this.onSignIn();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        etPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.d("zhuqi", "key" + keyCode + ",event:" + event.getAction());
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER) {
+                    SignupActivity.this.onSignIn();
+                    return true;
+                }
+                return false;
             }
         });
 
