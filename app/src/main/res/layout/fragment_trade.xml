@@ -37,7 +37,7 @@
                 android:ems="3"
                 android:backgroundTint="#e0e0e0"
 
-                android:text="888"
+                android:text="0"
                 android:gravity="right"
                 />
         </LinearLayout>
@@ -62,7 +62,7 @@
                 android:fontFamily="@string/font_sans_serif_thin"
                 android:textSize="20sp"
                 android:textColor="#000000"
-                android:text="$88.88"
+                android:text="Fetching..."
                 />
         </LinearLayout>
         <LinearLayout
@@ -85,7 +85,7 @@
                 android:fontFamily="@string/font_sans_serif_thin"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:text="$888.88"/>
+                android:text="Fetching..."/>
         </LinearLayout>
         <TextView
             android:id="@+id/tvAvailableFund"
@@ -96,7 +96,7 @@
             android:fontFamily="@string/font_sans_serif_light"
             android:textColor="@color/darkBlue"
             android:textSize="14sp"
-            android:text="$12345 available" />
+            android:text="Fetching..." />
         <TextView
             android:id="@+id/tvWarning"
             android:layout_width="match_parent"

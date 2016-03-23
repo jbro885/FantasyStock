@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.Models;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.google.gson.Gson;
@@ -90,7 +89,6 @@ public class User {
     }
 
     public void updateUser(final CallBack callBack) {
-        Log.d("zhuqi", "updateUser");
         if (user!=null) {
             Gson gson = new Gson();
             user.put(USER_WATCH_LIST, gson.toJsonTree(watchlist).toString());

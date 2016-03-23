@@ -106,6 +106,7 @@ public class TradeFragment extends DialogFragment {
                 } else {
                     stock.current_price = returnStock.current_price;
                 }
+                onSharesChange();
             }
         });
         etShares.setText("");
@@ -116,6 +117,7 @@ public class TradeFragment extends DialogFragment {
 
     @OnTextChanged(R.id.etShares)
     public void onSharesChange() {
+        if (stock == null) return;
         int numShares = 0;
         try {
             numShares = Integer.parseInt(etShares.getText().toString());
@@ -129,11 +131,7 @@ public class TradeFragment extends DialogFragment {
             tvAvailableFund.setText(stock.share + " shares available");
         }
 
-        float cp = stock.current_price;
-        float res = numShares * cp;
-
-        tvTotalCost.setText(formatter.format(res));
-
+        tvTotalCost.setText(formatter.format(numShares * stock.current_price));
     }
 
     @OnClick(R.id.btnTrade)

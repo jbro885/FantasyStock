@@ -1,6 +1,5 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.Util;
-import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
@@ -44,6 +41,7 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
     TextView tvSymbol;
     @Bind(R.id.tvName) TextView tvName;
     @Bind(R.id.tvPrice) TextView tvPrice;
+    @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.fDetailCharts) View vChart;
     @Bind(R.id.svScrollView) ScrollView scrollView;
 
@@ -176,30 +174,36 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                 tvSymbol.setText(stock.symbol);
                 tvName.setText(stock.name);
                 tvPrice.setText(stock.current_price + "");
+                tvChanges.setText(stock.current_change + "(" + stock.current_change_percentage + "%)");
                 tvMenuName.setText(stock.name);
                 tvMenuPrice.setText(stock.current_price + "");
                 tvMenuSymbol.setText(stock.symbol);
 
                 if(Float.parseFloat(stock.current_change) < 0 ) {
                     tvPrice.setTextColor(Color.RED);
+                    tvChanges.setTextColor(Color.RED);
                 }
                 else {
                     // check if the fragment is attached to activity to prevent from crash: http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
                     if (isAdded()) {
                         tvPrice.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
+                        tvChanges.setTextColor(getResources().getColor(R.color.colorPrimaryGreyDark));
                     }
                 }
 
-                if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
+                if (!User.currentUser.investingStocksMap.containsKey(symbol) ||
+                    User.currentUser.investingStocksMap.get(symbol).share <= 0) {
                     Utils.setHeight(llSharesInfo, 0);
                     Utils.setHeight(flTransactions, 0);
-                    btnSell.setVisibility(View.INVISIBLE);
+                    btnSell.setVisibility(View.GONE);
                     Utils.setWidth(btnBuy, true);
                 } else {
                     Utils.setHeight(llSharesInfo, -1);
                     Utils.setHeight(flTransactions, -1);
                     btnBuy.setWidth(0);
                     btnSell.setVisibility(View.VISIBLE);
+                    Utils.setWidth(btnSell, false);
+                    Utils.setWidth(btnBuy, false);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share + "");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
