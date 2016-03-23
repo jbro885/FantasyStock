@@ -1,7 +1,5 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -106,6 +103,7 @@ public class TradeFragment extends DialogFragment {
                 } else {
                     stock.current_price = returnStock.current_price;
                 }
+                onSharesChange();
             }
         });
         etShares.setText("");
@@ -116,6 +114,7 @@ public class TradeFragment extends DialogFragment {
 
     @OnTextChanged(R.id.etShares)
     public void onSharesChange() {
+        if (stock == null) return;
         int numShares = 0;
         try {
             numShares = Integer.parseInt(etShares.getText().toString());
@@ -128,9 +127,7 @@ public class TradeFragment extends DialogFragment {
         } else {
             tvAvailableFund.setText(stock.share + " shares available");
         }
-
         tvTotalCost.setText(formatter.format(numShares * stock.current_price));
-
     }
 
     @OnClick(R.id.btnTrade)

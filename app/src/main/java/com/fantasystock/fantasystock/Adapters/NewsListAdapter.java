@@ -1,9 +1,7 @@
 package com.fantasystock.fantasystock.Adapters;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +14,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
-import com.fantasystock.fantasystock.Activities.NewsActivity;
+import com.fantasystock.fantasystock.Activities.WebNewsActivity;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.News;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Activities.WebNewsActivity;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +170,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(news.content != null ) {
+                    /*if(news.content != null ) {
                         Intent intent = new Intent(v.getContext(), NewsActivity.class);
                         String newsString = new Gson().toJson(news);
                         intent.putExtra("newsString", newsString);
@@ -183,12 +179,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         Pair<View, String> p2 = Pair.create((View) ivImage, "newsImage");
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, p1, p2);
                         fragmentActivity.startActivity(intent, options.toBundle());
-                    }
-                    else {
+                    }*/
+                    //else {
                         Intent intent = new Intent(v.getContext(), WebNewsActivity.class);
                         intent.putExtra("url", news.link);
                         fragmentActivity.startActivity(intent);
-                    }
+                    //}
                 }
             });
         }

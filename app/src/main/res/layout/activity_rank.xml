@@ -5,45 +5,79 @@
     android:layout_height="match_parent"
     tools:context="com.fantasystock.fantasystock.Activities.RankActivity">
 
-    <LinearLayout
-        android:id="@+id/chartToggle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:id="@+id/rlheader"
+        android:background="@color/colorPrimaryDark">
 
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivRankIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_rank2"
+            android:padding="2dp"
+            android:minHeight="30dp"
+            android:minWidth="30dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:riv_corner_radius="24dp" />
         <TextView
-            android:id="@+id/tvSignout"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="sign out"
+            android:layout_toRightOf="@+id/ivRankIcon"
+            android:layout_alignBottom="@+id/ivRankIcon"
+            android:layout_alignTop="@+id/ivRankIcon"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:fontFamily="@string/font_sans_serif_regular"/>
-        <ImageButton
-            android:id="@+id/ibSignout"
+            android:padding="2dp"
+            android:text="World Ranking"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:fontFamily="@string/font_sans_serif_medium" />
+
+        <LinearLayout
+            android:id="@+id/chartToggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_logout"
-            android:background="@color/transparent"/>
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvSignout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="sign out"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="@string/font_sans_serif_regular"/>
+            <ImageButton
+                android:id="@+id/ibSignout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_logout"
+                android:background="@color/transparent"/>
+        </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"
         android:id="@+id/rvList"
-        android:layout_below="@+id/chartToggle"
+        android:layout_below="@+id/rlheader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <include layout="@layout/layout_loading_spinner"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_below="@+id/chartToggle"
+        android:layout_below="@+id/rlheader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

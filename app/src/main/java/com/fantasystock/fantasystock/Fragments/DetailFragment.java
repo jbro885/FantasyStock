@@ -1,6 +1,5 @@
 package com.fantasystock.fantasystock.Fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.Util;
-import com.fantasystock.fantasystock.Activities.TradeActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
@@ -194,16 +191,19 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                     }
                 }
 
-                if (!User.currentUser.investingStocksMap.containsKey(symbol)) {
+                if (!User.currentUser.investingStocksMap.containsKey(symbol) ||
+                    User.currentUser.investingStocksMap.get(symbol).share <= 0) {
                     Utils.setHeight(llSharesInfo, 0);
                     Utils.setHeight(flTransactions, 0);
-                    btnSell.setVisibility(View.INVISIBLE);
+                    btnSell.setVisibility(View.GONE);
                     Utils.setWidth(btnBuy, true);
                 } else {
                     Utils.setHeight(llSharesInfo, -1);
                     Utils.setHeight(flTransactions, -1);
                     btnBuy.setWidth(0);
                     btnSell.setVisibility(View.VISIBLE);
+                    Utils.setWidth(btnSell, false);
+                    Utils.setWidth(btnBuy, false);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     tvShares.setText(ownStock.share + "");
                     tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");

@@ -341,7 +341,6 @@ public class DataClient {
     }
 
     public void getLatestNewsBySymbol(String symbol, CallBack callback) {
-//        Log.d("zhuqi", YAHOO_NEWS_SYMBOL_URL + symbol);
         client.get(YAHOO_NEWS_SYMBOL_URL + symbol, new RequestParams(), latestNewsHandler(callback));
     }
 
