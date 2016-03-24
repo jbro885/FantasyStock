@@ -60,14 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Parse User
-        DataCenter.getInstance(); // to get and setup current user
-        if(User.isLogin()) {
-            Toast.makeText(this, "Welcome "+User.currentUser.username, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
 
         // Initial facebook sdk
         FacebookSdk.sdkInitialize(getApplicationContext());

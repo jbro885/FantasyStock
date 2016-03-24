@@ -111,6 +111,9 @@ public class Comment {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
                 if (e != null) callback.onFail(e.toString());
+                if (scoreList == null) {
+                    return;
+                }
                 int len = scoreList.size();
                 ArrayList<Comment> comments = new ArrayList<>();
                 for (int i = len - 1; i >= 0; --i) {

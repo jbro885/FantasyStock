@@ -223,6 +223,9 @@ public class DataCenter {
         }
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
+                if (scoreList == null) {
+                    return;
+                }
                 if (e != null) callback.onFail(e.toString());
                 int len = scoreList.size();
 

@@ -8,8 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.Onboarding.OnboardingAction;
 import com.fantasystock.fantasystock.Onboarding.OnboardingFragment1;
 import com.fantasystock.fantasystock.Onboarding.OnboardingFragment2;
@@ -52,7 +54,16 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingA
     @Override
     public void onSkip() {
         finish();
-        startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+        // Parse User
+        DataCenter.getInstance(); // to get and setup current user
+        if(!User.isLogin()) {
+            startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+        } else {
+            Toast.makeText(this, "Welcome " + User.currentUser.username, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
