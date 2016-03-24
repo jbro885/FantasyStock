@@ -45,12 +45,35 @@ https://wireframe.cc/Fs3kPw
 
 *Walkthrough of all user stories:*
 
-![Video Walkthrough]
-<img src='rec201.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec301.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec302.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='rec303.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+Video Walkthrough
 
+Log In
+
+<img src='rec.login.gif' title='Video Walkthrough: Log In' width='' alt='Video Walkthrough: Log In' />
+
+Leader Board
+
+<img src='rec.leaderboard.gif' title='Video Walkthrough: Leader Board' width='' alt='Video Walkthrough: Leader Board' />
+
+Main Chart
+
+<img src='rec.mainchart.gif' title='Video Walkthrough: Main Chart' width='' alt='Video Walkthrough: Main Chart' />
+
+Stock List
+
+<img src='rec.stocklist.gif' title='Video Walkthrough: Stock List' width='' alt='Video Walkthrough: Stock List' />
+
+Trade
+
+<img src='rec.trade.gif' title='Video Walkthrough: Trade' width='' alt='Video Walkthrough: Trade' />
+
+News
+
+<img src='rec.news.gif' title='Video Walkthrough: News' width='' alt='Video Walkthrough: News' />
+
+Comments
+
+<img src='rec.comments.gif' title='Video Walkthrough: Comments' width='' alt='Video Walkthrough: Comments' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
