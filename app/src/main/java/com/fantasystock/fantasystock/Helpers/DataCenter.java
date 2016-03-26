@@ -181,6 +181,11 @@ public class DataCenter {
                         portfoliosCalculator(datas, callBack);
                     }
                 }
+
+                @Override
+                public void onFail(String failureMessage) {
+                    callBack.onFail(failureMessage);
+                }
             });
         }
     }

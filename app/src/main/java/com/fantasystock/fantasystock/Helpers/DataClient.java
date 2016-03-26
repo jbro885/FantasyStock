@@ -193,6 +193,8 @@ public class DataClient {
                     HistoricalData data = gson.fromJson(meta.data, HistoricalData.class);
                     historicalCache.put(cacheKey, data);
                     callback.historicalCallBack(data);
+                } else {
+                    callback.onFail("response without meta");
                 }
             }
 

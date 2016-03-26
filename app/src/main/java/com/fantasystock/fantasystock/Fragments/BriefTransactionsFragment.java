@@ -68,6 +68,11 @@ public class BriefTransactionsFragment extends TransactionsFragment {
                 rvList.setMinimumHeight(0);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
+
+            @Override
+            public void onFail(String failureMessage) {
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            }
         });
     }
 }

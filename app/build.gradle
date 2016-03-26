@@ -72,4 +72,7 @@ dependencies {
     // viewPager
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
+    // mask view
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+
 }
