@@ -180,6 +180,11 @@ public class ChartView extends RecyclerView.ViewHolder {
                 setData(returnData);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
+
+            @Override
+            public void onFail(String failureMessage) {
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            }
         };
     }
 

@@ -191,6 +191,10 @@ public class DataCenter {
             seriesLen = Math.min(datas.get(i).series.size(), seriesLen);
         }
         ArrayList<HistoricalData.SeriesEntity> series = new ArrayList<>();
+        // this will take care of the case that user hasn't invested any
+        if (len==0) {
+            seriesLen = 400;
+        }
         for (int i=0;i<seriesLen;++i) {
 
             double close = currentUser.availableFund;
@@ -224,6 +228,7 @@ public class DataCenter {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
                 if (scoreList == null) {
+                    callback.onFail("scrollList is null");
                     return;
                 }
                 if (e != null) callback.onFail(e.toString());
