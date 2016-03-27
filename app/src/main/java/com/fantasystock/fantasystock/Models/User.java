@@ -1,5 +1,6 @@
 package com.fantasystock.fantasystock.Models;
 
+import android.telecom.Call;
 import android.text.TextUtils;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
@@ -12,6 +13,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcel;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,22 +26,27 @@ import java.util.List;
 /**
  * Created by chengfu_lin on 3/5/16.
  */
-
 public class User {
     public static User currentUser;
     private final static String USER_WATCH_LIST = "user_watch_list";
     private final static String USER_INVESTING_STOCKS = "user_investing_stocks";
     private final static String USER_AVAILABLE_FUND = "user_available_fund";
     private final static String USER_TOTAL_VALUE = "user_total_value";
+    private final static String USER_FOLLOWINGS = "user_followings";
+    private final static String USER_FOLLOWERS = "user_followers";
     public final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
 
     public String id;
     public String profileImageUrl;
+    public String profileCoverPhotoUrl;
     public String username;
     public double availableFund;
     public double totalValue;
     public HashSet<String> watchlistSet;
     public ArrayList<String> watchlist;
+
+    public ArrayList<String> followings;
+    public ArrayList<String> followers;
 
     public ArrayList<Stock> investingStocks;
     public HashMap<String, Stock> investingStocksMap; // this stock keeps the updated shares and avg costs, but the price could be not updated
@@ -52,6 +60,8 @@ public class User {
             final Type listType = new TypeToken<ArrayList<String>>() {}.getType();
             Gson gson = new Gson();
             watchlist = gson.fromJson(user.getString(USER_WATCH_LIST), listType);
+            followers = gson.fromJson(user.getString(USER_FOLLOWERS), listType);
+            followings = gson.fromJson(user.getString(USER_FOLLOWINGS), listType);
             final Type stockListType = new TypeToken<ArrayList<Stock>>() {}.getType();
             investingStocks = gson.fromJson(user.getString(USER_INVESTING_STOCKS), stockListType);
             availableFund = user.getDouble(USER_AVAILABLE_FUND);
@@ -65,6 +75,8 @@ public class User {
         if (watchlist==null) watchlist = new ArrayList<>();
         if (investingStocks==null) investingStocks = new ArrayList<>();
         if (investingStocksMap==null) investingStocksMap = new HashMap<>();
+        if (followers==null) followers = new ArrayList<>();
+        if (followings==null) followings= new ArrayList<>();
         if (availableFund == 0) availableFund = 1000000;
         if (totalValue == 0) totalValue = availableFund;
 
@@ -86,10 +98,6 @@ public class User {
         }
     }
 
-    public static boolean isLogin() {
-        return ParseUser.getCurrentUser()!=null;
-    }
-
     public void updateUser(final CallBack callBack) {
         if (user!=null) {
             Gson gson = new Gson();
@@ -97,6 +105,8 @@ public class User {
             user.put(USER_AVAILABLE_FUND, availableFund);
             user.put(USER_TOTAL_VALUE, totalValue);
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
+            user.put(USER_FOLLOWERS, gson.toJsonTree(followers).toString());
+            user.put(USER_FOLLOWINGS, gson.toJsonTree(followings).toString());
             user.put(USER_PROFILE_IMAGE_URL, profileImageUrl);
             if (callBack==null) {
                 user.saveInBackground();
@@ -113,11 +123,42 @@ public class User {
         }
     }
 
+
     @Override
     public String toString() {
         Gson gson = new Gson();
         return gson.toJsonTree(this).toString();
     }
+
+    public void followUser(String userId, final CallBack callBack) {
+        if (!followings.contains(userId)) {
+            followings.add(userId);
+            updateUser(callBack);
+        }
+        queryUser(userId, new CallBack() {
+            @Override
+            public void done(Object object) {
+                if (object instanceof ParseUser) {
+                    User followUser = new User((ParseUser) object);
+                    followUser.followers.add(id);
+                    followUser.updateUser(null);
+                }
+            }
+        });
+    }
+
+    public void followUser(User user, CallBack callBack) {
+        followUser(user.id, callBack);
+    }
+
+    /**
+     * static methods
+     */
+
+    public static boolean isLogin() {
+        return ParseUser.getCurrentUser()!=null;
+    }
+
 
     public static User fromJson(String json) {
         Gson gson = new Gson();
@@ -130,11 +171,21 @@ public class User {
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser object, ParseException e) {
-            if (e == null) {
-                callBack.done(object);
-            } else {
-                callBack.onFail(e.toString());
-            }
+                if (e!=null) {
+                    callBack.onFail(e.toString());
+                    return;
+                }
+
+                if (object == null || !(object instanceof ParseUser)) {
+                    callBack.onFail("not returning a parse user");
+                    return;
+                }
+                ParseUser parseUser = (ParseUser) object;
+                final User user = new User(parseUser);
+                if (user == null) {
+                    return;
+                }
+                callBack.userCallBack(user);
             }
         });
     }

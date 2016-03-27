@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Activities.UserProfileActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -46,7 +50,7 @@ public class CommentsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         symbol = getArguments().getString("symbol");
         comments = new ArrayList<>();
-        adapter = new CommentsArrayAdapter(comments);
+        adapter = new CommentsArrayAdapter(comments, getContext());
     }
 
     @Nullable
@@ -82,8 +86,10 @@ public class CommentsFragment extends Fragment {
 
     protected static class CommentsArrayAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
         private ArrayList<Comment> comments;
+        private Context context;
 
-        public CommentsArrayAdapter(ArrayList<Comment> comments) {
+        public CommentsArrayAdapter(ArrayList<Comment> comments, Context context) {
+            this.context = context;
             this.comments = comments;
         }
 
@@ -92,7 +98,7 @@ public class CommentsFragment extends Fragment {
             final Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.item_comment, parent, false);
-            return new CommentsViewHolder(view);
+            return new CommentsViewHolder(view, context);
         }
 
         @Override
@@ -110,25 +116,20 @@ public class CommentsFragment extends Fragment {
         @Bind(R.id.tvName) TextView tvName;
         @Bind(R.id.tvRank) TextView tvCommentTime;
         @Bind(R.id.tvComment) TextView tvComment;
+        private Context context;
 
-        public CommentsViewHolder(View itemView) {
+        public CommentsViewHolder(View itemView, Context context) {
             super(itemView);
+            this.context = context;
             ButterKnife.bind(this, itemView);
         }
         public void setComment(Comment comment) {
             tvCommentTime.setText(Utils.converTimetoRelativeTime(comment.updatedAt));
             tvComment.setText(comment.data.comment);
             User.queryUser(comment.data.userId, new CallBack() {
+
                 @Override
-                public void done(Object object) {
-                    if (object == null || !(object instanceof ParseUser)) {
-                        return;
-                    }
-                    ParseUser parseUser = (ParseUser) object;
-                    User user = new User(parseUser);
-                    if (user == null) {
-                        return;
-                    }
+                public void userCallBack(final User user) {
                     tvName.setText(user.username);
                     if (user.profileImageUrl == null) {
                         ivUserProfile.setImageResource(R.drawable.ic_profile);
@@ -136,8 +137,19 @@ public class CommentsFragment extends Fragment {
                     }
                     ivUserProfile.setImageResource(0);
                     Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
+                    ivUserProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, UserProfileActivity.class);
+                            intent.putExtra("userId",user.id);
+                            context.startActivity(intent);
+
+                        }
+                    });
                 }
             });
+
+
 
         }
     }

@@ -1,6 +1,7 @@
 package com.fantasystock.fantasystock.Helpers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.lang.reflect.Type;
 import java.util.Calendar;
@@ -234,5 +237,25 @@ public class Utils {
         } else if (context!=null) {
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(view);
         }
+    }
+
+    public static void blurrLoadingImage(ImageView imageView, String url) {
+        blurrLoadingImage(imageView, url, 20);
+    }
+
+    public static void blurrLoadingImage(ImageView imageView, String url, final int blurredRadius) {
+        final Context context = imageView.getContext();
+        Picasso.with(context).load(url).transform(new Transformation() {
+            @Override
+            public Bitmap transform(Bitmap source) {
+                Bitmap b = Blur.fastblur(context, source, blurredRadius);
+                source.recycle();
+                return b;
+            }
+            @Override
+            public String key() {
+                return "blur";
+            }
+        }).into(imageView);
     }
 }

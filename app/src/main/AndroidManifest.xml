@@ -18,15 +18,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-
-        <activity android:name=".Activities.OnboardingActivity"
+        <activity
+            android:name=".Activities.OnboardingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,25 +38,34 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.DetailActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.MainActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.SearchActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.NewsActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.RankActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.CommentActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.WebNewsActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.SignupActivity"
-                  android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".Activities.DetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.NewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.RankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.CommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.WebNewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activities.LeagueActivity" />
+        <activity android:name=".Activities.UserProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ public class CallBack {
     public void commentsCallBack(ArrayList<Comment> comments) {}
     public void commentCallBack(Comment comment) {}
     public void usersCallBack(ArrayList<User> users) {}
+    public void userCallBack(User user) {}
     public void onFail(String failureMessage){}
 
 

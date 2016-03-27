@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="-26dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/clProfileCoordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/ablProfileAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:minHeight="70dp"
+                android:paddingBottom="10dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                <include layout="@layout/layout_profile_header"/>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.astuetz.PagerSlidingTabStrip
+                    android:id="@+id/pgTabs"
+                    app:pstsShouldExpand="true"
+                    app:pstsTextAllCaps="true"
+                    app:pstsIndicatorColor="@color/colorPrimary"
+                    app:pstsUnderlineColor="@color/transparent"
+                    app:pstsTabBackground="@color/transparent"
+                    app:pstsIndicatorHeight="2dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@string/font_sans_serif_regular"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/transparent"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vpViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.design.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:id="@+id/rlTitleBar"
+        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:background="#77E0E0E0"
+
+        >
+        <ImageView
+            android:id="@+id/ivCoverPhotoTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/ivCoverBlurredPhotoTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:id="@+id/rlDim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#30000000"/>
+        <RelativeLayout
+            android:id="@+id/rlCoverTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_alignParentTop="true"
+            >
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:riv_corner_radius="24dp"
+                android:id="@+id/ivCoverUserProfile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivCoverPhoto"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="11dp"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                />
+            <TextView
+                android:id="@+id/tvCoverTitleTitleBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivCoverUserProfile"
+                android:layout_alignTop="@id/ivCoverUserProfile"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:gravity="center"
+                android:text="username"
+                android:textSize="22sp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvCoverScreenTextTitleBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivCoverUserProfile"
+                android:layout_alignBottom="@id/ivCoverUserProfile"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:gravity="center"
+                android:text="username"
+                android:textSize="14sp"
+                android:textColor="#DDEEFF"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
