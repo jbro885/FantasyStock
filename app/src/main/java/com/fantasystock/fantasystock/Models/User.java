@@ -33,7 +33,6 @@ public class User {
     private final static String USER_AVAILABLE_FUND = "user_available_fund";
     private final static String USER_TOTAL_VALUE = "user_total_value";
     private final static String USER_FOLLOWINGS = "user_followings";
-    private final static String USER_FOLLOWERS = "user_followers";
     public final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
 
     public String id;
@@ -46,7 +45,6 @@ public class User {
     public ArrayList<String> watchlist;
 
     public ArrayList<String> followings;
-    public ArrayList<String> followers;
 
     public ArrayList<Stock> investingStocks;
     public HashMap<String, Stock> investingStocksMap; // this stock keeps the updated shares and avg costs, but the price could be not updated
@@ -60,7 +58,6 @@ public class User {
             final Type listType = new TypeToken<ArrayList<String>>() {}.getType();
             Gson gson = new Gson();
             watchlist = gson.fromJson(user.getString(USER_WATCH_LIST), listType);
-            followers = gson.fromJson(user.getString(USER_FOLLOWERS), listType);
             followings = gson.fromJson(user.getString(USER_FOLLOWINGS), listType);
             final Type stockListType = new TypeToken<ArrayList<Stock>>() {}.getType();
             investingStocks = gson.fromJson(user.getString(USER_INVESTING_STOCKS), stockListType);
@@ -75,7 +72,6 @@ public class User {
         if (watchlist==null) watchlist = new ArrayList<>();
         if (investingStocks==null) investingStocks = new ArrayList<>();
         if (investingStocksMap==null) investingStocksMap = new HashMap<>();
-        if (followers==null) followers = new ArrayList<>();
         if (followings==null) followings= new ArrayList<>();
         if (availableFund == 0) availableFund = 1000000;
         if (totalValue == 0) totalValue = availableFund;
@@ -105,7 +101,6 @@ public class User {
             user.put(USER_AVAILABLE_FUND, availableFund);
             user.put(USER_TOTAL_VALUE, totalValue);
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
-            user.put(USER_FOLLOWERS, gson.toJsonTree(followers).toString());
             user.put(USER_FOLLOWINGS, gson.toJsonTree(followings).toString());
             user.put(USER_PROFILE_IMAGE_URL, profileImageUrl);
             if (callBack==null) {
@@ -123,28 +118,20 @@ public class User {
         }
     }
 
-
     @Override
     public String toString() {
         Gson gson = new Gson();
         return gson.toJsonTree(this).toString();
     }
 
-    public void followUser(String userId, final CallBack callBack) {
-        if (!followings.contains(userId)) {
+    public void followUser(final String userId, final CallBack callBack) {
+        final boolean following = followings.contains(userId);
+        if (following) {
+            followings.remove(userId);
+        } else {
             followings.add(userId);
-            updateUser(callBack);
         }
-        queryUser(userId, new CallBack() {
-            @Override
-            public void done(Object object) {
-                if (object instanceof ParseUser) {
-                    User followUser = new User((ParseUser) object);
-                    followUser.followers.add(id);
-                    followUser.updateUser(null);
-                }
-            }
-        });
+        updateUser(callBack);
     }
 
     public void followUser(User user, CallBack callBack) {
@@ -197,24 +184,28 @@ public class User {
                 if (e == null) {
                     ArrayList<User> users = new ArrayList<User>();
                     int len = results.size();
-                    for (int i=0;i<len;++i) {
+                    for (int i = 0; i < len; ++i) {
                         User aUser = new User(results.get(i));
                         users.add(aUser);
                     }
-                    Collections.sort(users, new Comparator<User>(){
-                        public int compare(User u1, User u2){
-                            if(u1.totalValue == u2.totalValue)
+                    Collections.sort(users, new Comparator<User>() {
+                        public int compare(User u1, User u2) {
+                            if (u1.totalValue == u2.totalValue)
                                 return 0;
                             return u1.totalValue < u2.totalValue ? 1 : -1;
                         }
                     });
-                    callBack.usersCallBack(users);
+                    if (callBack != null) {
+                        callBack.usersCallBack(users);
+                    }
+
                 } else {
-                    callBack.onFail(e.toString());
+                    if (callBack != null) {
+                        callBack.onFail(e.toString());
+                    }
                 }
             }
         });
-
     }
 
 

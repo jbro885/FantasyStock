@@ -23,6 +23,7 @@ import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -41,15 +42,13 @@ public class UserProfileActivity extends AppCompatActivity {
     @Bind(R.id.rlTitleBar)
     RelativeLayout rlTitleBar;
     @Bind(R.id.tvTweetsCount) TextView tvStocksCount;
-    @Bind(R.id.tvFollowersCount) TextView tvFollowersCount;
     @Bind(R.id.tvFollowingsCount) TextView tvFollowingsCount;
     @Bind(R.id.tvCoverTitleTitleBar) TextView tvCoverTitleTitleBar;
     @Bind(R.id.tvCoverScreenTextTitleBar) TextView tvCoverScreenTextTitleBar;
     @Bind(R.id.ivCoverUserProfile) ImageView ivCoverUserProfile;
     @Bind(R.id.rlCoverTitleBar) RelativeLayout rlCoverTitleBar;
     @Bind(R.id.rlDim) RelativeLayout rlDim;
-    @Bind(R.id.ibFollowButton)
-    ImageButton followButton;
+    @Bind(R.id.ibFollowButton) ImageButton followButton;
 
     private User user;
     private float userProfileOriginY;
@@ -125,7 +124,6 @@ public class UserProfileActivity extends AppCompatActivity {
         tvCoverTitleTitleBar.setText(user.username);
         tvProfileUsername.setText("$"+Utils.moneyConverter(user.totalValue));
 //        tvProfileDescription.setText(Util.checkStringEmpty(user.description));
-        tvFollowersCount.setText(user.followers.size()+"");
         tvFollowingsCount.setText(user.followings.size()+"");
         tvStocksCount.setText(user.investingStocks.size()+"");
         if (User.currentUser.id != user.id) {
@@ -156,6 +154,19 @@ public class UserProfileActivity extends AppCompatActivity {
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
             Glide.with(ivCoverUserProfile.getContext()).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivCoverUserProfile);
         }
+    }
+
+    @OnClick(R.id.ibFollowButton)
+    public void onFollowButton() {
+        followButton.setAlpha(0.5f);
+        User.currentUser.followUser(user, new CallBack(){
+            @Override
+            public void done() {
+                followButton.setAlpha(1.0f);
+                boolean following = (User.currentUser.followings.contains(user.id));
+                followButton.setImageResource(following ? R.drawable.ic_following : R.drawable.ic_follow);
+            }
+        });
     }
 
 

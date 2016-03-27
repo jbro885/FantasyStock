@@ -109,27 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="Stocks"
-            android:textSize="12sp"
-            android:textColor="#8899BB"
-            android:fontFamily="@string/font_sans_serif_regular"
-            />
-        <TextView
-            android:id="@+id/tvFollowersCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:padding="2dp"
-            android:text="5"
-            android:textSize="13sp"
-            android:textColor="#112233"
-            android:fontFamily="@string/font_sans_serif_regular"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="Followers"
+            android:text="Investing Stocks"
             android:textSize="12sp"
             android:textColor="#8899BB"
             android:fontFamily="@string/font_sans_serif_regular"
