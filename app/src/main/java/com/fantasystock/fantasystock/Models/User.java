@@ -243,5 +243,18 @@ public class User {
         return userMap.get(userId);
     }
 
-
+    public static ArrayList<User> getAllUsers() {
+        if (userMap==null) {
+            return null;
+        }
+        ArrayList<User> users = new ArrayList<>(userMap.values());
+        Collections.sort(users, new Comparator<User>() {
+            public int compare(User u1, User u2) {
+                if (u1.totalValue == u2.totalValue)
+                    return 0;
+                return u1.totalValue < u2.totalValue ? 1 : -1;
+            }
+        });
+        return users;
+    }
 }

@@ -21,6 +21,7 @@
         android:background="@drawable/league_profile_blurred"
         />
     <RelativeLayout
+        android:id="@+id/rlheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -28,9 +29,10 @@
         android:background="@drawable/fade_dim_gradient"
         >
         <TextView
+            android:id="@+id/tvLeagueName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tvMemberNumber"
+            android:layout_above="@+id/tvLeagueMemberNumber"
             android:layout_marginLeft="10dp"
             android:text="My League"
             android:textColor="@color/white"
@@ -40,7 +42,7 @@
             android:padding="3dp"
             />
         <TextView
-            android:id="@+id/tvMemberNumber"
+            android:id="@+id/tvLeagueMemberNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -52,9 +54,38 @@
             android:padding="5dp"
             />
 
+        <TextView
+            android:id="@+id/tvSignout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivRankIcon"
+            android:layout_alignTop="@+id/ivRankIcon"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
 
+            android:padding="5dp"
+            android:text="Sign Out"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:drawableRight="@drawable/ic_logout"
+            android:fontFamily="@string/font_sans_serif_regular"/>
         
     </RelativeLayout>
-    
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:id="@+id/rvList"
+        android:layout_below="@+id/rlheader"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <include layout="@layout/layout_loading_spinner"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rlheader"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

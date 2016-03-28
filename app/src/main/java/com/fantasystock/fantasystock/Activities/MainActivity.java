@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.ibMenu)
     public void onMenuClick() {
-        startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+        startActivity(new Intent(getApplicationContext(), LeagueActivity.class));
     }
 
     @OnClick(R.id.ibSearch)
