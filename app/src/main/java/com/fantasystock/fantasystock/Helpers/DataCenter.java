@@ -51,6 +51,7 @@ public class DataCenter {
         client.getStocksPrice(currentUser.watchlist, null);
 
         getTransactions("", new CallBack());
+        User.getAllUsersInfos(null, false);
     }
     // shares > 0 -> buy, shares < 0 -> sell
     public void trade(final String symbol, final int shares, final CallBack callBack) {

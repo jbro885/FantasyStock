@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
@@ -50,6 +52,7 @@ public class UserProfileActivity extends AppCompatActivity {
     @Bind(R.id.rlDim) RelativeLayout rlDim;
     @Bind(R.id.ibFollowButton) ImageButton followButton;
 
+    private WatchlistFragment watchlistFragment;
     private User user;
     private float userProfileOriginY;
 
@@ -64,7 +67,11 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
         if (userId==null) {
-            setUser(User.currentUser);
+            userId = User.currentUser.id;
+            user = User.currentUser;
+        } else if (User.getUser(userId)!=null) {
+            user = User.getUser(userId);
+            setUser(user);
         } else {
             User.queryUser(userId, new CallBack(){
                 @Override
@@ -73,7 +80,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             });
         }
-
         userProfileOriginY = Float.MIN_VALUE;
 
         ablProfileAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -82,6 +88,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 handleScrolling(appBarLayout, verticalOffset);
             }
         });
+        watchlistFragment = WatchlistFragment.newInstance(userId);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+        setUser(user);
+
     }
 
     private void handleScrolling(AppBarLayout appBarLayout, int verticalOffset) {

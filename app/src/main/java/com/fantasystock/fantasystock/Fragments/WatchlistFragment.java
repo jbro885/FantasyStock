@@ -34,6 +34,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     private List<Object> items;
     private WatchlistAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
+    private User user;
+    private String userId;
 
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
@@ -51,10 +53,22 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
+    public static WatchlistFragment newInstance(String userId) {
+        WatchlistFragment fragment = new WatchlistFragment();
+        Bundle args = new Bundle();
+        args.putString("userId", userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userId = getArguments().getString("userId");
+        user = User.getUser(userId);
+
+
         items = new ArrayList<>();
         // Setup auto refresh
         handler.post(autoRefresh);
@@ -83,7 +97,18 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         mItemTouchHelper.attachToRecyclerView(rvList);
 
         // Get Watchlist
-        refreshWatchlist();
+        if (user==null) {
+            User.queryUser(userId, new CallBack(){
+                @Override
+                public void userCallBack(User user) {
+                    setUser(user);
+                    refreshWatchlist();
+                }
+            });
+        } else {
+            refreshWatchlist();
+        }
+
 
         return view;
     }
@@ -94,8 +119,12 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         ButterKnife.unbind(this);
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void refreshStock() {
-        DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
+        DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 mAdapter.notifyDataSetChanged();
@@ -106,8 +135,8 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     public void refreshWatchlist() {
         mAdapter.clear();
-        if (User.currentUser != null) {
-            DataClient.getInstance().getStocksPrice(User.currentUser.watchlist, new CallBack() {
+        if (user != null) {
+            DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
                 @Override
                 public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                     organizeData();
@@ -121,7 +150,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     private void organizeData() {
         items.clear();
-        items.addAll(User.currentUser.watchlist);
+        items.addAll(user.watchlist);
     }
 
     @Override

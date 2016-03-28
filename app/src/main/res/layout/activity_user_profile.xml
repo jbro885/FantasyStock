@@ -28,37 +28,19 @@
                 <include layout="@layout/layout_profile_header"/>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
-        <android.support.v4.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swipeContainer"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <com.astuetz.PagerSlidingTabStrip
-                    android:id="@+id/pgTabs"
-                    app:pstsShouldExpand="true"
-                    app:pstsTextAllCaps="true"
-                    app:pstsIndicatorColor="@color/colorPrimary"
-                    app:pstsUnderlineColor="@color/transparent"
-                    app:pstsTabBackground="@color/transparent"
-                    app:pstsIndicatorHeight="2dp"
-                    android:textSize="12sp"
-                    android:fontFamily="@string/font_sans_serif_regular"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@color/transparent"/>
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vpViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent" />
-            </LinearLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:id="@+id/flWatchListHolder">
+            </FrameLayout>
+        </LinearLayout>
+
     </android.support.design.widget.CoordinatorLayout>
     <RelativeLayout
         android:id="@+id/rlTitleBar"

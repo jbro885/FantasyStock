@@ -43,13 +43,13 @@ public class User {
     public double totalValue;
     public HashSet<String> watchlistSet;
     public ArrayList<String> watchlist;
-
     public ArrayList<String> followings;
-
     public ArrayList<Stock> investingStocks;
     public HashMap<String, Stock> investingStocksMap; // this stock keeps the updated shares and avg costs, but the price could be not updated
 
     public ParseUser user;
+
+    private static HashMap<String, User> userMap;
 
     public User(ParseUser user) {
         this.user = user;
@@ -107,6 +107,7 @@ public class User {
                 user.saveInBackground();
                 return;
             }
+            userMap.put(id, this);
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -172,6 +173,7 @@ public class User {
                 if (user == null) {
                     return;
                 }
+                userMap.put(user.id, user);
                 callBack.userCallBack(user);
             }
         });
@@ -206,6 +208,39 @@ public class User {
                 }
             }
         });
+    }
+
+    public static void getAllUsersInfos(final CallBack callBack, boolean forceReload) {
+        if (userMap!=null && !forceReload) {
+            return;
+        }
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> results, ParseException e) {
+                if (e != null) {
+                    if (callBack != null) {
+                        callBack.onFail(e.toString());
+                    }
+                    return;
+                }
+                userMap = new HashMap<String, User>();
+                int len = results.size();
+                for (int i = 0; i < len; ++i) {
+                    User aUser = new User(results.get(i));
+                    userMap.put(aUser.id, aUser);
+                }
+                if (callBack != null) {
+                    callBack.done();
+                }
+            }
+        });
+    }
+
+    public static User getUser(String userId) {
+        if (userId.equals(currentUser.id)) {
+            return currentUser;
+        }
+        return userMap.get(userId);
     }
 
 
