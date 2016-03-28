@@ -53,7 +53,7 @@ public class BriefCommentsFragment extends CommentsFragment{
     public void setSymbol(String symbol) {
         this.symbol = symbol;
         prLoadingSpinner.setVisibility(View.VISIBLE);
-        tvLoading.setText("Loading....");
+        tvLoading.setText("");
         Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
