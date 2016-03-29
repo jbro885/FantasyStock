@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.tvIndexPrice) TextView tvIndexPrice;
     @Bind(R.id.tvIndexPriceChange) TextView tvIndexPriceChange;
     @Bind(R.id.llIndexes) LinearLayout llIndexes;
-
+    @Bind(R.id.ivToolbarBackgroundView) View ivToolbarBackgroundView;
 
     // Title bar
     private ArrayList<Stock> stocks;
@@ -276,7 +276,8 @@ public class MainActivity extends AppCompatActivity {
             alpha = 1;
         }
 //        ivBackgroundBlurred.setAlpha(0.6f + alpha * 0.4f);
-        ivBackgroundBlurred.setAlpha(alpha);
+        ivBackgroundBlurred.setAlpha(0.3f + 0.7f*alpha);
+//        ivToolbarBackgroundView.setAlpha(alpha);
     }
 
     @OnClick(R.id.ibWindowCloseButton)

@@ -24,7 +24,7 @@
         android:id="@+id/rlDim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000">
+        android:background="@drawable/fade_dim_gradient_vertical">
     </RelativeLayout>
 
     <com.fantasystock.fantasystock.Helpers.FSScrollView
