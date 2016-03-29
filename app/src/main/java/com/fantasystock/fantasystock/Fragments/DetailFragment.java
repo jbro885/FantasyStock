@@ -109,9 +109,9 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         View view = inflater.inflate(R.layout.fragment_detail, parent, false);
         ButterKnife.bind(this, view);
         periodChartsView = new PeriodChartsView(vChart, fragmentActivity);
-        periodChartsView.isDarkTheme = false;
+        periodChartsView.isDarkTheme = true;
         commentsFragment = BriefCommentsFragment.newInstance(symbol);
-        newsListFragment = NewsListFragment.newInstance(symbol, false);
+        newsListFragment = NewsListFragment.newInstance(symbol, true);
 
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override

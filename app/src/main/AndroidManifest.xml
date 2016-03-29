@@ -56,7 +56,7 @@
             android:name=".Activities.RankActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.CommentActivity"
+            android:name=".Activities.SeeMoreActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.WebNewsActivity"

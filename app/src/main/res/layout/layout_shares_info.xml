@@ -8,19 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Portfolios"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:fontFamily="@string/font_sans_serif_light"
         android:gravity="center_vertical"
         android:padding="3dp"
         android:drawableLeft="@drawable/ic_folder"
+        android:drawableTint="@color/white"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:padding="5dp"
-        android:background="#88057499"/>
+        android:background="#99ffffff"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,18 +38,21 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="shares"
+                android:textColor="#99ffffff"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Equity Value"
+                android:textColor="#99ffffff"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="total return %"
+                android:textColor="#99ffffff"
                 />
         </LinearLayout>
         <LinearLayout
@@ -61,7 +65,7 @@
                 android:id="@+id/tvShares"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />
@@ -69,7 +73,7 @@
                 android:id="@+id/tvEquityValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />
@@ -77,7 +81,7 @@
                 android:id="@+id/tvTotalReturnPercentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />
@@ -95,18 +99,21 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Avg Cost $"
+                android:textColor="#99ffffff"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Total Return"
+                android:textColor="#99ffffff"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Today Return"
+                android:textColor="#99ffffff"
                 />
         </LinearLayout>
         <LinearLayout
@@ -120,7 +127,7 @@
                 android:id="@+id/tvAvgCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />
@@ -128,7 +135,7 @@
                 android:id="@+id/tvTotalReturn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />
@@ -136,7 +143,7 @@
                 android:id="@+id/tvTodayReturn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#111111"
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:gravity="end"
                 />

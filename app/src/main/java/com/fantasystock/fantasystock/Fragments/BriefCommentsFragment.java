@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.Activities.CommentActivity;
+import com.fantasystock.fantasystock.Activities.SeeMoreActivity;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.R;
@@ -53,11 +53,13 @@ public class BriefCommentsFragment extends CommentsFragment{
     public void setSymbol(String symbol) {
         this.symbol = symbol;
         prLoadingSpinner.setVisibility(View.VISIBLE);
+        btnLeaveComment.setVisibility(View.INVISIBLE);
         tvLoading.setText("");
         Comment.getComments(symbol, new CallBack() {
             @Override
             public void commentsCallBack(ArrayList<Comment> returnComments) {
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
+                btnLeaveComment.setVisibility(View.VISIBLE);
 
 
                 comments.clear();
@@ -79,8 +81,7 @@ public class BriefCommentsFragment extends CommentsFragment{
 
     @OnClick(R.id.btnLeaveComment)
     public void onLeaveComment() {
-        Intent intent = new Intent(getContext(), CommentActivity.class);
-        intent.putExtra("symbol", symbol);
+        Intent intent = SeeMoreActivity.newIntent(getContext(), symbol, true);
         startActivity(intent);
     }
 }

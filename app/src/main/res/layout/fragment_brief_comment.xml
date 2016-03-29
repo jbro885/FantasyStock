@@ -5,9 +5,9 @@
     <TextView
         android:id="@+id/tvLoading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:textAlignment="center"
-        android:padding="20dp"
+        android:padding="15dp"
         android:text="No one has commented on this stock yet..."
         />
 
@@ -21,7 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rvList"
-        android:text="Leave your comment"
+        android:text="See More Comments"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         android:background="@color/transparent"
         android:elevation="10dp"
         />

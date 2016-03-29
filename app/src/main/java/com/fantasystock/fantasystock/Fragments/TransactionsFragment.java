@@ -31,10 +31,20 @@ public class TransactionsFragment extends Fragment{
     protected ArrayList<Transaction> transactions;
     protected TransactionsArrayAdapter adapter;
     @Bind(R.id.rvList) RecyclerView rvList;
+    private String symbol;
+
+    public static TransactionsFragment newInstance(String symbol) {
+        TransactionsFragment fragment = new TransactionsFragment();
+        Bundle args = new Bundle();
+        args.putString("symbol", symbol);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        symbol = getArguments().getString("symbol");
         transactions = new ArrayList<>();
         adapter = new TransactionsArrayAdapter(transactions);
     }
@@ -47,6 +57,12 @@ public class TransactionsFragment extends Fragment{
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        queryTransactions(symbol);
     }
 
     public void queryTransactions(String symbol) {
