@@ -19,9 +19,6 @@ import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Comment;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -126,7 +123,7 @@ public class CommentsFragment extends Fragment {
         public void setComment(Comment comment) {
             tvCommentTime.setText(Utils.converTimetoRelativeTime(comment.updatedAt));
             tvComment.setText(comment.data.comment);
-            User.queryUser(comment.data.userId, new CallBack() {
+            User.queryUserId(comment.data.userId, new CallBack() {
 
                 @Override
                 public void userCallBack(final User user) {
@@ -141,7 +138,7 @@ public class CommentsFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, UserProfileActivity.class);
-                            intent.putExtra("userId",user.id);
+                            intent.putExtra("userId", user.id);
                             context.startActivity(intent);
 
                         }

@@ -98,7 +98,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
         // Get Watchlist
         if (user==null) {
-            User.queryUser(userId, new CallBack(){
+            User.queryUserId(userId, new CallBack() {
                 @Override
                 public void userCallBack(User user) {
                     setUser(user);

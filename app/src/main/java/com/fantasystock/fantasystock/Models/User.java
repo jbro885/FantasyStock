@@ -153,7 +153,28 @@ public class User {
         return gson.fromJson(json, User.class);
     }
 
-    public static void queryUser(String userId, final CallBack callBack) {
+    public static void queryUser(String username, final CallBack callBack) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereContains("username", username);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> results, ParseException e) {
+                if (e!=null) {
+                    callBack.onFail(e.toString());
+                    return;
+                }
+                int len = results.size();
+                ArrayList<User> users = new ArrayList<User>();
+                for (int i=0;i<len;++i) {
+                    User user = new User(results.get(i));
+                    users.add(user);
+                    userMap.put(user.id, user);
+                }
+                callBack.usersCallBack(users);
+            }
+        });
+    }
+
+    public static void queryUserId(String userId, final CallBack callBack) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("_id", userId);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
@@ -209,6 +230,8 @@ public class User {
             }
         });
     }
+
+
 
     public static void getAllUsersInfos(final CallBack callBack, boolean forceReload) {
         if (userMap!=null && !forceReload) {

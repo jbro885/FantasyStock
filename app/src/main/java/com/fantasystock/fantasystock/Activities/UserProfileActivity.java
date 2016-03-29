@@ -6,9 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,8 +18,6 @@ import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
-
-import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,7 +69,7 @@ public class UserProfileActivity extends AppCompatActivity {
             user = User.getUser(userId);
             setUser(user);
         } else {
-            User.queryUser(userId, new CallBack(){
+            User.queryUserId(userId, new CallBack() {
                 @Override
                 public void userCallBack(User user) {
                     setUser(user);

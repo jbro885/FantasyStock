@@ -3,6 +3,7 @@ package com.fantasystock.fantasystock.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Fragments.EditLeagueFragment;
+import com.fantasystock.fantasystock.Fragments.TradeFragment;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
@@ -33,6 +36,7 @@ public class LeagueActivity extends AppCompatActivity {
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.tvLeagueMemberNumber) TextView tvLeagueMemberNumber;
     @Bind(R.id.tvLeagueName) TextView tvLeagueName;
+    @Bind(R.id.fab) FloatingActionButton createLeagueButton;
 
     ArrayList<User> rank;
     UsersArrayAdapter adapter;
@@ -78,7 +82,7 @@ public class LeagueActivity extends AppCompatActivity {
         tvLeagueMemberNumber.setText(users.size() + "members");
     }
 
-    private static class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
+    public static class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
         private ArrayList<User> rank;
 
         public UsersArrayAdapter(ArrayList<User> rank) {
@@ -151,6 +155,11 @@ public class LeagueActivity extends AppCompatActivity {
         startActivityForResult(new Intent(getApplicationContext(), SignupActivity.class), 0);
         ParseUser.logOut();
         User.currentUser = null;
+    }
+    @OnClick(R.id.fab)
+    public void onCreateLeague() {
+        EditLeagueFragment editLeagueFragment = new EditLeagueFragment();
+        editLeagueFragment.show(getSupportFragmentManager(), "200");
     }
 
 }

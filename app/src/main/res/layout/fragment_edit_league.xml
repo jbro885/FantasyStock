@@ -28,76 +28,47 @@
         android:layout_alignBottom="@+id/ivLeagueCoverPhoto"
         android:background="@drawable/fade_dim_gradient"
         >
-        <TextView
-            android:id="@+id/tvLeagueName"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etLeagueName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:gravity="center"
             android:layout_above="@+id/tvLeagueMemberNumber"
             android:layout_marginLeft="10dp"
-            android:text="My League"
             android:textColor="@color/white"
             android:textSize="24sp"
+            android:textColorHint="#99ffffff"
             android:fontFamily="@string/font_sans_serif_thin"
-
-            android:padding="3dp"
-            />
-        <TextView
-            android:id="@+id/tvLeagueMemberNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="#c0c0c0"
-            android:textSize="14sp"
-            android:fontFamily="@string/font_sans_serif_regular"
-            android:padding="5dp"
+            android:hint="League name"
+            android:background="@color/transparent"
             />
 
-        <TextView
-            android:id="@+id/tvSignout"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etSearchFriend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivRankIcon"
             android:layout_alignTop="@+id/ivRankIcon"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
             android:layout_alignParentBottom="true"
-
+            android:background="#55000000"
             android:padding="5dp"
-            android:text="Sign Out"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:drawableRight="@drawable/ic_logout"
-            android:fontFamily="@string/font_sans_serif_regular"/>
-        
+            android:textSize="16sp"
+            android:textColorHint="#99ffffff"
+            android:hint="Invite your friends..."
+            android:drawableRight="@drawable/ic_search"
+            android:fontFamily="@string/font_sans_serif_light"/>
     </RelativeLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:borderWidth="0dp"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_gravity="center"
-        android:scaleType="center"
-        android:elevation="5dp"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/white"
-        android:background="@color/darkBlue"
-        />
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"
         android:id="@+id/rvList"
         android:layout_below="@+id/rlheader"
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <include layout="@layout/layout_loading_spinner"
@@ -106,5 +77,6 @@
         android:layout_below="@+id/rlheader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
