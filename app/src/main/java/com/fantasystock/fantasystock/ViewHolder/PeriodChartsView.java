@@ -59,7 +59,7 @@ public class PeriodChartsView extends ChartView {
     private void onPeriodClick(String period, TextView textView) {
         super.onRefreshPeriod(period);
 
-        int greyColor = Color.parseColor("#7788AA");
+        int greyColor = Color.parseColor("#eeAABBCC");
         tvPeriodALL.setTextColor(greyColor);
         tvPeriodAnYear.setTextColor(greyColor);
         tvPeriodHalfYear.setTextColor(greyColor);

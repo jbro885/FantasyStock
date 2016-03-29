@@ -54,7 +54,8 @@ public class ChartView extends RecyclerView.ViewHolder {
     private void initChart() {
 
         lineChart.setDescription("");
-        lineChart.setNoDataTextDescription("You need to provide data for the chart.");
+        lineChart.setNoDataTextDescription("");
+        lineChart.setNoDataText("");
 
         // enable touch gestures
         lineChart.setTouchEnabled(true);
