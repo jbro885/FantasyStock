@@ -94,6 +94,7 @@ public class EditLeagueFragment extends DialogFragment {
         users.clear();
         users.addAll(responseUsers);
         adapter.notifyDataSetChanged();
+        prLoadingSpinner.setVisibility(View.INVISIBLE);
     }
 
 

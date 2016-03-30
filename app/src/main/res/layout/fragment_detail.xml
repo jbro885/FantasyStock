@@ -185,14 +185,22 @@
         </LinearLayout>
     </com.fantasystock.fantasystock.Helpers.FSScrollView>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:background="@drawable/fade_trasparent"/>
-    <RelativeLayout
         android:id="@+id/rlDetailMenu"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="@drawable/fade_menu">
+        android:layout_height="60dp">
+        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+            android:id="@+id/ivToolbarBackgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:siShape="@drawable/mask"
+            android:src="@drawable/onboard1_blurred_head"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#22000000"/>
+
+
         <TextView
             android:id="@+id/tvMenuName"
             android:layout_width="match_parent"
