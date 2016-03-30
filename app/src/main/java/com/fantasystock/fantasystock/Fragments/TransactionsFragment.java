@@ -115,7 +115,7 @@ public class TransactionsFragment extends Fragment{
         public void setTransaction(Transaction transaction) {
             String buyText = (transaction.data.shares>0?"BUY":"SELL");
             tvQuoteSymbol.setText(buyText + " " + transaction.data.symbol);
-            tvEquityValue.setText(Utils.moneyConverter(transaction.data.shares * transaction.data.avgPrice));
+            tvEquityValue.setText(Utils.moneyConverter(-transaction.data.shares * transaction.data.avgPrice));
             DateFormat df = new SimpleDateFormat("HH:mm MM/dd/yyyy");
             tvTransactionDate.setText(df.format(transaction.updatedAt));
             tvShares.setText(Math.abs(transaction.data.shares) + " shares at " + Utils.moneyConverter(transaction.data.avgPrice));
