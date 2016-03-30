@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,11 +207,11 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     if (ownStock!=null) {
                         tvShares.setText(ownStock.share + "");
-                        tvAvgCost.setText(Math.round(ownStock.total_cost / ownStock.share * 100) / 100 + "");
-                        tvEquityValue.setText(ownStock.share * stock.current_price + "");
-                        tvTodayReturn.setText(Math.round(ownStock.share * Float.parseFloat(stock.current_change)) + "");
-                        tvTotalReturn.setText(Math.round(ownStock.share * stock.current_price - ownStock.total_cost) + "");
-                        tvTotalReturnPercentage.setText(Utils.moneyConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost * 100) + "%");
+                        tvAvgCost.setText(Utils.moneyConverter(ownStock.total_cost / ownStock.share));
+                        tvEquityValue.setText(Utils.moneyConverter(ownStock.share * stock.current_price));
+                        tvTodayReturn.setText(Utils.moneyConverter(ownStock.share * Float.parseFloat(stock.current_change)));
+                        tvTotalReturn.setText(Utils.moneyConverter(ownStock.share * stock.current_price - ownStock.total_cost));
+                        tvTotalReturnPercentage.setText(Utils.percentageConverter((ownStock.share * stock.current_price - ownStock.total_cost) / ownStock.total_cost));
                     }
                 }
             }
@@ -226,14 +225,13 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         return new CallBack(){
             @Override
             public void profileCallBack(Profile profile) {
-                tv52High.setText(profile.yr_high);
-
-                tv52Low.setText(profile.yr_low);
-                tvLow.setText(profile.low);
-                tvHigh.setText(profile.high);
+                tv52High.setText(Utils.moneyConverter(profile.yr_high));
+                tv52Low.setText(Utils.moneyConverter(profile.yr_low));
+                tvLow.setText(Utils.moneyConverter(profile.low));
+                tvHigh.setText(Utils.moneyConverter(profile.high));
                 tvPERatio.setText(profile.eps);
                 tvMarketCap.setText(profile.mkt_cap);
-                tvOpen.setText(profile.open);
+                tvOpen.setText(Utils.moneyConverter(profile.open));
                 tvDivYield.setText(profile.dividend_yld);
 
                 try {
