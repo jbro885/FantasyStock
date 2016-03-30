@@ -21,8 +21,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by wilsonsu on 3/6/16.
@@ -58,7 +60,9 @@ public class Utils {
     }
 
     public static String moneyConverter(double n) {
-        return Double.toString(Math.round(n * 100)/100);
+        Locale locale = new Locale("en", "US");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
+        return formatter.format(n);
     }
 
     public static void breathAnimationGenerator(final View view) {
