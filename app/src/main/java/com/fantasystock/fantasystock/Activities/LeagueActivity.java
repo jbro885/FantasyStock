@@ -2,7 +2,10 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,13 +28,15 @@ import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 import com.parse.ParseUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LeagueActivity extends AppCompatActivity {
+public class LeagueActivity extends AppCompatActivity implements EditLeagueFragment.EditLeagueDialogListener {
     @Bind(R.id.rvList) RecyclerView rvList;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.tvLeagueMemberNumber) TextView tvLeagueMemberNumber;
@@ -40,6 +45,7 @@ public class LeagueActivity extends AppCompatActivity {
 
     ArrayList<User> rank;
     UsersArrayAdapter adapter;
+    private EditLeagueFragment editLeagueFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,11 @@ public class LeagueActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         prLoadingSpinner.setVisibility(View.INVISIBLE);
         tvLeagueMemberNumber.setText(users.size() + "members");
+    }
+
+    @Override
+    public void onDone(HashSet<String> selectedUsers) {
+        
     }
 
     public static class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
@@ -158,8 +169,9 @@ public class LeagueActivity extends AppCompatActivity {
     }
     @OnClick(R.id.fab)
     public void onCreateLeague() {
-        EditLeagueFragment editLeagueFragment = new EditLeagueFragment();
+        editLeagueFragment = new EditLeagueFragment();
         editLeagueFragment.show(getSupportFragmentManager(), "200");
     }
+
 
 }

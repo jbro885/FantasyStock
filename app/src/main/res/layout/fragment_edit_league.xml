@@ -35,7 +35,7 @@
             android:layout_margin="5dp"
             android:padding="5dp"
             android:gravity="center"
-            android:layout_above="@+id/tvLeagueMemberNumber"
+            android:layout_above="@+id/etSearchFriend"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -44,7 +44,6 @@
             android:hint="League name"
             android:background="@color/transparent"
             />
-
         <EditText
             android:id="@+id/etSearchFriend"
             android:layout_width="match_parent"
@@ -62,6 +61,7 @@
             android:hint="Invite your friends..."
             android:drawableRight="@drawable/ic_search"
             android:fontFamily="@string/font_sans_serif_light"/>
+
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -71,6 +71,25 @@
         android:layout_below="@+id/rlheader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:borderWidth="0dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        android:elevation="5dp"
+        android:src="@android:drawable/ic_media_play"
+        android:tint="@color/white"
+        android:background="@color/darkBlue"
+        />
+
     <include layout="@layout/layout_loading_spinner"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
