@@ -116,7 +116,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if(share > 0) {
                         shareStatus = Integer.toString(share) + " Shares";
                         float value = stock.current_price * (float) share;
-                        valueStatus = "$" + Float.toString(value);
+                        valueStatus = Utils.moneyConverter(value);
                     }
                 }
             }

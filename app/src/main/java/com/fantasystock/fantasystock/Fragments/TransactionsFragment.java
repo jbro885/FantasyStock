@@ -118,7 +118,7 @@ public class TransactionsFragment extends Fragment{
             tvEquityValue.setText(Utils.moneyConverter(transaction.data.shares * transaction.data.avgPrice));
             DateFormat df = new SimpleDateFormat("HH:mm MM/dd/yyyy");
             tvTransactionDate.setText(df.format(transaction.updatedAt));
-            tvShares.setText(Math.abs(transaction.data.shares) + " shares at $" + Utils.moneyConverter(transaction.data.avgPrice));
+            tvShares.setText(Math.abs(transaction.data.shares) + " shares at " + Utils.moneyConverter(transaction.data.avgPrice));
         }
     }
 }

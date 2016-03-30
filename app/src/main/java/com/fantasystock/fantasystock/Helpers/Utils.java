@@ -65,6 +65,15 @@ public class Utils {
         return formatter.format(n);
     }
 
+    public static String moneyConverter(String n) {
+        double d = Double.parseDouble(n);
+        return moneyConverter(d);
+    }
+
+    public static String percentageConverter(double p) {
+        return Math.round(p * 10000)/100.0 + "%";
+    }
+
     public static void breathAnimationGenerator(final View view) {
         breathAnimationGenerator(view, true, 3000, 1000, 3000, 10000);
     }
