@@ -8,8 +8,6 @@
     android:background="@color/transparent"
     tools:context="com.fantasystock.fantasystock.Activities.DetailActivity">
 
-
-
     <com.fantasystock.fantasystock.Helpers.FSScrollView
         android:id="@+id/svScrollView"
         android:layout_width="match_parent"
@@ -21,7 +19,6 @@
             android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <TextView
                 android:id="@+id/tvSymbol"
