@@ -70,6 +70,10 @@ public class Utils {
         return moneyConverter(d);
     }
 
+    public static String doubleNumConverter(double n) {
+        return Double.toString(Math.round(n * 100)/100);
+    }
+
     public static String percentageConverter(double p) {
         return Math.round(p * 10000)/100.0 + "%";
     }

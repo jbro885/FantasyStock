@@ -173,10 +173,10 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         DataClient.getInstance().getStockPrice(symbol, new CallBack() {
             @Override
             public void stockCallBack(Stock stock) {
-                tvPrice.setText(stock.current_price + "");
-                tvChanges.setText(stock.current_change + "(" + stock.current_change_percentage + "%)");
+                tvPrice.setText(Utils.moneyConverter(stock.current_price));
+                tvChanges.setText(stock.current_change + " ( " + stock.current_change_percentage + "% ) ");
 
-                tvMenuPrice.setText(stock.current_price + "");
+                tvMenuPrice.setText(Utils.moneyConverter(stock.current_price));
 
 
                 if(Float.parseFloat(stock.current_change) < 0 ) {

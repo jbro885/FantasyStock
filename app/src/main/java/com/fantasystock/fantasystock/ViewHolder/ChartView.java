@@ -125,16 +125,16 @@ public class ChartView extends RecyclerView.ViewHolder {
             }
         }
 
-        Float currentChange = 0.0f;
+        Float changePercentage = 0.0f;
         try {
-            currentChange = prices.get(len-1).close - prices.get(0).open;
+            changePercentage = Float.parseFloat(stock.current_change_percentage);
         } catch (Exception e) {
 
         }
 
         int darkColor;
         Drawable fadeColor;
-        if(currentChange < 0.0f) {
+        if(changePercentage < 0.0f) {
             darkColor = fragmentActivity.getResources().getColor(R.color.red);
             fadeColor = fragmentActivity.getDrawable(R.drawable.fade_red);
         }

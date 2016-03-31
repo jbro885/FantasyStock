@@ -180,7 +180,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             switch(statusCode) {
                 default:
                 case CURRENT_PRICE:
-                    status = Float.toString(stock.current_price);
+                    status = "$" + Float.toString(stock.current_price);
                     break;
                 case CHANGE_PERCENTAGE:
                     status = stock.current_change_percentage + "%";

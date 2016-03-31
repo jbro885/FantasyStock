@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Fragments.ChartPeriodFragment;
@@ -200,8 +199,8 @@ public class MainActivity extends AppCompatActivity {
                     public void task() {
                         Stock stock = stocks.get(indexesIndex++);
                         tvIndexName.setText(stock.name);
-                        tvIndexPrice.setText(stock.current_price + "");
-                        tvIndexPriceChange.setText(stock.current_change + "(" + stock.current_change_percentage + "%)");
+                        tvIndexPrice.setText(Utils.moneyConverter(stock.current_price));
+                        tvIndexPriceChange.setText(stock.current_change + " ( " + stock.current_change_percentage + "% ) ");
                         if (Float.parseFloat(stock.current_change) < 0) {
                             tvIndexPriceChange.setTextColor(Color.RED);
                         } else {
@@ -227,7 +226,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     double percentage = change*100/total;
-                    tvChanges.setText(Utils.moneyConverter(change) + " ( " + Utils.moneyConverter(percentage) + "% )");
+                    String changeString = Utils.doubleNumConverter(change);
+                    changeString = (change > 0)? ("+" + changeString): changeString;
+
+                    tvChanges.setText(changeString + " ( " + Utils.percentageConverter(percentage) + " )");
                     if(change < 0) {
                         tvChanges.setTextColor(Color.RED);
                     }

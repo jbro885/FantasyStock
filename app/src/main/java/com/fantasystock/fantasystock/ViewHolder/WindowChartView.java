@@ -1,7 +1,6 @@
 package com.fantasystock.fantasystock.ViewHolder;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
@@ -34,8 +34,8 @@ public class WindowChartView extends ChartView {
         if( stockData == null) {
             return;
         }
-        tvPrice.setText(stockData.current_price + "");
-        tvChanges.setText(" (" + stockData.current_change_percentage + ")");
+        tvPrice.setText(Utils.moneyConverter(stockData.current_price));
+        tvChanges.setText(" ( " + stockData.current_change_percentage + "% )");
         Float changePercentage = -100.0f;
         try {
             changePercentage = Float.parseFloat(stockData.current_change_percentage);
@@ -43,13 +43,13 @@ public class WindowChartView extends ChartView {
 
         }
 
-        if (changePercentage<0) {
-            tvChanges.setTextColor(Color.parseColor("#f0162f"));
-        } else {
-            tvChanges.setTextColor(Color.parseColor("#13CC52"));
+        int color = fragmentActivity.getResources().getColor(R.color.green);
+        if(changePercentage < 0) {
+            color = fragmentActivity.getResources().getColor(R.color.red);
         }
 
-
+        tvPrice.setTextColor(color);
+        tvChanges.setTextColor(color);
     }
 
     @Override
