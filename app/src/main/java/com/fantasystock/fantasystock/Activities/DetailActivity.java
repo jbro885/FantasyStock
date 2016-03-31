@@ -64,7 +64,17 @@ public class DetailActivity extends AppCompatActivity {
             stocks.addAll(symbols);
         }
 
-        detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this);
+        detailsPagerAdapter = new DetailsPagerAdapter(getSupportFragmentManager(), stocks, this) {
+            @Override
+            public void myScrollingDown() {
+                fabDollarSign.hide();
+            }
+
+            @Override
+            public void myScrollingUp() {
+                fabDollarSign.show();
+            }
+        };
         vpViewPager.setAdapter(detailsPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
  */
 public class DetailFragment extends Fragment implements TradeFragment.TradeFragmentListener {
     private String symbol;
+    private MyOnScrollingListener myOnScrollingListener;
 
     @Bind(R.id.tvSymbol) TextView tvSymbol;
     @Bind(R.id.tvName) TextView tvName;
@@ -110,6 +111,14 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
             @Override
             public void onScrollChanged() {
                 handleScrolling(scrollView.getScrollY());
+
+                if(myOnScrollingListener != null) {
+                    if (scrollView.getScrollY() > 0) {
+                        myOnScrollingListener.scrollingDown();
+                    } else {
+                        myOnScrollingListener.scrollingUp();
+                    }
+                }
             }
         });
         rlDetailMenu.setAlpha(0.0f);
@@ -250,5 +259,14 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public interface MyOnScrollingListener {
+        void scrollingDown();
+        void scrollingUp();
+    }
+
+    public void setMyOnScrollingListener(MyOnScrollingListener myOnScrollingListener) {
+        this.myOnScrollingListener = myOnScrollingListener;
     }
 }

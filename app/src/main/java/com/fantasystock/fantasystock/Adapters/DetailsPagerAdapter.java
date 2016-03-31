@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by chengfu_lin on 3/30/16.
  */
-public class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter {
+public abstract class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter{
     private FragmentActivity fragmentActivity;
     private ArrayList<String> stocks;
     public DetailsPagerAdapter(FragmentManager fm, ArrayList<String> stocks, FragmentActivity fragmentActivity) {
@@ -30,6 +30,17 @@ public class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position));
         detailFragment.fragmentActivity = fragmentActivity;
+        detailFragment.setMyOnScrollingListener(new DetailFragment.MyOnScrollingListener() {
+            @Override
+            public void scrollingDown() {
+                myScrollingDown();
+            }
+
+            @Override
+            public void scrollingUp() {
+                myScrollingUp();
+            }
+        });
         return detailFragment;
     }
 
@@ -60,4 +71,6 @@ public class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter {
         return null;
     }
 
+    protected abstract void myScrollingDown();
+    protected abstract void myScrollingUp();
 }
