@@ -36,8 +36,7 @@ import butterknife.OnClick;
 public class DetailFragment extends Fragment implements TradeFragment.TradeFragmentListener {
     private String symbol;
 
-    @Bind(R.id.tvSymbol)
-    TextView tvSymbol;
+    @Bind(R.id.tvSymbol) TextView tvSymbol;
     @Bind(R.id.tvName) TextView tvName;
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.tvChanges) TextView tvChanges;
@@ -139,12 +138,12 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
 
 
     @OnClick(R.id.btnBuy)
-    public void onBuy(View view) {
+    public void onBuy() {
         onTrade(true);
     }
 
     @OnClick(R.id.btnSell)
-    public void onSell(View view) {
+    public void onSell() {
         onTrade(false);
     }
 

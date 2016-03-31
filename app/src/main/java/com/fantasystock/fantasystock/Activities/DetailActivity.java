@@ -2,17 +2,15 @@ package com.fantasystock.fantasystock.Activities;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-import com.fantasystock.fantasystock.Fragments.DetailFragment;
+import com.fantasystock.fantasystock.Adapters.DetailsPagerAdapter;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -21,11 +19,18 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
     private ArrayList<String> stocks;
     private DetailsPagerAdapter detailsPagerAdapter;
+
+    @Bind(R.id.fabDollarSign) FloatingActionButton fabDollarSign;
+    @Bind(R.id.fabBuy) FloatingActionButton fabBuy;
+    @Bind(R.id.fabSell) FloatingActionButton fabSell;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    private Boolean isFabOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,11 @@ public class DetailActivity extends AppCompatActivity {
 
 
         ButterKnife.bind(this);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
         stocks = new ArrayList<>();
         if (symbols==null) {
             if (!User.currentUser.watchlistSet.contains(symbol)) {
@@ -91,30 +101,46 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private static class DetailsPagerAdapter extends FragmentPagerAdapter {
-        private FragmentActivity fragmentActivity;
-        private ArrayList<String> stocks;
-        public DetailsPagerAdapter(FragmentManager fm, ArrayList<String> stocks, FragmentActivity fragmentActivity) {
-            super(fm);
-            this.fragmentActivity = fragmentActivity;
-            if (stocks == null) {
-                this.stocks = User.currentUser.watchlist;
-            } else {
-                this.stocks = stocks;
-            }
+    @OnClick(R.id.fabDollarSign)
+    void onClickDollarSign() {
+        animateFAB();
+    }
 
-        }
+    @OnClick(R.id.fabSell)
+    void onClickSellBtn() {
+        closeFabDollarSign();
+        detailsPagerAdapter.onClickSellBtn(vpViewPager);
+    }
 
-        @Override
-        public Fragment getItem(int position) {
-            DetailFragment detailFragment = DetailFragment.newInstance(stocks.get(position));
-            detailFragment.fragmentActivity = fragmentActivity;
-            return detailFragment;
-        }
+    @OnClick(R.id.fabBuy)
+    void onClickBuyBtn() {
+        closeFabDollarSign();
+        detailsPagerAdapter.onClickBuyBtn(vpViewPager);
+    }
 
-        @Override
-        public int getCount() {
-            return stocks.size();
+    public void animateFAB(){
+        if(isFabOpen){
+            closeFabDollarSign();
+        } else {
+            openFabDollarSign();
         }
+    }
+
+    private void openFabDollarSign() {
+        fabDollarSign.startAnimation(rotate_forward);
+        fabBuy.startAnimation(fab_open);
+        fabSell.startAnimation(fab_open);
+        fabBuy.setClickable(true);
+        fabSell.setClickable(true);
+        isFabOpen = true;
+    }
+
+    private void closeFabDollarSign() {
+        fabDollarSign.startAnimation(rotate_backward);
+        fabBuy.startAnimation(fab_close);
+        fabSell.startAnimation(fab_close);
+        fabBuy.setClickable(false);
+        fabSell.setClickable(false);
+        isFabOpen = false;
     }
 }

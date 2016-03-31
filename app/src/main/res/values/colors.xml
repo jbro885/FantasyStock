@@ -10,4 +10,8 @@
     <color name="transparent">#00000000</color>
     <color name="green">#ff13CC52</color>
     <color name="red">#f0162f</color>
+
+    <color name="colorAccent">#F44336</color>
+    <color name="colorFAB1">#2196F3</color>
+    <color name="colorFAB2">#E040FB</color>
 </resources>
