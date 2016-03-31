@@ -140,7 +140,11 @@ public class ChartView extends RecyclerView.ViewHolder {
 
         }
 
-        if(stock.current_change_percentage!=null) Log.d("DEBUG", stock.current_change_percentage);
+        Log.d("DEBUG", stock.symbol);
+        if(stock.current_change_percentage!=null) {
+            Log.d("DEBUG", stock.current_change_percentage);
+            Log.d("DEBUG1", DataCenter.getInstance().stockMap.get(stock.symbol).current_change_percentage);
+        }
 
         int darkColor;
         Drawable fadeColor;

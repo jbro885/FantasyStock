@@ -159,7 +159,9 @@ public class DataCenter {
             currentUser.investingStocksMap.remove(stock.symbol);
             currentUser.investingStocks.remove(stock.symbol);
         }
-        stockMap.put(stock.symbol, stock);
+        Stock updateStock = stockMap.get(stock.symbol);
+        updateStock.share = stock.share;
+        stockMap.put(updateStock.symbol, updateStock);
         currentUser.updateUser(callBack);
     }
 
