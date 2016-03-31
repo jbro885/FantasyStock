@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -90,8 +91,15 @@ public class ChartView extends RecyclerView.ViewHolder {
     }
 
 
-    public void setStock(Stock stock) {
-        this.stock = stock;
+    public void setStock(String symbol) {
+        if(symbol.equals("portfolios")) {
+            this.stock = new Stock();
+            this.stock.symbol = "portfolios";
+        }
+        else {
+            this.stock = DataCenter.getInstance().stockMap.get(symbol);
+        }
+
         lineChart.getAxisLeft().setTextColor(isDarkTheme?Color.WHITE:Color.BLACK);
         onRefreshPeriod(defaultPeriod);
     }
@@ -132,13 +140,17 @@ public class ChartView extends RecyclerView.ViewHolder {
 
         }
 
+        Log.d("DEBUG", stock.current_change_percentage);
+
         int darkColor;
         Drawable fadeColor;
         if(changePercentage < 0.0f) {
+            Log.d("DEBUG1", "RED");
             darkColor = fragmentActivity.getResources().getColor(R.color.red);
             fadeColor = fragmentActivity.getDrawable(R.drawable.fade_red);
         }
         else {
+            Log.d("DEBUG1", "BLUE");
             darkColor = fragmentActivity.getResources().getColor(R.color.colorPrimaryGreyDark);
             fadeColor = fragmentActivity.getDrawable(R.drawable.fade_blue);
         }

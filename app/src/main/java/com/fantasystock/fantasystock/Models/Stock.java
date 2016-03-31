@@ -6,10 +6,6 @@ import com.google.gson.annotations.SerializedName;
  * Created by chengfu_lin on 33/16.
  */
 public class Stock {
-    public Stock(String symbol) {
-        this.symbol = symbol;
-    }
-
     public Stock() {
     }
 

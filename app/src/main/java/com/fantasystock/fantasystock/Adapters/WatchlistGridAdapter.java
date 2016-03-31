@@ -46,8 +46,7 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         String symbol = (String) items.get(position);
-        final Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-        ((GridChartViewHolder)holder).setStock(stock);
+        ((GridChartViewHolder)holder).setStock(symbol);
     }
 
     @Override
@@ -77,8 +76,8 @@ public class WatchlistGridAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @Override
-        public void setStock(Stock stock) {
-            super.setStock(stock);
+        public void setStock(String symbol) {
+            super.setStock(symbol);
             final RecyclerView.ViewHolder holder = this;
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

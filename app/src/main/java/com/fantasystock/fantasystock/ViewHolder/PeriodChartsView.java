@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
@@ -37,8 +38,14 @@ public class PeriodChartsView extends ChartView {
     }
 
     @Override
-    public void setStock(Stock stock) {
-        this.stock = stock;
+    public void setStock(String symbol) {
+        if(symbol.equals("portfolios")) {
+            this.stock = new Stock();
+            this.stock.symbol = "portfolios";
+        }
+        else {
+            this.stock = DataCenter.getInstance().stockMap.get(symbol);
+        }
         lineChart.getAxisLeft().setTextColor(isDarkTheme ? Color.WHITE : Color.BLACK);
         onOneDayClick();
     }

@@ -160,10 +160,8 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
 
     private void setStock() {
         Stock stock = DataCenter.getInstance().stockMap.get(symbol);
-        if (stock==null) {
-            stock = new Stock(symbol);
-        }
-        periodChartsView.setStock(stock);
+
+        periodChartsView.setStock(symbol);
         tvSymbol.setText(stock.symbol);
         tvName.setText(stock.name);
         tvMenuSymbol.setText(stock.symbol);

@@ -53,8 +53,8 @@ public class WindowChartView extends ChartView {
     }
 
     @Override
-    public void setStock(final Stock stock) {
-        super.setStock(stock);
+    public void setStock(String symbol) {
+        super.setStock(symbol);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

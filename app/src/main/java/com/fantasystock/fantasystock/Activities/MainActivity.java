@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.ivToolbarBackgroundView) View ivToolbarBackgroundView;
 
     // Title bar
-    private ArrayList<Stock> stocks;
+    private ArrayList<String> stocks;
     private int indexesIndex;
 
     private WindowChartView windowChartView;
@@ -181,23 +181,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Set Toolbar header Section
         stocks = new ArrayList<>();
-        stocks.add(new Stock(".DJI"));
-        stocks.add(new Stock(".INX"));
-        stocks.add(new Stock(".IXIC"));
+        stocks.add(".DJI");
+        stocks.add(".INX");
+        stocks.add(".IXIC");
 
-        DataClient.getInstance().getStocksPrices(stocks, new CallBack() {
+
+
+        DataClient.getInstance().getStocksPrice(stocks, new CallBack() {
             @Override
-            public void stocksCallBack(ArrayList<Stock> returnedStocks) {
-                stocks.clear();
-                stocks.addAll(returnedStocks);
-                stocks.get(0).name = "DOW";
-                stocks.get(1).name = "S&P500";
-                stocks.get(2).name = "NASDAQ";
+            public void stocksCallBack(final ArrayList<Stock> returnedStocks) {
+
+                returnedStocks.get(0).name = "DOW";
+                returnedStocks.get(1).name = "S&P500";
+                returnedStocks.get(2).name = "NASDAQ";
                 indexesIndex = 0;
                 Utils.repeatAnimationGenerator(llIndexes, new CallBack() {
                     @Override
                     public void task() {
-                        Stock stock = stocks.get(indexesIndex++);
+                        Stock stock = returnedStocks.get(indexesIndex++);
                         tvIndexName.setText(stock.name);
                         tvIndexPrice.setText(Utils.moneyConverter(stock.current_price));
                         tvIndexPriceChange.setText(stock.current_change + " ( " + stock.current_change_percentage + "% ) ");
@@ -265,11 +266,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         String symbol = DataCenter.getInstance().getLastViewedStock();
-        if (symbol == null) return;
-        windowChartView.setStock(new Stock(symbol));
-        windowCharts.setAlpha(1.0f);
-        ibWindowCloseButton.setAlpha(1.0f);
-
+        if (symbol != null) {
+            windowChartView.setStock(symbol);
+            windowCharts.setAlpha(1.0f);
+            ibWindowCloseButton.setAlpha(1.0f);
+        }
     }
 
     private void handleScrolling(int verticalOffset) {

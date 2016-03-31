@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 
@@ -31,7 +30,7 @@ public class ChartPeriodFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         periodChartsView = new PeriodChartsView(view, getActivity());
-        periodChartsView.setStock(new Stock("portfolios"));
+        periodChartsView.setStock("portfolios");
 
         return view;
     }
@@ -52,6 +51,6 @@ public class ChartPeriodFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        periodChartsView.setStock(new Stock("portfolios"));
+        periodChartsView.setStock("portfolios");
     }
 }
