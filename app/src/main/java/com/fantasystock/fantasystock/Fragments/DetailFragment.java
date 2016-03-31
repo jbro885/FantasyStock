@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,7 +27,6 @@ import com.fantasystock.fantasystock.ViewHolder.PeriodChartsView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by wilsonsu on 3/8/16.
@@ -42,9 +40,6 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
     @Bind(R.id.tvChanges) TextView tvChanges;
     @Bind(R.id.fDetailCharts) View vChart;
     @Bind(R.id.svScrollView) ScrollView scrollView;
-
-    @Bind(R.id.btnSell) Button btnSell;
-    @Bind(R.id.btnBuy) Button btnBuy;
 
     //Menu
     @Bind(R.id.rlDetailMenu) RelativeLayout rlDetailMenu;
@@ -136,13 +131,10 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
         setStock();
     }
 
-
-    @OnClick(R.id.btnBuy)
     public void onBuy() {
         onTrade(true);
     }
 
-    @OnClick(R.id.btnSell)
     public void onSell() {
         onTrade(false);
     }
@@ -194,15 +186,9 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                     User.currentUser.investingStocksMap.get(symbol).share <= 0) {
                     Utils.setHeight(llSharesInfo, 0);
                     Utils.setHeight(flTransactions, 0);
-                    btnSell.setVisibility(View.GONE);
-                    Utils.setWidth(btnBuy, true);
                 } else {
                     Utils.setHeight(llSharesInfo, -1);
                     Utils.setHeight(flTransactions, -1);
-                    btnBuy.setWidth(0);
-                    btnSell.setVisibility(View.VISIBLE);
-                    Utils.setWidth(btnSell, false);
-                    Utils.setWidth(btnBuy, false);
                     Stock ownStock = User.currentUser.investingStocksMap.get(symbol);
                     if (ownStock!=null) {
                         tvShares.setText(ownStock.share + "");

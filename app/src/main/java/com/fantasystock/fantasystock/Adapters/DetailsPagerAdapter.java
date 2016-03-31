@@ -48,7 +48,7 @@ public class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter {
     public void onClickSellBtn(ViewPager viewPager) {
         Object obj = this.getRegisteredFragment(viewPager.getCurrentItem());
         if(obj instanceof DetailFragment) {
-            ((DetailFragment) obj).onBuy();
+            ((DetailFragment) obj).onSell();
         }
     }
 

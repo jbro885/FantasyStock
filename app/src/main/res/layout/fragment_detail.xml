@@ -70,31 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/llTransactionOptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btnBuy"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_weight="0.5"
-                    android:text="Buy"
-                    />
-                <Button
-                    android:id="@+id/btnSell"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/fCharts"
-                    android:layout_toRightOf="@id/btnBuy"
-                    android:layout_weight="0.5"
-                    android:text="Sell"
-                    />
-            </LinearLayout>
             <include layout="@layout/layout_shares_info"
                 android:id="@+id/llSharesInfo"
                 android:layout_width="match_parent"
