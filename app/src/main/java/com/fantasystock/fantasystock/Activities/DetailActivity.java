@@ -68,11 +68,13 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void myScrollingDown() {
                 fabDollarSign.hide();
+                fabDollarSign.setClickable(false);
             }
 
             @Override
             public void myScrollingUp() {
                 fabDollarSign.show();
+                fabDollarSign.setClickable(true);
             }
         };
         vpViewPager.setAdapter(detailsPagerAdapter);
