@@ -190,7 +190,7 @@ public class ChartPieFragment extends Fragment implements OnChartValueSelectedLi
         pieChart.setData(pieData);
         int transparentColor = Color.parseColor("#00000000");
 
-        pieChart.setCenterText("$"+ Utils.moneyConverter(user.availableFund));
+        pieChart.setCenterText(Utils.moneyConverter(user.availableFund));
         pieChart.setCenterTextColor(Color.WHITE);
         pieChart.setHoleColor(transparentColor);
         pieChart.setBackgroundColor(transparentColor);
