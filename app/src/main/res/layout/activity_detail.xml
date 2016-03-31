@@ -60,8 +60,7 @@
         app:backgroundTint="@color/colorAccent"
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_dollar_sign"
-        app:layout_behavior="com.fantasystock.fantasystock.Helpers.ScrollAwareFABBehavior"/>
+        android:src="@drawable/ic_dollar_sign" />
 
 </android.support.design.widget.CoordinatorLayout>
 
