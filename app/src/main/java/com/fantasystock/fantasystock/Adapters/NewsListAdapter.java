@@ -15,8 +15,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fantasystock.fantasystock.Activities.DetailActivity;
 import com.fantasystock.fantasystock.Activities.WebNewsActivity;
+import com.fantasystock.fantasystock.Helpers.CallBack;
+import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.DataClient;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.News;
+import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
 
 import java.util.ArrayList;
@@ -194,16 +198,38 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.tvRelatedStocks)
         public void onRelatedStocks() {
-            Intent intent = new Intent(tvRelatedStocks.getContext(), DetailActivity.class);
+            // Prepare to open the following stocks detail view
             int len = news.entities.size();
             ArrayList<String> relativeStocks = new ArrayList<>();
             for (int i = 0; i < len; ++i) {
                 relativeStocks.add(news.entities.get(i).term.replace("TICKER:",""));
             }
-            intent.putStringArrayListExtra("symbols",relativeStocks);
-            fragmentActivity.startActivityForResult(intent, 200);
+            // Fetch these stocks from the internet
+            DataClient.getInstance().getStocksPrice(relativeStocks, new CallBack() {
+                @Override
+                public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                    ArrayList<String> stockSymbols = new ArrayList<>();
+                    for(int i = 0; i < returnedSocks.size(); i++) {
+                        Stock s = returnedSocks.get(i);
+                        // check if returned data is complete
+                        if(s.current_change != null) {
+                            DataCenter.getInstance().stockMap.put(s.symbol, s);
+                            stockSymbols.add(s.symbol);
+                        }
+                    }
+                    if(!stockSymbols.isEmpty()) openDetailStocks(stockSymbols);
+                }
+            });
         }
     }
+
+    public void openDetailStocks(ArrayList<String> relativeStocks) {
+        // open the detail view
+        Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
+        intent.putStringArrayListExtra("symbols",relativeStocks);
+        fragmentActivity.startActivityForResult(intent, 200);
+    }
+
 
     public static class ProgressViewHolder extends RecyclerView.ViewHolder implements viewHolderBinding{
         public ProgressBar progressBar;

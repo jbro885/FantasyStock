@@ -53,9 +53,6 @@
             android:name=".Activities.NewsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.RankActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activities.SeeMoreActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -134,10 +134,11 @@ public class ChartView extends RecyclerView.ViewHolder {
         }
 
         Float changePercentage = 0.0f;
-        try {
+        if(stock.symbol.equals("portfolios")) {
+            changePercentage = prices.get(len-1).close - prices.get(0).open;
+        }
+        else {
             changePercentage = Float.parseFloat(stock.current_change_percentage);
-        } catch (Exception e) {
-
         }
 
         Log.d("DEBUG", stock.symbol);
