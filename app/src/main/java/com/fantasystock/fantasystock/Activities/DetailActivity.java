@@ -29,8 +29,10 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.fabDollarSign) FloatingActionButton fabDollarSign;
     @Bind(R.id.fabBuy) FloatingActionButton fabBuy;
     @Bind(R.id.fabSell) FloatingActionButton fabSell;
-    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    private Animation fab_open,fab_close, fab_open_disable, fab_close_disable;
+    private Animation rotate_forward,rotate_backward;
     private Boolean isFabOpen = false;
+    private Boolean hasShare = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        fab_open_disable = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_open_disable);
+        fab_close_disable = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close_disable);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
 
@@ -103,7 +107,20 @@ public class DetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.fabDollarSign)
     void onClickDollarSign() {
-        animateFAB();
+        String symbol = detailsPagerAdapter.getCurrentStockSymbol(vpViewPager);
+        if (!User.currentUser.investingStocksMap.containsKey(symbol) ||
+                User.currentUser.investingStocksMap.get(symbol).share <= 0) {
+            hasShare = false;
+        }
+        else {
+            hasShare = true;
+        }
+
+        if(isFabOpen){
+            closeFabDollarSign();
+        } else {
+            openFabDollarSign();
+        }
     }
 
     @OnClick(R.id.fabSell)
@@ -118,29 +135,38 @@ public class DetailActivity extends AppCompatActivity {
         detailsPagerAdapter.onClickBuyBtn(vpViewPager);
     }
 
-    public void animateFAB(){
-        if(isFabOpen){
-            closeFabDollarSign();
-        } else {
-            openFabDollarSign();
+    private void openFabDollarSign() {
+        // open current button
+        isFabOpen = true;
+        fabDollarSign.startAnimation(rotate_forward);
+        // open Buy button
+        fabBuy.startAnimation(fab_open);
+        fabBuy.setClickable(true);
+        // open Sell button
+        if(hasShare) {
+            fabSell.startAnimation(fab_open);
+            fabSell.setClickable(true);
+        }
+        else {
+            fabSell.startAnimation(fab_open_disable);
+            fabSell.setClickable(false);
         }
     }
 
-    private void openFabDollarSign() {
-        fabDollarSign.startAnimation(rotate_forward);
-        fabBuy.startAnimation(fab_open);
-        fabSell.startAnimation(fab_open);
-        fabBuy.setClickable(true);
-        fabSell.setClickable(true);
-        isFabOpen = true;
-    }
-
     private void closeFabDollarSign() {
+        // close current button
         fabDollarSign.startAnimation(rotate_backward);
-        fabBuy.startAnimation(fab_close);
-        fabSell.startAnimation(fab_close);
-        fabBuy.setClickable(false);
-        fabSell.setClickable(false);
         isFabOpen = false;
+        // close Buy Button
+        fabBuy.startAnimation(fab_close);
+        fabBuy.setClickable(false);
+        // close Sell button
+        if(hasShare) {
+            fabSell.startAnimation(fab_close);
+        }
+        else {
+            fabSell.startAnimation(fab_close_disable);
+        }
+        fabSell.setClickable(false);
     }
 }

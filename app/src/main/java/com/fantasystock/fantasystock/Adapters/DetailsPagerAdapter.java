@@ -52,4 +52,12 @@ public class DetailsPagerAdapter extends SmartFragmentStatePagerAdapter {
         }
     }
 
+    public String getCurrentStockSymbol(ViewPager viewPager) {
+        Object obj = this.getRegisteredFragment(viewPager.getCurrentItem());
+        if(obj instanceof DetailFragment) {
+            return ((DetailFragment) obj).getSymbol();
+        }
+        return null;
+    }
+
 }

@@ -248,5 +248,7 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
 
     }
 
-
+    public String getSymbol() {
+        return symbol;
+    }
 }
