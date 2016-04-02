@@ -141,6 +141,10 @@ public class DataCenter {
     }
 
     public void updateTotalValues(final CallBack callBack) {
+        if (currentUser.investingStocks.size() < 1) {
+            callBack.stocksCallBack(new ArrayList<Stock>());
+            return;
+        }
         DataClient.getInstance().getStocksPrices(currentUser.investingStocks, callBack);
     }
 
