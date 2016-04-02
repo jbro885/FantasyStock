@@ -66,8 +66,12 @@ public class Utils {
     }
 
     public static String moneyConverter(String n) {
-        double d = Double.parseDouble(n);
-        return moneyConverter(d);
+        try {
+            double d = Double.parseDouble(n);
+            return moneyConverter(d);
+        } catch (NumberFormatException e) {
+            return "N/A";
+        }
     }
 
     public static String doubleNumConverter(double n) {

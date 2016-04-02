@@ -202,7 +202,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             int len = news.entities.size();
             ArrayList<String> relativeStocks = new ArrayList<>();
             for (int i = 0; i < len; ++i) {
-                relativeStocks.add(news.entities.get(i).term.replace("TICKER:",""));
+                relativeStocks.add(news.entities.get(i).term.replace("TICKER:","").
+                  replace("^GSPC", ".INX").replace("^", "."));
             }
             // Fetch these stocks from the internet
             DataClient.getInstance().getStocksPrice(relativeStocks, new CallBack() {
@@ -224,9 +225,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void openDetailStocks(ArrayList<String> relativeStocks) {
-        // open the detail view
         Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
-        intent.putStringArrayListExtra("symbols",relativeStocks);
+        intent.putStringArrayListExtra("symbols", relativeStocks);
         fragmentActivity.startActivityForResult(intent, 200);
     }
 
