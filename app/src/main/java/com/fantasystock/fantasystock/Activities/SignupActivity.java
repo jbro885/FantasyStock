@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -111,7 +110,6 @@ public class SignupActivity extends AppCompatActivity {
         etPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.d("zhuqi", "key" + keyCode + ",event:" + event.getAction());
                 if (event.getAction() == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER) {
                     SignupActivity.this.onSignIn();
@@ -184,9 +182,9 @@ public class SignupActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
-                    // DataCenter.getInstance().signUpUser(ParseUser.getCurrentUser(), profileImageUrl);
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(intent);
                     finish();
-
                     // Hooray! Let them use the app now.
                 } else {
                     tvWarning.setText("Fail to sign up");
