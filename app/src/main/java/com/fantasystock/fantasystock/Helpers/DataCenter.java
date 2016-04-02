@@ -170,6 +170,10 @@ public class DataCenter {
         final int len = currentUser.investingStocks.size();
         final HashSet<String> dataSet = new HashSet<>();
         final ArrayList<HistoricalData> datas = new ArrayList<>();
+        if (len < 1) {
+            portfoliosCalculator(datas, callBack);
+            return;
+        }
         for (int i=0;i<len;++i) {
             final String symbol = currentUser.investingStocks.get(i).symbol;
             DataClient.getInstance().getHistoricalPrices(symbol, period, new CallBack(){
