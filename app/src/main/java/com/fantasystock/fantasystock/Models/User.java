@@ -1,6 +1,5 @@
 package com.fantasystock.fantasystock.Models;
 
-import android.telecom.Call;
 import android.text.TextUtils;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
@@ -12,8 +11,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import org.parceler.Parcel;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

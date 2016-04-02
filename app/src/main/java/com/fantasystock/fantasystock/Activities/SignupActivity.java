@@ -182,6 +182,8 @@ public class SignupActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     DataCenter.getInstance().setUser(ParseUser.getCurrentUser());
+                    // Reload the userMap data
+                    User.getAllUsersInfos(null, true);
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     finish();
