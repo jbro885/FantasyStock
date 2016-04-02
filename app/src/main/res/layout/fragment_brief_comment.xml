@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rvList"
-        android:text="See More Comments"
+        android:text="See All Comments"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:background="@color/transparent"
