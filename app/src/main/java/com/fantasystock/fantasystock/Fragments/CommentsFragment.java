@@ -108,6 +108,7 @@ public class CommentsFragment extends Fragment {
             return comments.size();
         }
     }
+
     public static class CommentsViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.ivUserProfile) ImageView ivUserProfile;
         @Bind(R.id.tvName) TextView tvName;

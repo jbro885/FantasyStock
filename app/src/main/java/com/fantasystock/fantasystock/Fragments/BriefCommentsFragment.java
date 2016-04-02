@@ -60,8 +60,11 @@ public class BriefCommentsFragment extends CommentsFragment{
             public void commentsCallBack(ArrayList<Comment> returnComments) {
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
                 btnLeaveComment.setVisibility(View.VISIBLE);
-
-
+                if (returnComments.size() > 5) {
+                    btnLeaveComment.setText("See All Comments");
+                } else {
+                    btnLeaveComment.setText("Post Comments");
+                }
                 comments.clear();
 
                 int len = Math.min(returnComments.size(), 5);
