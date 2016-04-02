@@ -40,7 +40,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
 
         tvName.setText(user.username);
         tvRank.setText(Integer.toString(place));
-        tvPortfolio.setText(user.totalValue + "");
+        tvPortfolio.setText(Utils.moneyConverter(user.totalValue));
 
         if (user.profileImageUrl == null) {
             ivUserProfile.setImageResource(R.drawable.ic_profile);
