@@ -102,7 +102,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Welcome message
-        Snackbar.make(scrollView, "Welcome " + User.currentUser.username, Snackbar.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar.make(scrollView, "Welcome back, " + User.currentUser.username, Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.green));
+        snackbar.show();
 
         // Set portfolio Section
         PORTFOLIOS_TYPE = CHART_MODE;

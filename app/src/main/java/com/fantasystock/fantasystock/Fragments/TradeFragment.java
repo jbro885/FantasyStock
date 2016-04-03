@@ -33,6 +33,8 @@ import butterknife.OnTextChanged;
  */
 
 public class TradeFragment extends DialogFragment {
+    private int colorBuy;
+    private int colorSell;
 
     @Bind(R.id.btnTrade) Button btnTrade;
     @Bind(R.id.tvSymbol) TextView tvSymbol;
@@ -81,6 +83,8 @@ public class TradeFragment extends DialogFragment {
         symbol = getArguments().getString("symbol");
         isBuy = getArguments().getBoolean("isbuy");
         dataCenter = DataCenter.getInstance();
+        colorBuy = getResources().getColor(R.color.darkBlue);
+        colorSell = getResources().getColor(R.color.green);
 
         stock = User.currentUser.investingStocksMap.get(symbol);
         if(stock == null) {
@@ -92,12 +96,8 @@ public class TradeFragment extends DialogFragment {
         getDialog().getWindow().setLayout(400, 500);
 
         tvSymbol.setText("Shares of " + symbol);
-
         tvEstimatedCost.setText("Estimated "+(isBuy?"Cost":"Gain"));
-
         btnTrade.setText(isBuy ? "Buy" : "Sell");
-        int colorBuy = getResources().getColor(R.color.darkBlue);
-        int colorSell = getResources().getColor(R.color.green);
         btnTrade.setBackgroundColor(isBuy? colorBuy : colorSell);
 
         formatter = new DecimalFormat("$###,##0.00");
@@ -169,7 +169,12 @@ public class TradeFragment extends DialogFragment {
             @Override
             public void done() {
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
-                Snackbar.make(getActivity().getCurrentFocus(), message, Snackbar.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar.make(getActivity().getCurrentFocus(), message, Snackbar.LENGTH_LONG);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                int colorSnackbar = (isBuy)? colorBuy : colorSell;
+                textView.setTextColor(colorSnackbar);
+                snackbar.show();
                 onDismissTrading();
             }
         });
