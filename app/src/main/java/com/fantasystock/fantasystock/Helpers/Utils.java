@@ -36,9 +36,15 @@ public class Utils {
 
     public static String converTimetoRelativeTime(Date time) {
         if (time == null) return "";
-        String relativeDate = DateUtils.getRelativeTimeSpanString(time.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_TIME).toString();
-        relativeDate.replace("hour", "h");
-        relativeDate.replace("minute", "min");
+        String relativeDate = DateUtils.getRelativeTimeSpanString(time.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_TIME).toString()
+          .replace(" days", "d")
+          .replace(" day", "d")
+          .replace(" hours", "h")
+          .replace(" hour", "h")
+          .replace(" minutes", "m")
+          .replace(" minute", "m")
+          .replace(" seconds", "s")
+          .replace(" second", "s");
         return relativeDate;
     }
     public static Calendar convertDateToCalendar(Date date) {
