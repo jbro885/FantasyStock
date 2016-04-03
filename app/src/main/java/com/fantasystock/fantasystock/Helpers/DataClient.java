@@ -122,7 +122,7 @@ public class DataClient {
             @Override
             public void onFail(String failureMessage) {
                 super.onFail(failureMessage);
-                Log.d("DEBUG", "getStockPrice failed for [" + s + "], message: " + failureMessage);
+                Log.e("ERROR", "getStockPrice failed for [" + s + "], message: " + failureMessage);
             }
         }));
     }
