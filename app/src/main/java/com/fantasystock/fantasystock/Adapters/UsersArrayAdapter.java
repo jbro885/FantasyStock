@@ -17,9 +17,11 @@ import java.util.ArrayList;
  */
 public class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private ArrayList<User> rank;
+    private Context context;
 
-    public UsersArrayAdapter(ArrayList<User> rank) {
+    public UsersArrayAdapter(ArrayList<User> rank, Context context) {
         this.rank = rank;
+        this.context = context;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
         final Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_user_rank, parent, false);
-        return new UserViewHolder(view);
+        return new UserViewHolder(view, context);
     }
 
     @Override

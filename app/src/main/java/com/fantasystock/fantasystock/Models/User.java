@@ -46,7 +46,7 @@ public class User {
 
     public ParseUser user;
 
-    private static HashMap<String, User> userMap = new HashMap<>();
+    public static HashMap<String, User> userMap;
 
     public User(ParseUser user) {
         this.user = user;
@@ -255,6 +255,7 @@ public class User {
             }
         });
     }
+
 
     public static User getUser(String userId) {
         if (userId.equals(currentUser.id)) {

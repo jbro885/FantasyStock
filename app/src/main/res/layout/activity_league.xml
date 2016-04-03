@@ -57,8 +57,6 @@
             android:id="@+id/tvSignout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ivRankIcon"
-            android:layout_alignTop="@+id/ivRankIcon"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
@@ -72,39 +70,9 @@
             android:fontFamily="@string/font_sans_serif_regular"/>
         
     </RelativeLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:borderWidth="0dp"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_gravity="center"
-        android:scaleType="center"
-        android:elevation="5dp"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/white"
-        android:background="@color/darkBlue"
-        />
-
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:id="@+id/rvList"
-        android:layout_below="@+id/rlheader"
-
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <include layout="@layout/layout_loading_spinner"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/rlheader"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlheader"/>
 </RelativeLayout>

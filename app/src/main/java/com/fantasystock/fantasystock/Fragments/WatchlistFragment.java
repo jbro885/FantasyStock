@@ -128,11 +128,13 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     }
 
     public void refreshStock() {
+        if (user==null) {
+            return;
+        }
         DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
             @Override
             public void stocksCallBack(ArrayList<Stock> returnedSocks) {
                 mAdapter.notifyDataSetChanged();
-
             }
         });
     }
