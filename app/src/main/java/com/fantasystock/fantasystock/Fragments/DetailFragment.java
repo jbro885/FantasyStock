@@ -171,7 +171,7 @@ public class DetailFragment extends Fragment implements TradeFragment.TradeFragm
                 tvMenuPrice.setText(Utils.moneyConverter(stock.current_price));
 
 
-                if(Float.parseFloat(stock.current_change) < 0 ) {
+                if(Float.parseFloat(stock.current_change.replace(",", "")) < 0 ) {
                     tvPrice.setTextColor(Color.RED);
                     tvChanges.setTextColor(Color.RED);
                 }

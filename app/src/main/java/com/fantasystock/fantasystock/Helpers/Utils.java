@@ -285,4 +285,12 @@ public class Utils {
             }
         }).into(imageView);
     }
+
+    public static String symbolToGoogle(String symbol) {
+        return symbol.replace("^GSPC", ".INX").replace("^", ".");
+    }
+
+    public static String symbolToYahoo(String symbol) {
+        return symbol.replace(".INX", "^GSPC").replace(".", "^");
+    }
 }

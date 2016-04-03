@@ -204,6 +204,9 @@ public class DataCenter {
     private void portfoliosCalculator(ArrayList<HistoricalData> datas, CallBack callBack) {
         int len = datas.size(), seriesLen = Integer.MAX_VALUE;
         for (int i=0;i<len; ++i) {
+            if (datas.get(i).series == null) {
+                continue;
+            }
             seriesLen = Math.min(datas.get(i).series.size(), seriesLen);
         }
         ArrayList<HistoricalData.SeriesEntity> series = new ArrayList<>();
@@ -212,10 +215,12 @@ public class DataCenter {
             seriesLen = 400;
         }
         for (int i=0;i<seriesLen;++i) {
-
             double close = currentUser.availableFund;
             double open = currentUser.availableFund;
             for (int j=0;j<len; ++j) {
+                if (datas.get(j).series == null) {
+                    continue;
+                }
                 Stock investingStock = currentUser.investingStocksMap.get(datas.get(j).meta.ticker.toUpperCase());
                 if (investingStock!=null) {
                     int share = investingStock.share;
