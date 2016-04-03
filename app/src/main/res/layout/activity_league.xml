@@ -62,7 +62,7 @@
             android:layout_alignParentBottom="true"
 
             android:padding="5dp"
-            android:text="Sign Out"
+            android:text=""
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="12sp"

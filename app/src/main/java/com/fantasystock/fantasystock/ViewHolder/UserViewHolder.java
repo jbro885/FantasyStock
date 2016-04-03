@@ -55,15 +55,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         else {
             ivUserProfile.setImageResource(0);
             Utils.setupProfileImage(ivUserProfile, user.profileImageUrl);
-            ivUserProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, UserProfileActivity.class);
-                    intent.putExtra("userId", user.id);
-                    context.startActivity(intent);
-
-                }
-            });
         }
         // Mark the first place
         if(place == 1) {
@@ -82,6 +73,15 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
             Log.d("DEBUG", "false");
             rlItem.setBackgroundColor(Color.parseColor("#ffffff"));
         }
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserProfileActivity.class);
+                intent.putExtra("userId", user.id);
+                context.startActivity(intent);
+
+            }
+        });
     }
 
 }

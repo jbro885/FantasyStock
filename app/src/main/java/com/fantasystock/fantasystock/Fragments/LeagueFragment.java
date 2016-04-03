@@ -100,6 +100,7 @@ public class LeagueFragment extends Fragment {
                     addUsers.add(User.userMap.get(userIds.get(i)));
                 }
             }
+            addUsers.add(User.currentUser);
         }
         else {
             addUsers.addAll(AllUsers);
