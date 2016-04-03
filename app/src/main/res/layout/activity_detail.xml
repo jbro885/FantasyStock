@@ -39,7 +39,7 @@
         android:visibility="invisible"
         app:elevation="6dp"
         app:backgroundTint="@color/green"
-        app:pressedTranslationZx="12dp"
+        app:pressedTranslationZ="12dp"
         android:src="@drawable/ic_sell" />
 
     <android.support.design.widget.FloatingActionButton
