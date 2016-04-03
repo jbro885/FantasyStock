@@ -59,14 +59,12 @@ public class MainActivity extends AppCompatActivity {
     // Profolios section
     @Bind(R.id.tvTotal) TextView tvTotal;
     @Bind(R.id.tvChanges) TextView tvChanges;
-    @Bind(R.id.ivProfolioIconChart) ImageView ivProfolioIconChart;
-    @Bind(R.id.ivProfolioIconPie) ImageView ivProfolioIconPie;
+    @Bind(R.id.ivProfolioIcon) ImageView ivProfolioIcon;
     @Bind(R.id.flPortfolioChart) FrameLayout flPortfolioChart;
 
     // Watchlist section
     @Bind(R.id.tvTitleWatchlist) TextView tvTitleWatchlist;
-    @Bind(R.id.ivWatchlistIconList) ImageView ivWatchlistIconList;
-    @Bind(R.id.ivWatchlistIconGrid) ImageView ivWatchlistIconGrid;
+    @Bind(R.id.ivWatchlistIcon) ImageView ivWatchlistIcon;
     @Bind(R.id.flWatchListHolder) FrameLayout flWatchListHolder;
     @Bind(R.id.vWatchListHolder) RelativeLayout vWatchListHolder;
 
@@ -283,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             alpha = 1;
         }
 //        ivBackgroundBlurred.setAlpha(0.6f + alpha * 0.4f);
-        ivBackgroundBlurred.setAlpha(0.3f + 0.7f*alpha);
+        ivBackgroundBlurred.setAlpha(0.3f + 0.7f * alpha);
 //        ivToolbarBackgroundView.setAlpha(alpha);
     }
 
@@ -296,17 +294,13 @@ public class MainActivity extends AppCompatActivity {
         DataCenter.getInstance().setLastViewedStock(null);
     }
 
-    @OnClick(R.id.ivWatchlistIconList)
+    @OnClick(R.id.ivWatchlistIcon)
     public void onSetWatchlistViewTypeList() {
         if(WATCHLIST_TYPE == GRID_MODE) {
             WATCHLIST_TYPE = LIST_MODE;
             setWatchlist();
         }
-    }
-
-    @OnClick(R.id.ivWatchlistIconGrid)
-    public void onSetWatchlistViewTypeGrid() {
-        if(WATCHLIST_TYPE == LIST_MODE) {
+        else {
             WATCHLIST_TYPE = GRID_MODE;
             setWatchlist();
         }
@@ -325,8 +319,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
-                    ivWatchlistIconList.setAlpha((float) 1);
-                    ivWatchlistIconGrid.setAlpha((float) 0.5);
+                    ivWatchlistIcon.setBackground(getDrawable(R.drawable.ic_line_chart));
                 }
             }, completionCallBack);
         }
@@ -335,24 +328,19 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistChartFragment).commit();
-                    ivWatchlistIconList.setAlpha((float) 0.5);
-                    ivWatchlistIconGrid.setAlpha((float) 1);
+                    ivWatchlistIcon.setBackground(getDrawable(R.drawable.ic_list));
                 }
             }, completionCallBack);
         }
     }
 
-    @OnClick(R.id.ivProfolioIconChart)
+    @OnClick(R.id.ivProfolioIcon)
     public void onSetProfolioViewTypeChart() {
         if(PROFOLIOS_TYPE == PIE_MODE) {
             PROFOLIOS_TYPE = CHART_MODE;
             setProfoliosChart();
         }
-    }
-
-    @OnClick(R.id.ivProfolioIconPie)
-    public void onSetProfolioViewTypePie() {
-        if(PROFOLIOS_TYPE == CHART_MODE) {
+        else {
             PROFOLIOS_TYPE = PIE_MODE;
             setProfoliosChart();
         }
@@ -364,8 +352,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPeriodFragment).commit();
-                    ivProfolioIconChart.setAlpha((float) 1);
-                    ivProfolioIconPie.setAlpha((float) 0.5);
+                    ivProfolioIcon.setBackground(getDrawable(R.drawable.ic_pie_chart));
                 }
             });
         }
@@ -374,8 +361,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPieFragment).commit();
-                    ivProfolioIconChart.setAlpha((float) 0.5);
-                    ivProfolioIconPie.setAlpha((float) 1);
+                    ivProfolioIcon.setBackground(getDrawable(R.drawable.ic_line_chart));
                 }
             });
         }
