@@ -1,14 +1,14 @@
 package com.fantasystock.fantasystock.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Models.User;
@@ -59,7 +59,6 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingA
         if(!User.isLogin()) {
             startActivity(new Intent(getApplicationContext(), SignupActivity.class));
         } else {
-            Toast.makeText(this, "Welcome " + User.currentUser.username, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

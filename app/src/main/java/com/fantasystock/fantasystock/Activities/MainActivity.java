@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.DragEvent;
@@ -102,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        // Welcome message
+        Snackbar.make(scrollView, "Welcome " + User.currentUser.username, Snackbar.LENGTH_LONG).show();
 
         // Set portfolio Section
         PROFOLIOS_TYPE = CHART_MODE;

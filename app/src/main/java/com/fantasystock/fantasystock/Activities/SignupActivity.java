@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -132,12 +132,12 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), "You must login", Toast.LENGTH_LONG).show();
+                Snackbar.make(getCurrentFocus(), "You must login", Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), "Login failed, please try again", Toast.LENGTH_LONG).show();
+                Snackbar.make(getCurrentFocus(), "Login failed, please try again", Snackbar.LENGTH_LONG).show();
             }
         });
         this.onClickAvatar();

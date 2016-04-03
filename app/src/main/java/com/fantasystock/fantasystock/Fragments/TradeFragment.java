@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
@@ -115,7 +115,6 @@ public class TradeFragment extends DialogFragment {
         });
         etShares.setText("");
         etShares.requestFocus();
-        // TODO: input method is not default out :(
     }
 
 
@@ -169,7 +168,7 @@ public class TradeFragment extends DialogFragment {
             @Override
             public void done() {
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                Snackbar.make(getActivity().getCurrentFocus(), message, Snackbar.LENGTH_LONG).show();
                 onDismissTrading();
             }
         });
