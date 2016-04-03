@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     String changeString = Utils.doubleNumConverter(change);
                     changeString = (change > 0)? ("+" + changeString): changeString;
 
-                    tvChanges.setText(changeString + " ( " + Utils.percentageConverter(percentage) + " )");
+                    tvChanges.setText(changeString + " ( " + Utils.doubleNumConverter(percentage) + "% )");
                     if(change < 0) {
                         tvChanges.setTextColor(Color.RED);
                     }
