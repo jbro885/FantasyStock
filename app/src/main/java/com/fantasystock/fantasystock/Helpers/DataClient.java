@@ -88,8 +88,6 @@ public class DataClient {
     * */
 
     private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
-    private static final String googleFinanceStockQuery = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
-    private static final String ted7726QuoteURLBase = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote";
 
     public void getStocksPrices(ArrayList<Stock> stocks, CallBack callback) {
         String quotes = "";
@@ -111,7 +109,7 @@ public class DataClient {
 
     public void getStockPrice(String symbol, final CallBack callBack) {
         final String s = symbol;
-        client.get(googleFinanceStockQuery+symbol, new RequestParams(), stocksHandler(new CallBack(){
+        client.get(googleQuoteURL+symbol, new RequestParams(), stocksHandler(new CallBack(){
             @Override
             public void stocksCallBack(ArrayList<Stock> stocks) {
                 if (stocks.size()>0) {
