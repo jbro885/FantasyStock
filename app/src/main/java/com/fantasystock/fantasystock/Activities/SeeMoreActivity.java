@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.fantasystock.fantasystock.Fragments.CommentsFragment;
 import com.fantasystock.fantasystock.Fragments.CommentsFullPageFragment;
 import com.fantasystock.fantasystock.Fragments.TransactionsFragment;
 import com.fantasystock.fantasystock.R;
