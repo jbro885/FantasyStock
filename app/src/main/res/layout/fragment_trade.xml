@@ -110,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BUY/SELL"
+            android:textColor="@color/white"
             android:id="@+id/btnTrade"
             android:layout_below="@+id/tvEstimatedCost"
             android:layout_centerHorizontal="true"

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.fantasystock.fantasystock.Activities.LeagueActivity">
 
     <ImageView
@@ -70,6 +71,15 @@
             android:fontFamily="@string/font_sans_serif_regular"/>
         
     </RelativeLayout>
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/pgTabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@id/rlheader"
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"
+        app:pstsIndicatorColor="@color/colorPrimary"
+         />
     <android.support.v4.view.ViewPager
         android:id="@+id/vpViewPager"
         android:layout_width="match_parent"
