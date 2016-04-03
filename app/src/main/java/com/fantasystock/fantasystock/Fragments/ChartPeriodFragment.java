@@ -30,8 +30,6 @@ public class ChartPeriodFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         periodChartsView = new PeriodChartsView(view, getActivity());
-        periodChartsView.setStock("portfolios");
-
         return view;
     }
 
