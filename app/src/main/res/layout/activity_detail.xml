@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:layout_marginTop="-26dp"
     tools:context="com.fantasystock.fantasystock.Activities.DetailActivity">
 
     <RelativeLayout
@@ -38,7 +39,7 @@
         android:visibility="invisible"
         app:elevation="6dp"
         app:backgroundTint="@color/green"
-        app:pressedTranslationZ="12dp"
+        app:pressedTranslationZx="12dp"
         android:src="@drawable/ic_sell" />
 
     <android.support.design.widget.FloatingActionButton
