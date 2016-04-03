@@ -88,6 +88,8 @@ public class DataClient {
     * */
 
     private static final String ted7726QuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote?q=";
+    private static final String googleFinanceStockQuery = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
+    private static final String ted7726QuoteURLBase = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/quote";
 
     public void getStocksPrices(ArrayList<Stock> stocks, CallBack callback) {
         String quotes = "";
@@ -104,11 +106,12 @@ public class DataClient {
             quotes += stocks.get(i) + ",";
         }
 
-        client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
+        client.get(ted7726QuoteURL + quotes, new RequestParams(), stocksHandler(callback));
     }
 
     public void getStockPrice(String symbol, final CallBack callBack) {
-        client.get(ted7726QuoteURL+symbol, new RequestParams(), stocksHandler(new CallBack(){
+        final String s = symbol;
+        client.get(googleFinanceStockQuery+symbol, new RequestParams(), stocksHandler(new CallBack(){
             @Override
             public void stocksCallBack(ArrayList<Stock> stocks) {
                 if (stocks.size()>0) {
@@ -116,6 +119,12 @@ public class DataClient {
                 } else {
                     callBack.onFail("Return 0 stock");
                 }
+            }
+
+            @Override
+            public void onFail(String failureMessage) {
+                super.onFail(failureMessage);
+                Log.d("DEBUG", "getStockPrice failed for [" + s + "], message: " + failureMessage);
             }
         }));
     }
