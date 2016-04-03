@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
 
-    private static int PROFOLIOS_TYPE;
+    private static int PORTFOLIOS_TYPE;
     private static final int CHART_MODE = 0;
     private static final int PIE_MODE   = 1;
 
@@ -54,12 +54,11 @@ public class MainActivity extends AppCompatActivity {
     private ChartPieFragment chartPieFragment;
     private WatchlistFragment watchlistFragment;
     private WatchlistChartFragment watchlistChartFragment;
-    private NewsListFragment newsListFragment;
 
-    // Profolios section
+    // Portfolio section
     @Bind(R.id.tvTotal) TextView tvTotal;
     @Bind(R.id.tvChanges) TextView tvChanges;
-    @Bind(R.id.ivProfolioIcon) ImageView ivProfolioIcon;
+    @Bind(R.id.ivPortfolioIcon) ImageView ivPortfolioIcon;
     @Bind(R.id.flPortfolioChart) FrameLayout flPortfolioChart;
 
     // Watchlist section
@@ -106,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(scrollView, "Welcome " + User.currentUser.username, Snackbar.LENGTH_LONG).show();
 
         // Set portfolio Section
-        PROFOLIOS_TYPE = CHART_MODE;
+        PORTFOLIOS_TYPE = CHART_MODE;
         chartPeriodFragment = new ChartPeriodFragment();
         chartPieFragment = new ChartPieFragment();
-        setProfoliosChart();
+        setPortfoliosChart();
 
         // Set floating window section
         Display display = getWindowManager().getDefaultDisplay();
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         setWatchlist();
 
         // Set News Section
-        newsListFragment = NewsListFragment.newInstance(null, true);
+        NewsListFragment newsListFragment = NewsListFragment.newInstance(null, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.flNewsListHolder, newsListFragment).commit();
 
         // Set Toolbar header Section
@@ -334,25 +333,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.ivProfolioIcon)
-    public void onSetProfolioViewTypeChart() {
-        if(PROFOLIOS_TYPE == PIE_MODE) {
-            PROFOLIOS_TYPE = CHART_MODE;
-            setProfoliosChart();
+    @OnClick(R.id.ivPortfolioIcon)
+    public void onSetPortfolioViewTypeChart() {
+        if(PORTFOLIOS_TYPE == PIE_MODE) {
+            PORTFOLIOS_TYPE = CHART_MODE;
+            setPortfoliosChart();
         }
         else {
-            PROFOLIOS_TYPE = PIE_MODE;
-            setProfoliosChart();
+            PORTFOLIOS_TYPE = PIE_MODE;
+            setPortfoliosChart();
         }
     }
 
-    private void setProfoliosChart() {
-        if(PROFOLIOS_TYPE == CHART_MODE) {
+    private void setPortfoliosChart() {
+        if(PORTFOLIOS_TYPE == CHART_MODE) {
             Utils.fadeInAndOutAnimationGenerator(flPortfolioChart, new CallBack() {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPeriodFragment).commit();
-                    ivProfolioIcon.setBackground(getDrawable(R.drawable.ic_pie_chart));
+                    ivPortfolioIcon.setBackground(getDrawable(R.drawable.ic_pie_chart));
                 }
             });
         }
@@ -361,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void task() {
                     getSupportFragmentManager().beginTransaction().replace(R.id.flPortfolioChart, chartPieFragment).commit();
-                    ivProfolioIcon.setBackground(getDrawable(R.drawable.ic_line_chart));
+                    ivPortfolioIcon.setBackground(getDrawable(R.drawable.ic_line_chart));
                 }
             });
         }
