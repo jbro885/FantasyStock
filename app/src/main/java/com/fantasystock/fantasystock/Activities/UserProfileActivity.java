@@ -84,7 +84,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 handleScrolling(appBarLayout, verticalOffset);
             }
         });
-        watchlistFragment = WatchlistFragment.newInstance(userId);
+        watchlistFragment = WatchlistFragment.newInstance(userId, false);
         getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
         setUser(user);
 
@@ -128,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // setup View
         tvProfileName.setText(user.username);
         tvCoverTitleTitleBar.setText(user.username);
-        tvProfileUsername.setText("$"+Utils.moneyConverter(user.totalValue));
+        tvProfileUsername.setText(Utils.moneyConverter(user.totalValue));
 //        tvProfileDescription.setText(Util.checkStringEmpty(user.description));
         tvFollowingsCount.setText(user.followings.size()+"");
         tvStocksCount.setText(user.investingStocks.size()+"");

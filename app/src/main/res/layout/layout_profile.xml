@@ -14,35 +14,30 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Open"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="High"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Low"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="52W High"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="52W Low"
-            android:textColor="#99ffffff"
             />
     </LinearLayout>
     <LinearLayout
@@ -56,7 +51,7 @@
             android:id="@+id/tvOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -64,7 +59,7 @@
             android:id="@+id/tvHigh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -72,7 +67,7 @@
             android:id="@+id/tvLow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -80,7 +75,7 @@
             android:id="@+id/tv52High"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -88,7 +83,7 @@
             android:id="@+id/tv52Low"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -107,35 +102,30 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Volume"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Avg Volume"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="MarketCap"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="P/E"
-            android:textColor="#99ffffff"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Div/Yield"
-            android:textColor="#99ffffff"
             />
     </LinearLayout>
     <LinearLayout
@@ -148,7 +138,7 @@
             android:id="@+id/tvVolume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -156,7 +146,7 @@
             android:id="@+id/tvAvgVolume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -164,7 +154,7 @@
             android:id="@+id/tvMarketCap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -172,7 +162,7 @@
             android:id="@+id/tvPERatio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />
@@ -180,7 +170,7 @@
             android:id="@+id/tvDivYield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#111111"
             android:padding="5dp"
             android:gravity="end"
             />

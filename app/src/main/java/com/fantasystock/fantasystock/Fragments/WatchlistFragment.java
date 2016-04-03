@@ -37,6 +37,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     private ItemTouchHelper mItemTouchHelper;
     private User user;
     private String userId;
+    private boolean isDarkTheme;
 
     // constant
     private final int REFRESH_INTERVAL_MIN = 30;
@@ -54,10 +55,11 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
 
     @Bind(R.id.rvList) RecyclerView rvList;
 
-    public static WatchlistFragment newInstance(String userId) {
+    public static WatchlistFragment newInstance(String userId, boolean isDarkTheme) {
         WatchlistFragment fragment = new WatchlistFragment();
         Bundle args = new Bundle();
         args.putString("userId", userId);
+        args.putBoolean("isDarkTheme", isDarkTheme);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +69,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("userId");
+        isDarkTheme = getArguments().getBoolean("isDarkTheme");
         user = User.getUser(userId);
 
 
@@ -81,7 +84,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
         View view = inflater.inflate(R.layout.fragment_list_main, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new WatchlistAdapter(items, getActivity());
+        mAdapter = new WatchlistAdapter(items, getActivity(), isDarkTheme);
         mAdapter.setOnStartDragListener(this);
         rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvList.setAdapter(mAdapter);

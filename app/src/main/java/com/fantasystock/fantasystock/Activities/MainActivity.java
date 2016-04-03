@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set Watchlist Section
         WATCHLIST_TYPE = LIST_MODE;
-        watchlistFragment = WatchlistFragment.newInstance(User.currentUser.id);
+        watchlistFragment = WatchlistFragment.newInstance(User.currentUser.id, true);
         watchlistChartFragment = new WatchlistChartFragment();
         setWatchlist();
 

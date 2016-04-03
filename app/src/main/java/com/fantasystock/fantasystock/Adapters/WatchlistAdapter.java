@@ -32,6 +32,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<Object> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
+    private boolean isDarkTheme;
     private int STOCK_STATUS_FORMAT;
     private static final int REFRESH_WATCHLIST = 200;
 
@@ -50,8 +51,9 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.onStartDragListener = onStartDragListener;
     }
 
-    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity) {
+    public WatchlistAdapter(List<Object> items, FragmentActivity fragmentActivity, boolean isDarkTheme) {
         this.items = items;
+        this.isDarkTheme = isDarkTheme;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
         this.fragmentActivity = fragmentActivity;
     }
@@ -62,7 +64,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         convertView = inflater.inflate(R.layout.item_watchlist, parent, false);
-        viewHolder = new ViewHolderStock(convertView, fragmentActivity);
+        viewHolder = new ViewHolderStock(convertView, fragmentActivity, isDarkTheme);
         return viewHolder;
     }
 
@@ -90,10 +92,12 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.tvEquityValue) TextView tvEquityValue;
         @Bind(R.id.btnStatus) Button btnStatus;
 
-        public ViewHolderStock(View itemView, FragmentActivity fragmentActivity) {
+        public ViewHolderStock(View itemView, FragmentActivity fragmentActivity, boolean isDarkTheme) {
             super(itemView);
             this.fragmentActivity = fragmentActivity;
             ButterKnife.bind(this, itemView);
+            tvSymbol.setTextColor((isDarkTheme) ? Color.WHITE : Color.BLACK);
+            tvShare.setTextColor((isDarkTheme) ? Color.WHITE : Color.BLACK);
         }
 
         @Override

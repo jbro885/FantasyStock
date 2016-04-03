@@ -46,7 +46,7 @@ public class User {
 
     public ParseUser user;
 
-    private static HashMap<String, User> userMap;
+    private static HashMap<String, User> userMap = new HashMap<>();
 
     public User(ParseUser user) {
         this.user = user;

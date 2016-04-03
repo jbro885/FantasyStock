@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity {
-    @Bind(R.id.mRlContainer) RelativeLayout mRlContainer;
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
     private ArrayList<String> stocks;
     private DetailsPagerAdapter detailsPagerAdapter;
