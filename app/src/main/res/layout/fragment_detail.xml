@@ -160,18 +160,12 @@
         android:id="@+id/rlDetailMenu"
         android:layout_width="match_parent"
         android:layout_height="60dp">
-        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        <View
             android:id="@+id/ivToolbarBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:siShape="@drawable/mask"
-            android:src="@drawable/onboard1_blurred_head"
+            android:background="#3498db"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#22000000"/>
-
 
         <TextView
             android:id="@+id/tvMenuName"
