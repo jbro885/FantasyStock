@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,6 +140,13 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
             DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
                 @Override
                 public void stocksCallBack(ArrayList<Stock> returnedSocks) {
+                    organizeData();
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFail(String failureMessage) {
+                    Log.e("ERROR", "getStocksPrice::onFail:" + failureMessage);
                     organizeData();
                     mAdapter.notifyDataSetChanged();
                 }

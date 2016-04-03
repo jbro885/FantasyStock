@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import com.fantasystock.fantasystock.Adapters.DetailsPagerAdapter;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity {
+    @Bind(R.id.mRlContainer) RelativeLayout mRlContainer;
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
     private ArrayList<String> stocks;
     private DetailsPagerAdapter detailsPagerAdapter;
@@ -38,6 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
 
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();

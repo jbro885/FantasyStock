@@ -201,6 +201,7 @@ public class ChartView extends RecyclerView.ViewHolder {
 
             @Override
             public void onFail(String failureMessage) {
+                Log.e("ERROR", "Failed fetch history price for [" + stock.symbol + "], error:" + failureMessage);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         };
