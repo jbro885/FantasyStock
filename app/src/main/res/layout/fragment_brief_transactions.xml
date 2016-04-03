@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="History"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:layout_marginTop="20dp"
@@ -20,7 +20,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/tvTitle"
         android:padding="5dp"
-        android:background="#99ffffff"/>
+        android:background="@color/colorPrimaryDark"/>
     <TextView
         android:id="@+id/tvLoading"
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rvList"
         android:text="See More Transactions"
-        android:textColor="@color/white"
+        android:textColor="@color/darkBlue"
         android:textAllCaps="false"
         android:background="@color/transparent"
         android:elevation="10dp"

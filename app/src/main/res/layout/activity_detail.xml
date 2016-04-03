@@ -19,7 +19,7 @@
             android:id="@+id/vpViewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </RelativeLayout>
+    </RelativeLayout>\
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabSell"
@@ -44,7 +44,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/fab_margin"
         android:visibility="invisible"
-        app:backgroundTint="@color/darkBlue"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/ic_buy" />
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:elevation="6dp"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/darkBlue"
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_dollar_sign" />
