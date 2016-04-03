@@ -34,10 +34,8 @@ import butterknife.OnTextChanged;
 
 public class TradeFragment extends DialogFragment {
 
-    @Bind(R.id.btnTrade)
-    Button btnTrade;
-    @Bind(R.id.tvSymbol)
-    TextView tvSymbol;
+    @Bind(R.id.btnTrade) Button btnTrade;
+    @Bind(R.id.tvSymbol) TextView tvSymbol;
     @Bind(R.id.tvUnitPrice) TextView tvUnitPrice;
     @Bind(R.id.tvTotalCost) TextView tvTotalCost;
     @Bind(R.id.tvAvailableFund) TextView tvAvailableFund;
@@ -97,7 +95,10 @@ public class TradeFragment extends DialogFragment {
 
         tvEstimatedCost.setText("Estimated "+(isBuy?"Cost":"Gain"));
 
-        btnTrade.setText(isBuy?"Buy":"Sell");
+        btnTrade.setText(isBuy ? "Buy" : "Sell");
+        int colorBuy = getResources().getColor(R.color.darkBlue);
+        int colorSell = getResources().getColor(R.color.green);
+        btnTrade.setBackgroundColor(isBuy? colorBuy : colorSell);
 
         formatter = new DecimalFormat("$###,##0.00");
 

@@ -113,6 +113,7 @@
             android:id="@+id/btnTrade"
             android:layout_below="@+id/tvEstimatedCost"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_circle"
             android:layout_marginTop="27dp"/>
 
 
