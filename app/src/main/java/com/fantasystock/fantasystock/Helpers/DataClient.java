@@ -109,7 +109,7 @@ public class DataClient {
 
     public void getStockPrice(String symbol, final CallBack callBack) {
         final String s = symbol;
-        client.get(googleQuoteURL+symbol, new RequestParams(), stocksHandler(new CallBack(){
+        client.get(googleQuoteURL+Utils.symbolToGoogle(symbol), new RequestParams(), stocksHandler(new CallBack(){
             @Override
             public void stocksCallBack(ArrayList<Stock> stocks) {
                 if (stocks.size()>0) {
@@ -179,7 +179,7 @@ public class DataClient {
     private static String yahooHistoricalQuoteParam = "/chartdata;type=quote;range=";
     private static final String ted7726QuoteHistoricalURL = "http://ted7726finance-wilsonsu.rhcloud.com/fantasy/historical";
     public void getHistoricalPrices(String quote, String period, CallBack callback) {
-        RequestParams params = new RequestParams("q", quote);
+        RequestParams params = new RequestParams("q", Utils.symbolToYahoo(quote));
         params.put("p", period);
         String cacheKey = "historicalCahce" + quote + period;
         if (historicalCache.containsKey(cacheKey)) {
@@ -275,7 +275,8 @@ public class DataClient {
      */
     private static String ted7726ProfileQuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/profile?q=";
     public void getQuoteProfile(String symbol, CallBack callBack) {
-        client.get(ted7726ProfileQuoteURL+symbol,null, profileQuoteHandler(callBack));
+        Log.d("zhuqi-getQuoteProfile", symbol);
+        client.get(ted7726ProfileQuoteURL+Utils.symbolToYahoo(symbol),null, profileQuoteHandler(callBack));
     }
     private JsonHttpResponseHandler profileQuoteHandler(final CallBack callBack) {
         return new JsonHttpResponseHandler() {
