@@ -275,7 +275,6 @@ public class DataClient {
      */
     private static String ted7726ProfileQuoteURL = "http://ted7726finance-wilsonsu.rhcloud.com/profile?q=";
     public void getQuoteProfile(String symbol, CallBack callBack) {
-        Log.d("zhuqi-getQuoteProfile", symbol);
         client.get(ted7726ProfileQuoteURL+Utils.symbolToYahoo(symbol),null, profileQuoteHandler(callBack));
     }
     private JsonHttpResponseHandler profileQuoteHandler(final CallBack callBack) {
