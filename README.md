@@ -76,7 +76,7 @@ Comments
 <img src='rec.comments.gif' title='Video Walkthrough: Comments' width='' alt='Video Walkthrough: Comments' />
 
 League
-<img src='rec.rec.league.gif' title='Video Walkthrough: Comments' width='' alt='Video Walkthrough: Leagues' />
+<img src='rec.league.gif' title='Video Walkthrough: Comments' width='' alt='Video Walkthrough: Leagues' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
