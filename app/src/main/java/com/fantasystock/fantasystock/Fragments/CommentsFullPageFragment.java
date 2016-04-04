@@ -45,14 +45,17 @@ public class CommentsFullPageFragment extends CommentsFragment{
 
     @OnClick(R.id.btnSend)
     public void onSend() {
-        Comment.addComment(etCommentText.getText().toString(), symbol, new CallBack() {
-            @Override
-            public void commentCallBack(Comment comment) {
-                comments.add(0, comment);
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemInserted(0);
-                etCommentText.setText("");
-            }
-        });
+        String text = etCommentText.getText().toString();
+        if(!text.isEmpty()) {
+            Comment.addComment(text, symbol, new CallBack() {
+                @Override
+                public void commentCallBack(Comment comment) {
+                    comments.add(0, comment);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemInserted(0);
+                    etCommentText.setText("");
+                }
+            });
+        }
     }
 }
