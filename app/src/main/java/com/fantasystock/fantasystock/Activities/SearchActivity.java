@@ -179,7 +179,7 @@ public class SearchActivity extends AppCompatActivity {
             if (isFavorited) {
                 DataCenter.getInstance().unfavoriteStock(stock);
             } else {
-                DataCenter.getInstance().favoriteStock(stock);
+                DataCenter.getInstance().favoriteStock(stock.symbol);
             }
             reloadFavorite();
         }

@@ -104,6 +104,16 @@ public class DataCenter {
         currentUser.watchlist.add(stock.symbol);
         currentUser.updateUser(null);
     }
+
+    public void favoriteStock(String symbol) {
+        if (currentUser.watchlist.contains(symbol)) {
+            return;
+        }
+        currentUser.watchlistSet.add(symbol);
+        currentUser.watchlist.add(symbol);
+        currentUser.updateUser(null);
+    }
+
     public void unfavoriteStock(Stock stock) {
         if (!currentUser.watchlistSet.contains(stock.symbol)) {
             return;
@@ -157,7 +167,7 @@ public class DataCenter {
             if (!currentUser.investingStocksMap.containsKey(stock.symbol)) {
                 currentUser.investingStocks.add(stock);
             }
-            favoriteStock(stock);
+            favoriteStock(stock.symbol);
             currentUser.investingStocksMap.put(stock.symbol, stock);
         } else {
             currentUser.investingStocksMap.remove(stock.symbol);
