@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:text="Global League"
                 android:gravity="center"
                 android:fontFamily="@string/font_sans_serif_light"/>
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:textColor="#bbffffff"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:text="Followings"
                 android:gravity="center"
                 android:fontFamily="@string/font_sans_serif_light"/>
