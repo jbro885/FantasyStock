@@ -86,7 +86,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         } else {
             rlItem.setBackgroundColor(Color.WHITE);
             tvName.setTextColor(Color.BLACK);
-            tvRank.setTextColor(Color.BLACK);
+            tvRank.setTextColor(ContextCompat.getColor(context, R.color.darkBlue));
             tvPortfolio.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
 
