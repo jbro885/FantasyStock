@@ -78,4 +78,9 @@ dependencies {
     // mask view
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 
+    // dialogFragment blur background
+    compile 'fr.tvbarthel.blurdialogfragment:lib:2.1.5'
+
+
+
 }

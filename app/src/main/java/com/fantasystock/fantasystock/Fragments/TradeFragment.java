@@ -29,12 +29,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
 
 /**
  * Created by wilsonsu on 3/22/16.
  */
 
-public class TradeFragment extends DialogFragment {
+public class TradeFragment extends SupportBlurDialogFragment {
     private int colorBuy;
     private int colorSell;
 
@@ -194,5 +195,13 @@ public class TradeFragment extends DialogFragment {
         TradeFragmentListener listener = (TradeFragmentListener) getTargetFragment();
         listener.onFinishTrading();
         dismiss();
+    }
+
+    // customized blurring effect
+
+    @Override
+    protected int getBlurRadius() {
+        // Allow to customize the blur radius factor.
+        return 20;
     }
 }
