@@ -30,12 +30,14 @@ public class User {
     private final static String USER_AVAILABLE_FUND = "user_available_fund";
     private final static String USER_TOTAL_VALUE = "user_total_value";
     private final static String USER_FOLLOWINGS = "user_followings";
+    private final static String USER_DESCRIPTION = "user_description";
     public final static String USER_PROFILE_IMAGE_URL = "user_profile_image_url";
 
     public String id;
     public String profileImageUrl;
     public String profileCoverPhotoUrl;
     public String username;
+    public String description;
     public double availableFund;
     public double totalValue;
     public HashSet<String> watchlistSet;
@@ -56,11 +58,13 @@ public class User {
             Gson gson = new Gson();
             watchlist = gson.fromJson(user.getString(USER_WATCH_LIST), listType);
             followings = gson.fromJson(user.getString(USER_FOLLOWINGS), listType);
+
             final Type stockListType = new TypeToken<ArrayList<Stock>>() {}.getType();
             investingStocks = gson.fromJson(user.getString(USER_INVESTING_STOCKS), stockListType);
             availableFund = user.getDouble(USER_AVAILABLE_FUND);
             totalValue = user.getDouble(USER_TOTAL_VALUE);
             username = user.getUsername();
+            description = user.getString(USER_DESCRIPTION);
             profileImageUrl = user.getString(USER_PROFILE_IMAGE_URL);
             id = user.getObjectId();
         }
@@ -69,6 +73,7 @@ public class User {
         if (watchlist==null) watchlist = new ArrayList<>();
         if (investingStocks==null) investingStocks = new ArrayList<>();
         if (investingStocksMap==null) investingStocksMap = new HashMap<>();
+        if (description == null) description = "";
         if (followings==null) followings= new ArrayList<>();
         if (availableFund == 0) availableFund = 1000000;
         if (totalValue == 0) totalValue = availableFund;
@@ -100,6 +105,7 @@ public class User {
             user.put(USER_INVESTING_STOCKS, gson.toJsonTree(investingStocks).toString());
             user.put(USER_FOLLOWINGS, gson.toJsonTree(followings).toString());
             user.put(USER_PROFILE_IMAGE_URL, profileImageUrl);
+            user.put(USER_DESCRIPTION, description);
             if (callBack==null) {
                 user.saveInBackground();
                 return;
@@ -114,6 +120,11 @@ public class User {
                 }
             });
         }
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+        updateUser(null);
     }
 
     @Override
@@ -155,13 +166,13 @@ public class User {
         query.whereContains("username", username);
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> results, ParseException e) {
-                if (e!=null) {
+                if (e != null) {
                     callBack.onFail(e.toString());
                     return;
                 }
                 int len = results.size();
                 ArrayList<User> users = new ArrayList<User>();
-                for (int i=0;i<len;++i) {
+                for (int i = 0; i < len; ++i) {
                     User user = new User(results.get(i));
                     users.add(user);
                     userMap.put(user.id, user);
@@ -177,7 +188,7 @@ public class User {
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser object, ParseException e) {
-                if (e!=null) {
+                if (e != null) {
                     callBack.onFail(e.toString());
                     return;
                 }

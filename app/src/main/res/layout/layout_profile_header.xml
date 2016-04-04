@@ -88,7 +88,22 @@
         android:textColor="#112233"
         android:fontFamily="@string/font_sans_serif_regular"
         />
-
+    <EditText
+        android:id="@+id/etProfileDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvProfileUsername"
+        android:layout_alignLeft="@id/ivUserProfile"
+        android:transitionName="TweetProfile"
+        android:padding="2dp"
+        android:text="Sharing things I''m learning through my foundation work and other interests..."
+        android:textSize="14sp"
+        android:textColor="#112233"
+        android:fontFamily="@string/font_sans_serif_regular"
+        android:background="#90909090"
+        android:backgroundTint="@color/transparent"
+        android:foregroundTint="@color/transparent"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"

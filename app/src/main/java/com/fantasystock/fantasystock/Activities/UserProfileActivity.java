@@ -5,8 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,8 +36,8 @@ public class UserProfileActivity extends AppCompatActivity {
     @Bind(R.id.ivCoverPhotoTitleBar) ImageView ivCoverPhotoTitleBar;
     @Bind(R.id.ivCoverBlurredPhotoTitleBar) ImageView ivCoverBlurredPhotoTitleBar;
     @Bind(R.id.ivUserProfile) ImageView ivUserProfile;
-    @Bind(R.id.tvProfileDescription)
-    TextView tvProfileDescription;
+    @Bind(R.id.tvProfileDescription) TextView tvProfileDescription;
+    @Bind(R.id.etProfileDescription) EditText etProfileDescription;
     @Bind(R.id.tvProfileName) TextView tvProfileName;
     @Bind(R.id.tvProfileUsername) TextView tvProfileUsername;
     @Bind(R.id.ablProfileAppBar)
@@ -122,7 +127,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    private void setUser(User user) {
+    private void setUser(final User user) {
         this.user = user;
         if (user == null) return;
         // setup View
@@ -130,14 +135,32 @@ public class UserProfileActivity extends AppCompatActivity {
         tvCoverTitleTitleBar.setText(user.username);
         tvProfileUsername.setText(Utils.moneyConverter(user.totalValue));
         tvCoverScreenTextTitleBar.setText(Utils.moneyConverter(user.totalValue));
-//        tvProfileDescription.setText(Util.checkStringEmpty(user.description));
+        tvProfileDescription.setText(user.description);
         tvFollowingsCount.setText(user.followings.size()+"");
         tvStocksCount.setText(user.investingStocks.size()+"");
         if (User.currentUser.id != user.id) {
             boolean following = (User.currentUser.followings.contains(user.id));
             followButton.setImageResource(following?R.drawable.ic_following:R.drawable.ic_follow);
+            etProfileDescription.setVisibility(View.INVISIBLE);
         } else {
             followButton.setVisibility(View.INVISIBLE);
+            etProfileDescription.setText(user.description);
+            etProfileDescription.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    tvProfileDescription.setText(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    user.setDescription(s.toString());
+                }
+            });
+            etProfileDescription.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(user.profileCoverPhotoUrl)) {
             ivCoverBlurredPhoto.setAlpha(0.0f);
