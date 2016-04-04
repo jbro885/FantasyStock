@@ -29,57 +29,34 @@
         android:layout_alignBottom="@+id/ivLeagueCoverPhoto"
         android:background="@drawable/fade_dim_gradient"
         >
-        <TextView
-            android:id="@+id/tvLeagueName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tvLeagueMemberNumber"
-            android:layout_marginLeft="10dp"
-            android:text="My League"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:fontFamily="@string/font_sans_serif_thin"
 
-            android:padding="3dp"
-            />
-        <TextView
-            android:id="@+id/tvLeagueMemberNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="#c0c0c0"
-            android:textSize="14sp"
-            android:fontFamily="@string/font_sans_serif_regular"
-            android:padding="5dp"
-            />
 
-        <TextView
-            android:id="@+id/tvSignout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-
-            android:padding="5dp"
-            android:text=""
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:drawableRight="@drawable/ic_logout"
-            android:fontFamily="@string/font_sans_serif_regular"/>
         
     </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tvSignout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/pgTabs"
+
+        android:gravity="center"
+        android:drawableRight="@drawable/ic_logout"/>
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/pgTabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignBottom="@id/rlheader"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@string/font_sans_serif_thin"
+        app:pstsDividerColor="@color/transparent"
         app:pstsShouldExpand="true"
-        app:pstsTextAllCaps="true"
-        app:pstsIndicatorColor="@color/colorPrimary"
-         />
+        app:pstsTextAllCaps="false"
+        app:pstsIndicatorColor="@color/white" />
     <android.support.v4.view.ViewPager
         android:id="@+id/vpViewPager"
         android:layout_width="match_parent"

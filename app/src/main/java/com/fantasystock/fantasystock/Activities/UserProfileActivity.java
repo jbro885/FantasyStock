@@ -129,6 +129,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvProfileName.setText(user.username);
         tvCoverTitleTitleBar.setText(user.username);
         tvProfileUsername.setText(Utils.moneyConverter(user.totalValue));
+        tvCoverScreenTextTitleBar.setText(Utils.moneyConverter(user.totalValue));
 //        tvProfileDescription.setText(Util.checkStringEmpty(user.description));
         tvFollowingsCount.setText(user.followings.size()+"");
         tvStocksCount.setText(user.investingStocks.size()+"");

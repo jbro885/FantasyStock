@@ -34,8 +34,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LeagueActivity extends AppCompatActivity implements EditLeagueFragment.EditLeagueDialogListener {
-    @Bind(R.id.tvLeagueMemberNumber) TextView tvLeagueMemberNumber;
-    @Bind(R.id.tvLeagueName) TextView tvLeagueName;
     @Bind(R.id.vpViewPager) ViewPager vpViewPager;
     @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
     ArrayList<User> rank;
@@ -47,9 +45,9 @@ public class LeagueActivity extends AppCompatActivity implements EditLeagueFragm
         setContentView(R.layout.activity_league);
         ButterKnife.bind(this);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        tvLeagueName.setText("Global League");
         vpViewPager.setAdapter(new LeaguePagerAdapter(getSupportFragmentManager()));
         pgSlidingTab.setViewPager(vpViewPager);
+
     }
 
 
@@ -66,13 +64,14 @@ public class LeagueActivity extends AppCompatActivity implements EditLeagueFragm
     }
     private static class LeaguePagerAdapter extends FragmentPagerAdapter {
 
+
         public LeaguePagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return LeagueFragment.newInstance(position==0);
+            return LeagueFragment.newInstance(isGlobal(position));
         }
 
         @Override
@@ -82,7 +81,11 @@ public class LeagueActivity extends AppCompatActivity implements EditLeagueFragm
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "";
+            return isGlobal(position)?"Global League":"Followings";
+        }
+
+        private boolean isGlobal(int position) {
+            return (position==0);
         }
     }
 
