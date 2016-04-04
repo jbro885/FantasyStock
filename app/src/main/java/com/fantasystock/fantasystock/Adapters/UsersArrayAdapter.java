@@ -35,11 +35,13 @@ public class UsersArrayAdapter extends RecyclerView.Adapter<UserViewHolder> {
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.setUser(rank.get(position), position + 1);
-        
+
     }
 
     @Override
     public int getItemCount() {
         return rank.size();
     }
+
+
 }

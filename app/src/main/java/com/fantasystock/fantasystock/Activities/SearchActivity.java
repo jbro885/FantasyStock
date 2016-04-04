@@ -37,6 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     private SearchQuoteArrayAdapter adapter;
     @Bind(R.id.rvList) RecyclerView rvList;
     @Bind(R.id.etSearchQuote) EditText etSearchQuote;
+    @Bind(R.id.ibSearchButton) ImageButton ibSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class SearchActivity extends AppCompatActivity {
         client = DataClient.getInstance();
         stocks = DataCenter.getInstance().allFavoritedStocks();
         adapter = new SearchQuoteArrayAdapter(stocks, this);
+        ibSearchButton.setColorFilter(Color.WHITE);
         etSearchQuote.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

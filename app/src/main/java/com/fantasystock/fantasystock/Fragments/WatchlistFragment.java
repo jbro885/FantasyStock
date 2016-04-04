@@ -140,7 +140,9 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     }
 
     public void refreshWatchlist() {
-        mAdapter.clear();
+        if (mAdapter!=null) {
+            mAdapter.clear();
+        }
         if (user != null) {
             DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
                 @Override
