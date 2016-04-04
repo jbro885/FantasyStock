@@ -6,11 +6,17 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -102,10 +108,20 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Welcome message
-        Snackbar snackbar = Snackbar.make(scrollView, "Welcome back, " + User.currentUser.username, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(scrollView, " Welcome back!  " + User.currentUser.username, Snackbar.LENGTH_LONG);
+
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(getResources().getColor(R.color.green));
+        int resourceId = getApplicationContext().getResources().getIdentifier(User.currentUser.profileImageUrl, "drawable", getApplication().getPackageName());
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), resourceId, null);
+        drawable.setBounds(0, 0, (int) (drawable.getIntrinsicWidth() * 0.5), (int) (drawable.getIntrinsicHeight() * 0.5));
+        textView.setCompoundDrawables(drawable, null, null, null);
+        textView.setCompoundDrawablePadding(5);
+        textView.setGravity(Gravity.CENTER_VERTICAL);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(16);
+        sbView.setBackgroundColor(Color.parseColor("#aa057499"));
+
         snackbar.show();
 
         // Set portfolio Section
@@ -325,8 +341,7 @@ public class MainActivity extends AppCompatActivity {
                     ivWatchlistIcon.setBackground(getDrawable(R.drawable.ic_line_chart));
                 }
             }, completionCallBack);
-        }
-        else {
+        } else {
             Utils.fadeInAndOutAnimationGenerator(flWatchListHolder, new CallBack() {
                 @Override
                 public void task() {

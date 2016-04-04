@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Models.Comment;
@@ -22,7 +23,8 @@ import butterknife.OnClick;
  */
 public class CommentsFullPageFragment extends CommentsFragment{
     @Bind(R.id.etCommentText) EditText etCommentText;
-    @Bind(R.id.btnSend) Button btnSend;
+    @Bind(R.id.btnSend)
+    ImageButton btnSend;
 
     public static CommentsFullPageFragment newInstance(String symbol) {
         CommentsFullPageFragment fragment = new CommentsFullPageFragment();

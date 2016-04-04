@@ -1,11 +1,13 @@
 package com.fantasystock.fantasystock.Fragments;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,13 +167,13 @@ public class TradeFragment extends SupportBlurDialogFragment {
                 tvWarning.setText("Not enough funds to buy.");
                 return;
             }
-            tradingMessage = "Bought " + numShares + " shares of " + symbol + " for " + formatter.format(cost);
+            tradingMessage = " Bought " + numShares + " shares of " + symbol + " for " + formatter.format(cost);
         } else {
             if (stock.share < numShares) {
                 tvWarning.setText("Not enough shares to sell.");
                 return;
             }
-            tradingMessage =  "Sold " + numShares + " shares of " + symbol + " for " + formatter.format(cost);
+            tradingMessage =  " Sold " + numShares + " shares of " + symbol + " for " + formatter.format(cost);
         }
         final String message = tradingMessage;
         if (!isBuy) numShares = -numShares;
@@ -184,7 +186,11 @@ public class TradeFragment extends SupportBlurDialogFragment {
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 int colorSnackbar = (isBuy)? colorBuy : colorSell;
-                textView.setTextColor(colorSnackbar);
+                sbView.setBackgroundColor(colorSnackbar);
+                textView.setTextColor(Color.WHITE);
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_money, 0, 0, 0);
+                textView.setCompoundDrawablePadding(3);
+                textView.setGravity(Gravity.CENTER_VERTICAL);
                 snackbar.show();
                 onDismissTrading();
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -64,24 +65,31 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
             ibChampion.setAlpha((float) 0.0);
         }
         // Mark current user
-        Log.d("DEBUG", user.username);
-        if(user.username.equals(User.currentUser.username)) {
-            Log.d("DEBUG", "true");
-            rlItem.setBackgroundColor(Color.parseColor("#FFB7DAD9"));
-        }
-        else {
-            Log.d("DEBUG", "false");
-            rlItem.setBackgroundColor(Color.parseColor("#ffffff"));
-        }
+        setItemTheme(user.id.equals(User.currentUser.id));
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserProfileActivity.class);
                 intent.putExtra("userId", user.id);
                 context.startActivity(intent);
-
             }
         });
+    }
+
+    private void setItemTheme(boolean isDarkTheme) {
+        if (isDarkTheme) {
+            rlItem.setBackgroundColor(ContextCompat.getColor(context, R.color.darkBlue));
+            tvName.setTextColor(Color.WHITE);
+            tvRank.setTextColor(Color.WHITE);
+            tvPortfolio.setTextColor(Color.LTGRAY);
+        } else {
+            rlItem.setBackgroundColor(Color.WHITE);
+            tvName.setTextColor(Color.BLACK);
+            tvRank.setTextColor(Color.BLACK);
+            tvPortfolio.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        }
+
     }
 
 }
