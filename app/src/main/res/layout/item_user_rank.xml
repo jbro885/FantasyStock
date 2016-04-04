@@ -42,13 +42,13 @@
             android:fontFamily="@string/font_sans_serif_medium" />
         <TextView
             android:id="@+id/tvRank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="2dp"
             android:text="1"
             android:textSize="24sp"
             android:textColor="@color/darkBlue"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:fontFamily="@string/font_sans_serif_regular"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -69,15 +69,14 @@
 
         <ImageButton
             android:id="@+id/ibChampion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_champion"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignRight="@+id/tvRank"
+            android:src="@drawable/cup"
+            android:scaleType="centerCrop"
             android:background="@color/transparent"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tvRank"
-            android:layout_toStartOf="@+id/tvRank"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" />
+             />
 
     </RelativeLayout>
 
