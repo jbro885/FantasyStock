@@ -2,9 +2,9 @@ package com.fantasystock.fantasystock.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.fantasystock.fantasystock.Fragments.WatchlistFragment;
+import com.fantasystock.fantasystock.Fragments.WatchlistProfileFragment;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
@@ -48,7 +48,7 @@ public class UserProfileActivity extends AppCompatActivity {
     @Bind(R.id.rlDim) RelativeLayout rlDim;
     @Bind(R.id.ibFollowButton) ImageButton followButton;
 
-    private WatchlistFragment watchlistFragment;
+    private WatchlistProfileFragment watchlistProfileFragment;
     private User user;
     private float userProfileOriginY;
 
@@ -84,8 +84,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 handleScrolling(appBarLayout, verticalOffset);
             }
         });
-        watchlistFragment = WatchlistFragment.newInstance(userId, false);
-        getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistFragment).commit();
+        watchlistProfileFragment = WatchlistProfileFragment.newInstance(userId, false);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flWatchListHolder, watchlistProfileFragment).commit();
         setUser(user);
 
     }
