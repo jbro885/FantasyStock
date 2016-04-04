@@ -39,8 +39,6 @@ public class LeagueActivity extends AppCompatActivity implements EditLeagueFragm
     @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
     @Bind(R.id.tvGlobal) TextView tvGlobal;
     @Bind(R.id.tvFollowings) TextView tvFollowings;
-    ArrayList<User> rank;
-    UsersArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +70,6 @@ public class LeagueActivity extends AppCompatActivity implements EditLeagueFragm
 
             }
         });
-
-
 
     }
 

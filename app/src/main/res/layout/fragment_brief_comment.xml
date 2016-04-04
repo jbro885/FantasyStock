@@ -18,22 +18,25 @@
         android:id="@+id/rvList"/>
     <Button
         android:id="@+id/btnLeaveComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
         android:layout_below="@+id/rvList"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
         android:text="See All Comments"
         android:textAllCaps="false"
-        android:textColor="@color/darkBlue"
-        android:background="@color/transparent"
-        android:elevation="10dp"
+        android:textColor="@color/white"
+        android:fontFamily="@string/font_sans_serif_regular"
+        android:background="@drawable/btn_send_background"
         />
 
     <include layout="@layout/layout_loading_spinner"
         android:id="@+id/prLoadingSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/tvLoading"
+        android:layout_alignTop="@+id/rvList"
+        android:layout_alignBottom="@+id/rvList"
         />
 
 </RelativeLayout>

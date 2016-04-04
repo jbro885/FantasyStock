@@ -40,14 +40,17 @@
         android:padding="5dp" />
     <Button
         android:id="@+id/btnMoreTransactions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
         android:layout_below="@+id/rvList"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
         android:text="See More Transactions"
-        android:textColor="@color/darkBlue"
         android:textAllCaps="false"
-        android:background="@color/transparent"
-        android:elevation="10dp"
+        android:textColor="@color/white"
+        android:fontFamily="@string/font_sans_serif_regular"
+        android:background="@drawable/btn_send_background"
         />
 
 
@@ -55,7 +58,7 @@
         android:id="@+id/prLoadingSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvLoading"
-        android:layout_alignBottom="@+id/tvLoading"
+        android:layout_alignTop="@+id/rvList"
+        android:layout_alignBottom="@+id/rvList"
         />
 </RelativeLayout>

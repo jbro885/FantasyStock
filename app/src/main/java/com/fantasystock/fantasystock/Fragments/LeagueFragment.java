@@ -11,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.fantasystock.fantasystock.Adapters.NewsListAdapter;
 import com.fantasystock.fantasystock.Adapters.UsersArrayAdapter;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
+import com.fantasystock.fantasystock.ViewHolder.UserViewHolder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +34,12 @@ public class LeagueFragment extends Fragment {
     private ArrayList<User> users;
     private UsersArrayAdapter adapter;
 
+    @Bind(R.id.vhCurrentUser) View vhCurrentUser;
+    @Bind(R.id.rlCurrentUser) RelativeLayout rlCurrentUser;
+    private UserViewHolder userViewHolder;
+    private LinearLayoutManager linearLayoutManager;
+    private int currentUserPosition;
+
     public static LeagueFragment newInstance(boolean isGlobal) {
         LeagueFragment fragment = new LeagueFragment();
         Bundle args = new Bundle();
@@ -42,8 +47,6 @@ public class LeagueFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,16 +56,46 @@ public class LeagueFragment extends Fragment {
         }
         users = new ArrayList<>();
         adapter = new UsersArrayAdapter(users, getContext());
+        currentUserPosition = -1;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
         ButterKnife.bind(this, view);
+
         rvList.setAdapter(adapter);
-        rvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvList.setLayoutManager(linearLayoutManager);
+        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (currentUserPosition==-1) {
+                    rlCurrentUser.setVisibility(View.INVISIBLE);
+                    return;
+                }
+                if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > currentUserPosition) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rlCurrentUser.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    rlCurrentUser.setLayoutParams(params);
+                    rlCurrentUser.setVisibility(View.VISIBLE);
+                } else if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < currentUserPosition) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rlCurrentUser.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    rlCurrentUser.setLayoutParams(params);
+                    rlCurrentUser.setVisibility(View.VISIBLE);
+                } else {
+                    rlCurrentUser.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
         prLoadingSpinner.setVisibility(View.INVISIBLE);
+        userViewHolder = new UserViewHolder(vhCurrentUser, getContext());
+
         return view;
     }
 
@@ -113,9 +146,20 @@ public class LeagueFragment extends Fragment {
                 return u1.totalValue < u2.totalValue ? 1 : -1;
             }
         });
+
+
         users.clear();
         users.addAll(addUsers);
         adapter.notifyDataSetChanged();
         prLoadingSpinner.setVisibility(View.INVISIBLE);
+
+        int len = users.size();
+        for (int i=0;i<len;++i) {
+            if (users.get(i).id.equals(User.currentUser.id)) {
+                userViewHolder.setUser(User.currentUser, i+1);
+                currentUserPosition = i;
+                break;
+            }
+        }
     }
 }

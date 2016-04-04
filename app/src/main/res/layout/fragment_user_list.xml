@@ -3,10 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvList"/>
+    <RelativeLayout
+        android:id="@+id/rlCurrentUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeeeee">
+        <include layout="@layout/item_user_rank"
+            android:id="@+id/vhCurrentUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        </RelativeLayout>
     <include layout="@layout/layout_loading_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
