@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="-26dp"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/clProfileCoordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/ablProfileAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:elevation="0dp">
+            app:elevation="20dp"
+            >
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
@@ -24,22 +24,27 @@
                 android:background="@color/white"
                 android:minHeight="70dp"
                 android:paddingBottom="10dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <include layout="@layout/layout_profile_header"/>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_marginTop="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:alpha="0.15"
+                android:background="@drawable/fade_dim_gradient_veritcal_reversed"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/flWatchListHolder">
             </FrameLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
     <RelativeLayout
