@@ -170,14 +170,21 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         private void btnStatusDisplay(Stock stock) {
             final String status = stockStatus(stock, STOCK_STATUS_FORMAT);
-            final String prevStatus = stockStatus(stock, (STOCK_STATUS_FORMAT+2)%3);
+            String prevStatus = "";
+            if (DataCenter.getInstance().lastStockMap!=null) {
+                prevStatus = stockStatus(DataCenter.getInstance().lastStockMap.get(stock.symbol), STOCK_STATUS_FORMAT);
+            }
+
             btnStatus.setText(prevStatus);
-            Utils.fadeInAndOutAnimationGenerator(btnStatus, new CallBack() {
-                @Override
-                public void task() {
-                    btnStatus.setText(status);
-                }
-            });
+            if (!status.equals(prevStatus)) {
+                Utils.fadeInAndOutAnimationGenerator(btnStatus, new CallBack() {
+                    @Override
+                    public void task() {
+                        btnStatus.setText(status);
+                    }
+                });
+            }
+
         }
         private String stockStatus(Stock stock, int statusCode) {
             String status;

@@ -110,8 +110,16 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
                 }
             });
         } else {
-            refreshWatchlist();
+
         }
+        final Handler handler =new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                handler.postDelayed(this, 5000);
+                refreshWatchlist();
+            }
+        };
+        handler.postDelayed(r, 0);
 
 
         return view;
@@ -140,9 +148,6 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnSt
     }
 
     public void refreshWatchlist() {
-        if (mAdapter!=null) {
-            mAdapter.clear();
-        }
         if (user != null) {
             DataClient.getInstance().getStocksPrice(user.watchlist, new CallBack() {
                 @Override

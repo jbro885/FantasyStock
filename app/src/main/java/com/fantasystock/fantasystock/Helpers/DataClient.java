@@ -95,7 +95,7 @@ public class DataClient {
             quotes += stocks.get(i).symbol + ",";
         }
 
-        client.get(ted7726QuoteURL+quotes, new RequestParams(), stocksHandler(callback));
+        client.get(ted7726QuoteURL+quotes, new RequestParams("r",1), stocksHandler(callback));
     }
 
     public void getStocksPrice(ArrayList<String> stocks, CallBack callback) {
@@ -104,7 +104,7 @@ public class DataClient {
             quotes += stocks.get(i) + ",";
         }
 
-        client.get(ted7726QuoteURL + quotes, new RequestParams(), stocksHandler(callback));
+        client.get(ted7726QuoteURL + quotes, new RequestParams("r",1), stocksHandler(callback));
     }
 
     public void getStockPrice(String symbol, final CallBack callBack) {
@@ -145,6 +145,7 @@ public class DataClient {
                     int len = stocks.size();
                     for (int i=0;i<len;++i) {
                         Stock stock = stocks.get(i);
+                        DataCenter.getInstance().lastStockMap.put(stock.symbol, DataCenter.getInstance().stockMap.get(stock.symbol));
                         DataCenter.getInstance().stockMap.put(stock.symbol, stock);
                     }
                     if (callback!=null) {

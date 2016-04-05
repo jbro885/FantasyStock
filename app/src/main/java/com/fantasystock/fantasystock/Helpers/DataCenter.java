@@ -28,6 +28,7 @@ public class DataCenter {
     private final static String TRANSACTION_SHARES = "transaction_shares";
     private final static String TRANSACTION_AVG_PRICE = "transaction_avg_price";
     public HashMap<String, Stock> stockMap; // these stocks have the updated price, but shares could be wrong
+    public HashMap<String, Stock> lastStockMap;
     private DataClient client;
     private User currentUser;
     private String lastViewedStock;
@@ -144,6 +145,7 @@ public class DataCenter {
         User.currentUser = new User(parseUser);
         currentUser = User.currentUser;
         if (stockMap==null) stockMap = new HashMap<>();
+        if (lastStockMap==null) lastStockMap= new HashMap<>();
         for (int i=0;i<currentUser.investingStocks.size();++i) {
             Stock stock = currentUser.investingStocks.get(i);
             stockMap.put(stock.symbol, stock);
