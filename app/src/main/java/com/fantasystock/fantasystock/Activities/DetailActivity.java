@@ -103,6 +103,8 @@ public class DetailActivity extends AppCompatActivity {
         for (int i=0;i<len; ++i) {
             if (symbol.equals(stocks.get(i))) {
                 vpViewPager.setCurrentItem(i);
+                DataCenter.getInstance().setLastViewedStock(stocks.get(i));
+                break;
             }
         }
     }

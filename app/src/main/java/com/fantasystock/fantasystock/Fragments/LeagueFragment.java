@@ -128,7 +128,9 @@ public class LeagueFragment extends Fragment {
         if (!isGlobal) {
             ArrayList<String> userIds = User.currentUser.followings;
             int len = userIds.size();
+
             for (int i=0;i<len; ++i) {
+                if (User.userMap==null) break;
                 if (User.userMap.containsKey(userIds.get(i))) {
                     addUsers.add(User.userMap.get(userIds.get(i)));
                 }
