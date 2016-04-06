@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.ibAvatar) ImageButton ibAvatar;
     @Bind(R.id.tvHint) TextView tvHint;
+    @Bind(R.id.llLoadingView) LinearLayout llLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +179,8 @@ public class SignupActivity extends AppCompatActivity {
         user.put(User.USER_PROFILE_IMAGE_URL, profileImageUrl);
 
         // other fields can be set just like with ParseObject
+        Utils.loadingBlurBackground(prLoadingSpinner, llLoadingView);
+        llLoadingView.setVisibility(View.INVISIBLE);
         prLoadingSpinner.setVisibility(View.VISIBLE);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -198,6 +202,7 @@ public class SignupActivity extends AppCompatActivity {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                 }
+                llLoadingView.setVisibility(View.VISIBLE);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
@@ -209,6 +214,8 @@ public class SignupActivity extends AppCompatActivity {
         if (!checkEmailPassword()) {
             return;
         }
+        Utils.loadingBlurBackground(prLoadingSpinner, llLoadingView);
+        llLoadingView.setVisibility(View.INVISIBLE);
         prLoadingSpinner.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
@@ -221,6 +228,7 @@ public class SignupActivity extends AppCompatActivity {
                     tvWarning.setText("Fail to sign in");
                     Utils.fadeIneAnimation(tvWarning);
                 }
+                llLoadingView.setVisibility(View.VISIBLE);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         });
@@ -243,7 +251,8 @@ public class SignupActivity extends AppCompatActivity {
         String newProfileImageUrl = this.profileImageUrl;
         // Make sure it changes to a different avatar
         while (TextUtils.isEmpty(newProfileImageUrl) || newProfileImageUrl.equals(this.profileImageUrl)) {
-            int rand = (int) (Math.random() * 32);
+            int rand = (int) (Math.random() * 50);
+            if (rand>31) rand = 31;
             newProfileImageUrl = "avatar_" + rand;
         }
         this.profileImageUrl = newProfileImageUrl;
