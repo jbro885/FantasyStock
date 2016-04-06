@@ -188,6 +188,7 @@ public class SignupActivity extends AppCompatActivity {
                     // Reload the userMap data
                     User.getAllUsersInfos(null, true);
                     Intent intent = new Intent(getApplication(), MainActivity.class);
+                    intent.putExtra("new", true);
                     startActivity(intent);
                     finish();
                     // Hooray! Let them use the app now.
@@ -216,7 +217,6 @@ public class SignupActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     finish();
-
                 } else {
                     tvWarning.setText("Fail to sign in");
                     Utils.fadeIneAnimation(tvWarning);

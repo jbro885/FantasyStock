@@ -6,12 +6,9 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
@@ -108,7 +105,13 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Welcome message
-        Snackbar snackbar = Snackbar.make(scrollView, " Welcome back!  " + User.currentUser.username, Snackbar.LENGTH_LONG);
+        Intent intent = getIntent();
+        Snackbar snackbar = null;
+        if (intent.getBooleanExtra("new", false)) {
+            snackbar = Snackbar.make(scrollView, " Welcome to FantasyStock!  " + User.currentUser.username, Snackbar.LENGTH_LONG);
+        } else {
+            snackbar = Snackbar.make(scrollView, " Welcome back!  " + User.currentUser.username, Snackbar.LENGTH_LONG);
+        }
 
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
