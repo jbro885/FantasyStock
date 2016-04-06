@@ -18,6 +18,7 @@ import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,12 +28,13 @@ import butterknife.ButterKnife;
  * Created by chengfu_lin on 4/3/16.
  */
 public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Object> items;
+    private ArrayList<String> items;
     private View convertView;
     private FragmentActivity fragmentActivity;
     private boolean isDarkTheme;
     private int STOCK_STATUS_FORMAT;
     private static final int REFRESH_WATCHLIST = 200;
+    private Intent detailIntent;
 
     // Stock status types
     private final int CURRENT_PRICE = 0;
@@ -44,11 +46,13 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
-    public WatchlistProfileAdapter(List<Object> items, FragmentActivity fragmentActivity, boolean isDarkTheme) {
+    public WatchlistProfileAdapter(ArrayList<String> items, FragmentActivity fragmentActivity, boolean isDarkTheme) {
         this.items = items;
         this.isDarkTheme = isDarkTheme;
         this.STOCK_STATUS_FORMAT = CURRENT_PRICE;
         this.fragmentActivity = fragmentActivity;
+        detailIntent= new Intent(fragmentActivity.getApplicationContext(), DetailActivity.class);
+        detailIntent.putStringArrayListExtra("symbols",items);
     }
 
 
@@ -57,7 +61,7 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         convertView = inflater.inflate(R.layout.item_watchlist, parent, false);
-        viewHolder = new ViewHolderStock(convertView, fragmentActivity, isDarkTheme);
+        viewHolder = new ViewHolderStock(convertView, fragmentActivity, isDarkTheme, detailIntent);
         return viewHolder;
     }
 
@@ -84,10 +88,12 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.tvShare) TextView tvShare;
         @Bind(R.id.tvEquityValue) TextView tvEquityValue;
         @Bind(R.id.btnStatus) Button btnStatus;
+        private Intent intent;
 
-        public ViewHolderStock(View itemView, FragmentActivity fragmentActivity, boolean isDarkTheme) {
+        public ViewHolderStock(View itemView, FragmentActivity fragmentActivity, boolean isDarkTheme, Intent intent) {
             super(itemView);
             this.fragmentActivity = fragmentActivity;
+            this.intent = intent;
             ButterKnife.bind(this, itemView);
             tvSymbol.setTextColor((isDarkTheme) ? Color.WHITE : Color.BLACK);
             tvShare.setTextColor((isDarkTheme) ? Color.WHITE : Color.BLACK);
@@ -146,8 +152,6 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                    intent.putExtra("symbol", symbol);
                     fragmentActivity.startActivityForResult(intent, REFRESH_WATCHLIST);
                 }
             });

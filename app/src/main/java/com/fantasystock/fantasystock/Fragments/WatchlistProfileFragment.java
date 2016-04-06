@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by chengfu_lin on 4/3/16.
  */
 public class WatchlistProfileFragment extends Fragment {
-    private List<Object> items;
+    private ArrayList<String> items;
     private WatchlistProfileAdapter mAdapter;
     private User user;
     private String userId;
