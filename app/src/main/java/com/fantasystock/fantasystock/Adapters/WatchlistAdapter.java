@@ -187,6 +187,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
         private String stockStatus(Stock stock, int statusCode) {
+            if (stock==null) return "";
             String status;
             switch(statusCode) {
                 default:

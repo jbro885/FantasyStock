@@ -116,9 +116,10 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Stock investingStock = User.currentUser.investingStocksMap.get(stock.symbol);
                 if (investingStock!=null) {
                     int share = investingStock.share;
+
                     if(share > 0) {
                         shareStatus = Integer.toString(share) + " Shares";
-                        float value = stock.current_price * (float) share;
+                        float value = investingStock.total_cost/(float)share;
                         valueStatus = Utils.moneyConverter(value);
                     }
                 }
