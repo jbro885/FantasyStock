@@ -24,6 +24,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.FantasyStockApplication;
 import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.User;
 import com.fantasystock.fantasystock.R;
@@ -46,6 +47,7 @@ import butterknife.OnClick;
 public class SignupActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private String profileImageUrl;
+    private static int cnt;
 
     @Bind(R.id.login_button) LoginButton loginButton;
     @Bind(R.id.btnSignIn) Button signInButton;
@@ -61,6 +63,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cnt = 0;
 
 
         // Initial facebook sdk
@@ -248,12 +251,17 @@ public class SignupActivity extends AppCompatActivity {
 
     @OnClick(R.id.ibAvatar)
     public void onClickAvatar() {
+        cnt ++;
         String newProfileImageUrl = this.profileImageUrl;
-        // Make sure it changes to a different avatar
-        while (TextUtils.isEmpty(newProfileImageUrl) || newProfileImageUrl.equals(this.profileImageUrl)) {
-            int rand = (int) (Math.random() * 50);
-            if (rand>31) rand = 31;
+        if (cnt % 5 == 0 && FantasyStockApplication.FLASH) {
+            int rand = 31;
             newProfileImageUrl = "avatar_" + rand;
+        } else {
+            // Make sure it changes to a different avatar
+            while (TextUtils.isEmpty(newProfileImageUrl) || newProfileImageUrl.equals(this.profileImageUrl)) {
+                int rand = (int) (Math.random() * 32);
+                newProfileImageUrl = "avatar_" + rand;
+            }
         }
         this.profileImageUrl = newProfileImageUrl;
         Utils.setupProfileImage(ibAvatar, profileImageUrl);

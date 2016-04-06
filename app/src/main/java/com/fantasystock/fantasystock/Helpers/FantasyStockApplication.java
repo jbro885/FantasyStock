@@ -10,7 +10,8 @@ import com.parse.Parse;
  * Created by chengfu_lin on 3/7/16.
  */
 public class FantasyStockApplication extends Application {
-    public static boolean DEMO_ACCOUNT = false;
+    public static boolean DEMO_ACCOUNT = true;
+    public static boolean FLASH = true;
     @Override
     public void onCreate() {
         super.onCreate();
