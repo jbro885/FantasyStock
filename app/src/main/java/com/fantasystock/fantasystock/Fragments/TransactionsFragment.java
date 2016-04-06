@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.Transaction;
 import com.fantasystock.fantasystock.R;
-import com.fantasystock.fantasystock.Helpers.Utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -116,8 +114,7 @@ public class TransactionsFragment extends Fragment{
             String buyText = (transaction.data.shares>0?"BUY":"SELL");
             tvQuoteSymbol.setText(buyText + " " + transaction.data.symbol);
             tvEquityValue.setText(Utils.moneyConverter(-transaction.data.shares * transaction.data.avgPrice));
-            DateFormat df = new SimpleDateFormat("HH:mm MM/dd/yyyy");
-            tvTransactionDate.setText(df.format(transaction.updatedAt));
+            tvTransactionDate.setText(Utils.converTimetoRelativeTime(transaction.updatedAt));
             tvShares.setText(Math.abs(transaction.data.shares) + " shares at " + Utils.moneyConverter(transaction.data.avgPrice));
         }
     }
