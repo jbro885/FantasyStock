@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.fantasystock.fantasystock.Helpers.CallBack;
 import com.fantasystock.fantasystock.Helpers.DataCenter;
 import com.fantasystock.fantasystock.Helpers.DataClient;
+import com.fantasystock.fantasystock.Helpers.Utils;
 import com.fantasystock.fantasystock.Models.HistoricalData;
 import com.fantasystock.fantasystock.Models.Stock;
 import com.fantasystock.fantasystock.R;
@@ -191,17 +192,21 @@ public class ChartView extends RecyclerView.ViewHolder {
     }
 
     private CallBack callBackHandler() {
+        Utils.loadingBlurBackground(prLoadingSpinner, lineChart);
+        lineChart.setVisibility(View.INVISIBLE);
         prLoadingSpinner.setVisibility(View.VISIBLE);
         return new CallBack(){
             @Override
             public void historicalCallBack(HistoricalData returnData) {
                 setData(returnData);
+                lineChart.setVisibility(View.VISIBLE);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFail(String failureMessage) {
                 Log.e("ERROR", "Failed fetch history price for [" + stock.symbol + "], error:" + failureMessage);
+                lineChart.setVisibility(View.VISIBLE);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
             }
         };

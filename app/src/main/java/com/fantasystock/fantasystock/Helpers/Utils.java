@@ -2,6 +2,7 @@ package com.fantasystock.fantasystock.Helpers;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -292,5 +293,10 @@ public class Utils {
 
     public static String symbolToYahoo(String symbol) {
         return symbol.replace(".INX", "^GSPC").replace(".", "^");
+    }
+
+    public static void loadingBlurBackground(View loadingView, View backgroundView) {
+        Bitmap blurImage = BlurBuilder.blur(backgroundView);
+        loadingView.setBackground(new BitmapDrawable(loadingView.getContext().getResources(), blurImage));
     }
 }
