@@ -243,7 +243,7 @@ public class SignupActivity extends AppCompatActivity {
         String newProfileImageUrl = this.profileImageUrl;
         // Make sure it changes to a different avatar
         while (TextUtils.isEmpty(newProfileImageUrl) || newProfileImageUrl.equals(this.profileImageUrl)) {
-            int rand = (int) (Math.random() * 30);
+            int rand = (int) (Math.random() * 32);
             newProfileImageUrl = "avatar_" + rand;
         }
         this.profileImageUrl = newProfileImageUrl;

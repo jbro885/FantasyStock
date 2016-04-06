@@ -153,6 +153,7 @@ public class WatchlistProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    intent.putExtra("symbol", symbol);
                     fragmentActivity.startActivityForResult(intent, REFRESH_WATCHLIST);
                 }
             });
